@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 import bg from '../../assets/bg.png';
 
-import TextFieldGroup from '../UI/inputs/TextFieldGroup';
-import Button from '../UI/inputs/Button';
+import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
+import Button from '../../components/UI/Button';
 
 const SignUp = () => (
   <SignUpWrapper>

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Layout from './layout/Layout';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import SignUp from './components/auth/SignUp';
-import SignIn from './components/auth/SignIn';
+import SignUp from './containers/auth/SignUp';
+import SignIn from './containers/auth/SignIn';
 
 class App extends Component {
   render() {

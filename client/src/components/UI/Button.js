@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { colors } from '../../../utils/styles';
+import { colors } from '../../utils/styles';
 
 const Button = ({ disabled, onClick, btnType, type, children, style }) => (
   <ButtonWrapper

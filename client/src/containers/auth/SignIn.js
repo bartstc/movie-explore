@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 import bg from '../../assets/bg.png';
 
-import TextFieldGroup from '../UI/inputs/TextFieldGroup';
-import Button from '../UI/inputs/Button';
+import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
+import Button from '../../components/UI/Button';
 
 const SignUp = () => (
   <SignUpWrapper>
     <div className="content">
       <header>
-        <h1 className="main-title">Let's <strong className="accent">Sign In</strong></h1>
+        <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
         <p className="main-info">Join to create a history of watched movies and be up-to-date with the world's cinema.</p>
         <p className="main-info">You dont have an account yet? <Link className="accent" to="/">Sign Up.</Link></p>
       </header>
