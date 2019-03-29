@@ -62,3 +62,17 @@ export const headerBasic = `
     margin-top: .7em;
   }
 `;
+
+export const title = `
+  .title {
+    font-weight: ${fonts.fontLight};
+    border-left: 2px solid ${colors.mainColor};
+    padding-left: .3em;
+    margin-bottom: .8em;
+    font-size: 1.2em;
+
+    @media ${device.tablet} {
+      font-size: 1.6em;
+    }
+  }
+`;
