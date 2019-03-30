@@ -17,7 +17,7 @@ app.use(async (req, res, next) => {
 
   if (token && token !== "null") {
     try {
-      const currentUser = await jwt.verify(token, process.env.SECRET);
+      const currentUser = await jwt.verify(token, keys.secret);
       req.currentUser = currentUser;
     } catch (err) {
       console.log(err);

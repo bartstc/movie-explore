@@ -1,44 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { device, sectionBasic, headerBasic } from '../../utils/styles';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { Mutation } from 'react-apollo';
+import { SIGNIN_USER } from '../../queries';
 
 import bg from '../../assets/bg.png';
-
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
+import Error from '../../utils/error';
 
-const SignUp = () => (
-  <SignUpWrapper>
-    <div className="content">
-      <header>
-        <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
-        <p className="main-info">Join to create a history of watched movies and be up-to-date with the world's cinema.</p>
-        <p className="main-info">You dont have an account yet? <Link className="accent" to="/">Sign Up.</Link></p>
-      </header>
-      <Form>
-        <TextFieldGroup
-          label="Username:"
-          placeholder="Username ..."
-          id="username"
-          name="username"
-        // value={this.state.email}
-        // onChange={this.onChange}
-        />
-        <TextFieldGroup
-          label="Password:"
-          placeholder="Password ..."
-          id="password"
-          name="password"
-        // value={this.state.email}
-        // onChange={this.onChange}
-        />
-        <Button type="submit">Done</Button>
-      </Form>
-    </div>
-    <aside className="img-showcase"></aside>
-  </SignUpWrapper>
-);
+const initialState = {
+  username: '',
+  password: ''
+};
+
+const SignUp = ({ refetch, history }) => {
+  const [state, setState] = useState({ ...initialState });
+
+  const onChange = e => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const clearState = e => {
+    setState({ ...initialState });
+  };
+
+  const validateForm = () => {
+    const { username, password } = state;
+    const isInvalid = !username || !password;
+    return isInvalid;
+  };
+
+  const handleSubmit = (e, signinUser) => {
+    e.preventDefault();
+    signinUser()
+      .then(async ({ data }) => {
+        // console.log(data);
+        localStorage.setItem('token', data.signinUser.token);
+        clearState();
+
+        await refetch(); // we pass refetch func throught withSession (in App.js)
+        history.push('/dashboard');
+      })
+      .catch(err => console.log(err));
+  };
+
+  const { username, password } = state;
+
+  return (
+    <SignUpWrapper>
+      <div className="content">
+        <header>
+          <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
+          <p className="main-info">Join to create a history of watched movies and be up-to-date with the world's cinema.</p>
+          <p className="main-info">You dont have an account yet? <Link className="accent" to="/">Sign Up.</Link></p>
+        </header>
+        <Mutation mutation={SIGNIN_USER} variables={{ username, password }}>
+          {(signinUser, { data, loading, error }) => {
+            return (
+              <Form onSubmit={e => handleSubmit(e, signinUser)}>
+                <TextFieldGroup
+                  label="Username:"
+                  placeholder="Username ..."
+                  id="username"
+                  name="username"
+                  value={username || ''}
+                  onChange={onChange}
+                />
+                <TextFieldGroup
+                  label="Password:"
+                  placeholder="Password ..."
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={password || ''}
+                  onChange={onChange}
+                />
+                <Button
+                  type="submit"
+                  disabled={loading || validateForm()}
+                  btnType={validateForm() && 'disabled'}
+                >Done</Button>
+                {error && <Error error={error} />}
+              </Form>
+            )
+          }}
+
+        </Mutation>
+      </div>
+      <aside className="img-showcase"></aside>
+    </SignUpWrapper>
+  )
+};
 
 const SignUpWrapper = styled.section`
   ${sectionBasic}
@@ -77,4 +131,4 @@ const Form = styled.form`
   margin-top: 1em;
 `;
 
-export default SignUp;
+export default withRouter(SignUp);

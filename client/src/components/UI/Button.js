@@ -7,7 +7,7 @@ const Button = ({ disabled, onClick, btnType, type, children, style }) => (
   <ButtonWrapper
     disabled={disabled}
     onClick={onClick}
-    className={["btn", btnType].join(' ')}
+    className={[btnType].join(' ')}
     type={type}
     style={style}
   >
@@ -23,13 +23,16 @@ const ButtonWrapper = styled.button`
   background: ${colors.mainColor};
   margin-top: .3em;
   color: ${colors.mainWhite};
+  transition: opacity .2s ease-in-out;
+
+  &.disabled {
+    opacity: .4;
+  }
 `;
 
 Button.propTypes = {
-  btnType: PropTypes.string,
   type: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  disabled: PropTypes.string,
   style: PropTypes.string
 };
 
