@@ -15,13 +15,25 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  joinDate: {
+  date: {
     type: Date,
     default: Date.now
   },
+  recommendations: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Movie'
+  },
+  watched: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Movie'
+  },
   toWatch: {
     type: [Schema.Types.ObjectId],
-    ref: 'Recipe'
+    ref: 'Movie'
+  },
+  friends: {
+    type: [Schema.Types.ObjectId],
+    ref: 'User'
   }
 });
 

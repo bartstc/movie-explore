@@ -2,6 +2,8 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { sectionBasic, title, device, fonts } from '../utils/styles';
+import { withRouter } from 'react-router-dom';
+import withAuth from '../utils/withAuth';
 
 const Profile = () => (
   <ProfileWrapper>
@@ -42,13 +44,13 @@ const ProfileWrapper = styled.section`
   ${sectionBasic}
   ${title}
 
-  .movies-list {
+  /* .movies-list {
     @media ${device.tablet} {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-column-gap: .7em;
     }
-  }
+  } */
 
   .subtitle {
     font-size: 1.2em;
@@ -61,8 +63,8 @@ const ProfileWrapper = styled.section`
   }
 
   .movie {
-    line-height: 1.3em;
+    line-height: 1.5em;
   }
 `;
 
-export default Profile;
+export default withAuth(session => session && session.getCurrentUser)(withRouter(Profile));

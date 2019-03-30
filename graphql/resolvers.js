@@ -15,16 +15,29 @@ exports.resolvers = {
       };
 
       const user = await User.findOne({ username: currentUser.username })
-      // .populate({
-      //   path: 'favourites',
-      //   model: 'Recipe'
-      // })
+        .populate({
+          path: 'toWatch',
+          model: 'Movie'
+        })
 
       return {
         ...user._doc,
         joinDate: user.joinDate.toISOString()
       };
     },
+
+    getUserMovies: async (root, { username }, { Movie }) => {
+      const userMovies = await Movie.find({ username })
+        .sort({ date: 'desc' });
+
+      return userMovies;
+    },
+
+    getAllMovies: async (root, args, { Movie }) => {
+      const allMovies = await Movie.find().sort({ date: 'desc' });
+
+      return allMovies;
+    }
   },
 
   Mutation: {
@@ -55,6 +68,12 @@ exports.resolvers = {
       }).save();
 
       return { token: createToken(newUser, keys.secret, '1hr') };
+    },
+
+    addMovie: async (root, { MovieData: { title, imageUrl, director, year, genres, shortDescription, description, username } }, { Movie }) => {
+      const newMovie = await new Movie({ title, imageUrl, director, year, genres, shortDescription, description, username }).save();
+
+      return newMovie;
     }
   }
 };

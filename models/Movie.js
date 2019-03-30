@@ -6,6 +6,10 @@ const MovieSchema = new Schema({
     type: String,
     required: true
   },
+  imageUrl: {
+    type: String,
+    required: true
+  },
   director: {
     type: String,
     required: true
@@ -15,7 +19,7 @@ const MovieSchema = new Schema({
     required: true
   },
   genres: {
-    type: String,
+    type: [String],
     required: true
   },
   shortDescription: {
@@ -31,6 +35,22 @@ const MovieSchema = new Schema({
     default: Date.now
   },
   likes: {
+    type: Number,
+    default: 0
+  },
+  watched: {
+    type: Number,
+    default: 0
+  },
+  toWatch: {
+    type: Number,
+    default: 0
+  },
+  rating: {
+    type: Number,
+    default: 0
+  },
+  ratingsAmount: {
     type: Number,
     default: 0
   },

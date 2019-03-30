@@ -1,10 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import { sectionBasic, headerBasic } from '../utils/styles';
+import { withRouter } from 'react-router-dom';
+import withAuth from '../utils/withAuth';
+import { Mutation } from 'react-apollo';
 
 import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
 import TextareaFieldGroup from '../components/UI/inputs/TextareaFieldGroup';
 import Button from '../components/UI/Button';
+import Error from '../utils/error';
+
+const initialState = {
+  title: '',
+  imageUrl: '',
+  director: '',
+  year: '',
+  genres: '',
+  shortDescription: '',
+  description: '',
+  username: ''
+};
 
 const AddMovie = () => (
   <Section>
@@ -77,4 +92,4 @@ const Form = styled.form`
   margin-top: 1em;
 `;
 
-export default AddMovie;
+export default withAuth(session => session && session.getCurrentUser)(withRouter(AddMovie));
