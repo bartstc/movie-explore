@@ -14,7 +14,7 @@ const TextAreaFieldGroup = ({
   label
 }) => (
     <TextareaWrapper>
-      <label hidden className="label" htmlFor={id}>{label}</label>
+      <label className="label" htmlFor={id}>{label}</label>
       <textarea
         className={classnames('textarea', {
           'is-invalid': error
@@ -44,11 +44,12 @@ const TextareaWrapper = styled.p`
   .textarea {
     width: 100%;
     max-width: 250px;
-    height: 34px;
-    padding-left: .7em;
+    min-height: 70px;
+    padding: .7em;
     border: 1px solid ${colors.mainColor};
     border-radius: 15px;
     background: transparent;
+    color: ${colors.mainColor};
 
     &::placeholder {
       color: ${colors.mainColor};

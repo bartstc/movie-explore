@@ -9,7 +9,7 @@ const links = [
   { path: '/explore', classes: "fas fa-search" },
   { path: '/add', classes: "fas fa-plus-circle" },
   { path: '/profile', classes: "far fa-user" },
-  { path: '/logout', classes: "fas fa-power-off" }
+  { path: '/', classes: "fas fa-power-off" }
 ];
 
 const Toolbar = () => (

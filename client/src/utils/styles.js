@@ -71,7 +71,7 @@ export const title = `
     margin-bottom: .8em;
     font-size: 1.2em;
 
-    @media ${device.tablet} {
+    @media ${device.mobileL} {
       font-size: 1.6em;
     }
   }

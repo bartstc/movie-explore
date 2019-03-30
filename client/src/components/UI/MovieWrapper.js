@@ -11,7 +11,7 @@ const MovieWrapper = ({ title, genre, year, director, children }) => (
       <img src={venom} alt="" />
     </figure>
     <h2 className="movie-title">{title}</h2>
-    <h3 className="movie-info"><span>{genre}</span>, {year}, {director}</h3>
+    <h3 className="movie-info"><span>{genre}</span>{year && `, ${year}, ${director}`}</h3>
     {children}
   </Article>
 );

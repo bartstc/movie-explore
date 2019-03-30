@@ -7,11 +7,11 @@ import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
 
 const links = [
-  { path: '/', content: "Home" },
+  { path: '/dashboard', content: "Home" },
   { path: '/explore', content: "Explore" },
   { path: '/add', content: "Add Movie" },
   { path: '/profile', content: "Profile" },
-  { path: '/logout', content: "Logout" }
+  { path: '/', content: "Logout" }
 ];
 
 const Layout = ({ children }) => (
