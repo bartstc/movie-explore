@@ -37,7 +37,6 @@ exports.resolvers = {
       const user = await User.findOne({ username });
       if (user) {
         throw new Error('User already exists');
-        // thorwing errors can be implementing also by validator??
       };
 
       const newUser = await new User({

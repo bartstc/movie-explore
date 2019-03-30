@@ -8,6 +8,7 @@ import Dashboard from './containers/Dashboard';
 import Explore from './containers/Explore';
 import Profile from './containers/Profile';
 import AddMovie from './containers/AddMovie';
+import MovieDetails from './containers/MovieDetails';
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
             <Route path='/explore' component={Explore} />
             <Route path='/profile' component={Profile} />
             <Route path='/add' component={AddMovie} />
+            <Route path='/movie/:title' component={MovieDetails} />
             <Redirect to="/" />
           </Switch>
         </Layout>

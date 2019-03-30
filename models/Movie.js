@@ -58,7 +58,7 @@ const MovieSchema = new Schema({
 
 MovieSchema.index({
   // "$**": "text" // search for every field in recipe and set it to text
-  name: 'text', genre: 'text'
+  name: 'text', genres: 'text'
 });
 
 module.exports = mongoose.model('Movie', MovieSchema);
