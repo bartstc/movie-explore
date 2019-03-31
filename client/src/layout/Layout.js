@@ -5,7 +5,8 @@ import { colors, device } from '../utils/styles';
 import logo from '../assets/logo.png';
 import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
-import Aside from '../components/UI/Aside';
+import Footer from '../components/UI/Footer';
+import Modal from '../components/UI/Modal';
 
 const links = [
   { path: '/dashboard', content: "Home" },
@@ -17,6 +18,7 @@ const links = [
 
 const Layout = ({ children }) => (
   <>
+    <Modal />
     <Header>
       <img className="logo" src={logo} alt="" />
       <Nav>
@@ -27,11 +29,9 @@ const Layout = ({ children }) => (
         </ul>
       </Nav>
     </Header>
-    <Container>
-      <Main>{children}</Main>
-      <Aside />
-    </Container>
+    <Main>{children}</Main>
     <Toolbar />
+    <Footer />
   </>
 );
 
@@ -43,7 +43,8 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   padding: 0 10px;
-  background: ${colors.mainBlack};
+  /* background: ${colors.mainBlack}; */
+  background-image: linear-gradient(${colors.mainBlack}, ${colors.mainBlack}, transparent);
 
   @media ${device.tablet} {
     display: flex;
@@ -80,20 +81,11 @@ const Nav = styled.nav`
   }
 `;
 
-const Container = styled.div`
-  display: grid;
-  max-width: 900px;
-  margin: 0 auto;
-  padding-bottom: 60px;
-
-  @media ${device.laptop} {
-    grid-template-columns: 68.5% 27%;
-    grid-column-gap: 4.5%;
-  }
-`;
-
 const Main = styled.main`
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 60px;
   color: ${colors.mainWhite};
 `;
 

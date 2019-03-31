@@ -24,12 +24,12 @@ const Toolbar = () => (
 
 const ToolbarWrapper = styled.nav`
   width: 100%;
-  height: 40px;
+  height: 45px;
   position: fixed;
   z-index: 10;
   bottom: 0;
   left: 0;
-  background: ${colors.mainBlack};
+  background-image: linear-gradient(transparent, ${colors.mainBlack});
 
   @media ${device.tablet} {
     display: none;

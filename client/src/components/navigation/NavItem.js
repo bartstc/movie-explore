@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { fonts } from '../../utils/styles';
 
 const NavItem = ({ onClick, linkType, to, exact, children }) => (
   <ListItem
@@ -24,10 +25,12 @@ const ListItem = styled.li`
 
     &:hover {
       color: #B41027;
+      font-weight: ${fonts.fontBold};
     }
 
     &.active {
       color: #B41027;
+      font-weight: ${fonts.fontBold};
     }
   }
 

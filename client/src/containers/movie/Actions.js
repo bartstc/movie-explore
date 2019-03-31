@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { device, colors, fonts } from '../../utils/styles';
+import { colors, fonts } from '../../utils/styles';
 
 const Actions = () => (
   <ActionsWrapper>

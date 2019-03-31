@@ -38,24 +38,24 @@ const Article = styled.article`
   }
 
   .movie-title {
-    font-size: 1.35em;
+    font-size: 1.3em;
     font-weight: ${fonts.fontBold};
     padding: 0 .4em;
     color: ${colors.mainWhite};
 
     @media ${device.tablet} {
-      font-size: 1.5em;
+      font-size: 1.45em;
     }
   }
 
   .movie-info {
     display: block;
-    font-size: .95em;
+    font-size: .9em;
     font-weight: ${fonts.fontLight};
     color: ${colors.mainColor};
     margin-bottom: .6em;
     padding: 0 .4em;
-    line-height: 1.15em;
+    line-height: 1.1em;
 
     span {
       font-weight: ${fonts.fontBold};
@@ -63,9 +63,9 @@ const Article = styled.article`
   }
 
   p {
-    font-size: .85em;
-    font-weight: ${fonts.fontLight};
-    margin-top: .8em;
+    font-size: .8em;
+    font-weight: ${fonts.fontExtraLight};
+    margin-top: .83em;
     padding: 0 .4em;
   }
 `;

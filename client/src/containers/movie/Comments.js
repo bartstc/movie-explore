@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { device, colors, fonts, semiTitle } from '../../utils/styles';
+import { device, fonts, semiTitle } from '../../utils/styles';
 
 const Comments = () => (
   <CommentsWrapper>

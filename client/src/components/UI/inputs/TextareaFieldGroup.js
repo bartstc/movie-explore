@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors } from '../../../utils/styles';
+import { colors, fonts } from '../../../utils/styles';
 
 const TextAreaFieldGroup = ({
   name,
@@ -39,6 +39,7 @@ const TextareaWrapper = styled.p`
   .label {
     font-size: 1em;
     margin-bottom: .4em;
+    font-weight: ${fonts.fontExtraLight};
   }
 
   .textarea {

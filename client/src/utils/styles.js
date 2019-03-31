@@ -6,7 +6,8 @@ export const colors = {
 
 export const fonts = {
   fontPrimary: `'Comfortaa', cursive`,
-  fontLight: `200`,
+  fontExtraLight: `200`,
+  fontLight: `300`,
   fontBold: `600`
 };
 

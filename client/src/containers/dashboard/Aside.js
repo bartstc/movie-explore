@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { semiTitle, device, colors, fonts } from '../../utils/styles';
 
-import MovieWrapper from './MovieWrapper';
+import MovieWrapper from '../../components/UI/MovieWrapper';
 
 const Aside = () => (
   <AsideWrapper>
@@ -50,12 +50,11 @@ const AsideWrapper = styled.aside`
 
   @media ${device.laptop} {
     padding: 0;
-    padding-top: 90px;
   }
 
   .genres {
     color: ${colors.mainWhite};
-    font-weight: ${fonts.fontLight};
+    font-weight: ${fonts.fontExtraLight};
   }
 `;
 

@@ -5,7 +5,7 @@ import Layout from './layout/Layout';
 import withSession from './utils/withSession';
 import SignUp from './containers/auth/SignUp';
 import SignIn from './containers/auth/SignIn';
-import Dashboard from './containers/Dashboard';
+import Dashboard from './containers/dashboard/Dashboard';
 import Explore from './containers/Explore';
 import Profile from './containers/profile/Profile';
 import AddMovie from './containers/AddMovie';

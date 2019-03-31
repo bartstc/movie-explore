@@ -1,11 +1,10 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { device, colors, fonts, semiTitle } from '../../utils/styles';
 
 import TextareaFieldGroup from '../../components/UI/inputs/TextareaFieldGroup';
 import Button from '../../components/UI/Button';
-import Error from '../../utils/error';
+// import Error from '../../utils/error';
 
 const CommentForm = () => (
   <Form>

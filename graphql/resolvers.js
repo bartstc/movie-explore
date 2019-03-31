@@ -22,7 +22,7 @@ exports.resolvers = {
 
       return {
         ...user._doc,
-        joinDate: user.joinDate.toISOString()
+        date: user.date.toISOString()
       };
     },
 

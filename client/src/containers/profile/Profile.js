@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { sectionBasic, title, device, fonts, colors } from '../../utils/styles';
 import { withRouter } from 'react-router-dom';
-import withAuth from '../../utils/withAuth';
+// import withAuth from '../../utils/withAuth';
 import AuthData from './AuthData';
 
 const Profile = () => (
