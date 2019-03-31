@@ -1,15 +1,15 @@
 import React from 'react';
-import Layout from './layout/Layout';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
+import Layout from './layout/Layout';
 import withSession from './utils/withSession';
 import SignUp from './containers/auth/SignUp';
 import SignIn from './containers/auth/SignIn';
 import Dashboard from './containers/Dashboard';
 import Explore from './containers/Explore';
-import Profile from './containers/Profile';
+import Profile from './containers/profile/Profile';
 import AddMovie from './containers/AddMovie';
-import MovieDetails from './containers/MovieDetails';
+import MovieDetails from './containers/movie/MovieDetails';
 
 const App = ({ refetch, session }) => {
   return (

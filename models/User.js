@@ -34,6 +34,10 @@ const UserSchema = new Schema({
   friends: {
     type: [Schema.Types.ObjectId],
     ref: 'User'
+  },
+  invitations: {
+    type: [Schema.Types.ObjectId],
+    ref: 'User'
   }
 });
 

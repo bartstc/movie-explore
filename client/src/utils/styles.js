@@ -6,8 +6,8 @@ export const colors = {
 
 export const fonts = {
   fontPrimary: `'Comfortaa', cursive`,
-  fontLight: `300`,
-  fontBold: `700`
+  fontLight: `200`,
+  fontBold: `600`
 };
 
 const size = {
@@ -34,10 +34,10 @@ export const device = {
 // Style packages
 export const sectionBasic = `
   width: 100%;
-  padding: 55px .7em 50px .7em;
+  padding: 55px .7em 10px .7em;
 
   @media ${device.tablet} {
-    padding-top: 70px;
+    padding-top: 90px;
   }
 `;
 
@@ -70,9 +70,21 @@ export const title = `
     padding-left: .3em;
     margin-bottom: .8em;
     font-size: 1.2em;
+    color: ${colors.mainWhite};
 
     @media ${device.mobileL} {
       font-size: 1.6em;
     }
+  }
+`;
+
+export const semiTitle = `
+  .semi-title {
+    font-weight: ${fonts.fontLight};
+    border-left: 2px solid ${colors.mainColor};
+    padding-left: .3em;
+    margin-bottom: .8em;
+    font-size: 1.2em;
+    color: ${colors.mainWhite};
   }
 `;

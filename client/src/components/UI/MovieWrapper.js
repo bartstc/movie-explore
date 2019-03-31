@@ -18,10 +18,6 @@ const MovieWrapper = ({ title, genre, year, director, children }) => (
 
 const Article = styled.article`
   margin-bottom: 1.6em;
-
-  @media ${device.mobileL} {
-    margin-bottom: 2.6em;
-  }
   
   .img-wrapper {
     width: 100%;
@@ -42,48 +38,35 @@ const Article = styled.article`
   }
 
   .movie-title {
-    font-size: calc(.2em + 5vw);
+    font-size: 1.35em;
     font-weight: ${fonts.fontBold};
-    margin-bottom: .1em;
     padding: 0 .4em;
+    color: ${colors.mainWhite};
 
     @media ${device.tablet} {
-      font-size: 1.6em;
+      font-size: 1.5em;
     }
   }
 
   .movie-info {
     display: block;
-    font-size: .85em;
+    font-size: .95em;
     font-weight: ${fonts.fontLight};
     color: ${colors.mainColor};
     margin-bottom: .6em;
     padding: 0 .4em;
+    line-height: 1.15em;
 
     span {
       font-weight: ${fonts.fontBold};
-    }
-
-    @media ${device.mobileL} {
-      font-size: calc(.1em + 3vw);
-      padding: 0 .8em;
-    }
-
-    @media ${device.tablet} {
-      font-size: 1em;
     }
   }
 
   p {
     font-size: .85em;
-    margin-top: .6em;
+    font-weight: ${fonts.fontLight};
+    margin-top: .8em;
     padding: 0 .4em;
-
-    @media ${device.mobileL} {
-      font-size: 1em;
-      margin-top: 0;
-      padding: 0 .8em;
-    }
   }
 `;
 

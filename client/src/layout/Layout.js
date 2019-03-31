@@ -5,6 +5,7 @@ import { colors, device } from '../utils/styles';
 import logo from '../assets/logo.png';
 import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
+import Aside from '../components/UI/Aside';
 
 const links = [
   { path: '/dashboard', content: "Home" },
@@ -26,7 +27,10 @@ const Layout = ({ children }) => (
         </ul>
       </Nav>
     </Header>
-    <Main>{children}</Main>
+    <Container>
+      <Main>{children}</Main>
+      <Aside />
+    </Container>
     <Toolbar />
   </>
 );
@@ -76,10 +80,20 @@ const Nav = styled.nav`
   }
 `;
 
-const Main = styled.main`
-  width: 100%;
+const Container = styled.div`
+  display: grid;
   max-width: 900px;
   margin: 0 auto;
+  padding-bottom: 60px;
+
+  @media ${device.laptop} {
+    grid-template-columns: 68.5% 27%;
+    grid-column-gap: 4.5%;
+  }
+`;
+
+const Main = styled.main`
+  width: 100%;
   color: ${colors.mainWhite};
 `;
 
