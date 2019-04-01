@@ -6,12 +6,16 @@ exports.typeDefs = gql`
     title: String!
     director: String!
     year: Int!
-    genres: String!
+    genres: [String!]!
     shortDescription: String!
     description: String!
     date: String
-    likes: Int
     username: String
+    likes: Int
+    watched: Int
+    toWatch: Int
+    rating: Int
+    ratingsAmount: Int
     comments: [Comment!]
   }
 
@@ -26,8 +30,13 @@ exports.typeDefs = gql`
     username: String!
     password: String!
     email: String!
-    joinDate: String
+    date: String
+    recommendations: [Movie!]
+    liked: [Movie!]
+    watched: [Movie!]
     toWatch: [Movie!]
+    friends: [User!]
+    invitations: [User!]
   }
 
   type Token {
@@ -57,5 +66,8 @@ exports.typeDefs = gql`
     signupUser(username: String!, email: String!, password: String!): Token
 
     addMovie(MovieData: MovieInput): Movie
+    deleteUserMovie(_id: ID!): Movie
+    likeMovie(_id: ID!, username: String!): Movie
+    unlikeMovie(_id: ID!, username: String!): Movie
   }
 `;

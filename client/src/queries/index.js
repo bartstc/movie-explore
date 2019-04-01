@@ -4,9 +4,38 @@ import { gql } from 'apollo-boost';
 export const GET_CURRENT_USER = gql`
   query {
     getCurrentUser {
+      _id
       username
-      joinDate
       email
+      date
+      recommendations {
+        _id
+        title
+        genres
+      }
+      liked {
+        _id
+        title
+        genres
+      }
+      watched {
+        _id
+        title
+        genres
+      }
+      toWatch {
+        _id
+        title
+        genres
+      }
+      friends {
+        _id
+        username
+      }
+      invitations {
+        _id
+        username
+      }
     }
   }
 `;

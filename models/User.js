@@ -23,6 +23,10 @@ const UserSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref: 'Movie'
   },
+  liked: {
+    type: [Schema.Types.ObjectId],
+    ref: 'Movie'
+  },
   watched: {
     type: [Schema.Types.ObjectId],
     ref: 'Movie'

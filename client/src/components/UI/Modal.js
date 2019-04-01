@@ -22,8 +22,8 @@ const Modal = ({ message, error }) => {
       }}>
       {}
       {error
-        ? <i class="fas fa-exclamation-triangle"></i>
-        : <i class="far fa-check-circle"></i>}
+        ? <i className="fas fa-exclamation-triangle"></i>
+        : <i className="far fa-check-circle"></i>}
       <p className="message">{message}This is place for message</p>
     </ModalWrapper>
   )
@@ -60,8 +60,7 @@ const ModalWrapper = styled.div`
 `;
 
 Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   error: PropTypes.bool,
 };
 

@@ -34,6 +34,10 @@ const MovieSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  username: {
+    type: String,
+    required: true
+  },
   likes: {
     type: Number,
     default: 0
@@ -53,9 +57,6 @@ const MovieSchema = new Schema({
   ratingsAmount: {
     type: Number,
     default: 0
-  },
-  username: {
-    type: String
   },
   comments: [
     {
