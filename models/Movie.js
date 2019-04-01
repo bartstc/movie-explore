@@ -54,7 +54,7 @@ const MovieSchema = new Schema({
     type: Number,
     default: 0
   },
-  ratingsAmount: {
+  numberOfRatings: {
     type: Number,
     default: 0
   },

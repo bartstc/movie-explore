@@ -90,5 +90,33 @@ exports.resolvers = {
 
       return movie;
     },
+
+    addWatched: async (root, { _id, username }, { Movie, User }) => {
+      const movie = await Movie.findOneAndUpdate({ _id }, { $inc: { watched: 1 } });
+      const user = await User.findOneAndUpdate({ username }, { $addToSet: { watched: _id } });
+
+      return movie;
+    },
+
+    removeWatched: async (root, { _id, username }, { Movie, User }) => {
+      const movie = await Movie.findOneAndUpdate({ _id }, { $inc: { watched: -1 } });
+      const user = await User.findOneAndUpdate({ username }, { $pull: { watched: _id } });
+
+      return movie;
+    },
+
+    addToWatch: async (root, { _id, username }, { Movie, User }) => {
+      const movie = await Movie.findOneAndUpdate({ _id }, { $inc: { toWatch: 1 } });
+      const user = await User.findOneAndUpdate({ username }, { $addToSet: { toWatch: _id } });
+
+      return movie;
+    },
+
+    removeToWatch: async (root, { _id, username }, { Movie, User }) => {
+      const movie = await Movie.findOneAndUpdate({ _id }, { $inc: { toWatch: -1 } });
+      const user = await User.findOneAndUpdate({ username }, { $pull: { toWatch: _id } });
+
+      return movie;
+    },
   }
 };

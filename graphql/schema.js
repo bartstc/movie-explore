@@ -15,7 +15,7 @@ exports.typeDefs = gql`
     watched: Int
     toWatch: Int
     rating: Int
-    ratingsAmount: Int
+    numberOfRatings: Int
     comments: [Comment!]
   }
 
@@ -69,5 +69,9 @@ exports.typeDefs = gql`
     deleteUserMovie(_id: ID!): Movie
     likeMovie(_id: ID!, username: String!): Movie
     unlikeMovie(_id: ID!, username: String!): Movie
+    addWatched(_id: ID!, username: String!): Movie
+    removeWatched(_id: ID!, username: String!): Movie
+    addToWatch(_id: ID!, username: String!): Movie
+    removeToWatch(_id: ID!, username: String!): Movie
   }
 `;
