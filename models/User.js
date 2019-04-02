@@ -45,6 +45,10 @@ const UserSchema = new Schema({
   }
 });
 
+UserSchema.index({
+  username: 'text'
+});
+
 // pre('save') means before saving in db
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) { // if password isn't modyfied (!signup)

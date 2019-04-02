@@ -56,6 +56,8 @@ exports.typeDefs = gql`
 
   type Query {
     getCurrentUser: User
+    getUser(username: String!): User
+    searchFriends(keyword: String): [User]
     getUserMovies(username: String!): [Movie]
 
     getAllMovies: [Movie]
