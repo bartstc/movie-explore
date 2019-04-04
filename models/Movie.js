@@ -60,9 +60,8 @@ const MovieSchema = new Schema({
   },
   comments: [
     {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+      username: {
+        type: String,
         required: true
       },
       text: {

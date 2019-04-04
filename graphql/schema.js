@@ -20,7 +20,7 @@ exports.typeDefs = gql`
   }
 
   type Comment {
-    user: User!
+    username: String!
     text: String!
     date: String!
   }
@@ -84,5 +84,7 @@ exports.typeDefs = gql`
     addToWatch(_id: ID!, username: String!): Movie
     removeToWatch(_id: ID!, username: String!): Movie
     rateMovie(movieId: ID!, userId: ID!, rating: Int!): Movie
+    addComment(text: String!, movieId: ID!, username: String!): Comment
+    removeComment(commentId: ID!, movieId: ID!): Feedback
   }
 `;

@@ -230,6 +230,31 @@ exports.resolvers = {
       movie.save();
 
       return movie;
+    },
+
+    addComment: async (root, { text, movieId, username }, { Movie }) => {
+      const comment = {
+        username: username,
+        text
+      };
+
+      await Movie.findOneAndUpdate(
+        { _id: movieId },
+        { $push: { comments: comment } },
+        { new: true }
+      );
+
+      return comment;
+    },
+
+    removeComment: async (root, { commentId, movieId }, { Movie }) => {
+      const movie = await Movie.findOne({ _id: movieId });
+
+      const updatedComments = movie.comments.filter(comment => comment.id !== commentId);
+      movie.comments = updatedComments;
+      movie.save();
+
+      return { feedback: 'Comment removed successfully' };
     }
   }
 };
