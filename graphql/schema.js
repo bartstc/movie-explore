@@ -52,7 +52,7 @@ exports.typeDefs = gql`
     imageUrl: String!
     director: String!
     year: Int!
-    genres: String!
+    genres: [String!]
     shortDescription: String!
     description: String!
     username: String!
@@ -64,8 +64,11 @@ exports.typeDefs = gql`
     searchFriends(keyword: String): [User]
     getUserMovies(username: String!): [Movie]
 
-    getAllMovies: [Movie]
     getLastAdded: [Movie]
+    getMostPopular: [Movie]
+    getTop10: [Movie]
+    getMovie(_id: ID!): Movie
+    searchMovies(keyword: String): [Movie]
   }
 
   type Mutation {

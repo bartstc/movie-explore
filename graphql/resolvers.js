@@ -56,11 +56,6 @@ exports.resolvers = {
       return userMovies;
     },
 
-    // getAllMovies: async (root, args, { Movie }) => {
-    //   const allMovies = await Movie.find().sort({ date: 'desc' });
-    //   return allMovies;
-    // }
-
     getLastAdded: async (root, args, { Movie }) => {
       const movies = await Movie.find()
         .sort({ date: 'desc' })
@@ -68,6 +63,52 @@ exports.resolvers = {
 
       return movies;
     },
+
+    getMostPopular: async (root, args, { Movie }) => {
+      const movies = await Movie.find()
+        .sort({ likes: 'desc' })
+        .limit(3);
+
+      return movies;
+    },
+
+    getTop10: async (root, args, { Movie }) => {
+      const movies = await Movie.find()
+        .sort({ rating: 'desc' })
+        .limit(10);
+
+      return movies;
+    },
+
+    getMovie: async (root, { _id }, { Movie }) => {
+      const movie = await Movie.findOne({ _id });
+
+      return {
+        ...movie._doc,
+        date: movie.date.toISOString()
+      };
+    },
+
+    searchMovies: async (root, { keyword }, { Movie }) => {
+      if (keyword) {
+        const searchResults = await Movie.find(
+          {
+            $text: { $search: keyword }
+          }, {
+            score: { $meta: 'textScore' }
+          }).sort({
+            score: { $meta: 'textScore' }
+          });
+
+        return searchResults;
+      } else {
+        const latest10 = await Movie.find()
+          .sort({ date: 'desc' })
+          .limit(10);
+
+        return latest10;
+      };
+    }
   },
 
   Mutation: {
