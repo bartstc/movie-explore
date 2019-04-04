@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { colors, device } from '../utils/styles';
 
@@ -7,8 +7,9 @@ import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
 import Footer from '../components/UI/Footer';
 import Modal from '../components/UI/Modal';
+import SideDrawer from '../components/navigation/SideDrawer';
 
-const links = [
+const authLinks = [
   { path: '/dashboard', content: "Home" },
   { path: '/explore', content: "Explore" },
   { path: '/add', content: "Add Movie" },
@@ -16,24 +17,44 @@ const links = [
   { path: '/', content: "Logout" }
 ];
 
-const Layout = ({ children }) => (
-  <>
-    <Modal />
-    <Header>
-      <img className="logo" src={logo} alt="" />
-      <Nav>
-        <ul className="link-group">
-          {links.map((link, index) => (
-            <NavItem key={index} linkType="nav-icon" to={link.path}>{link.content}</NavItem>
-          ))}
-        </ul>
-      </Nav>
-    </Header>
-    <Main>{children}</Main>
-    <Toolbar />
-    <Footer />
-  </>
-);
+const publicLinks = [
+  { path: '/dashboard', content: "Home" },
+  { path: '/explore', content: "Explore" },
+  { path: '/signin', content: "Sign In" },
+  { path: '/signup', content: "Sign Up" }
+];
+
+let links;
+
+const Layout = ({ children, session: { getCurrentUser } }) => {
+  (getCurrentUser) ? links = authLinks : links = publicLinks;
+
+  // convert into global context state as same as modal state
+  const [open, setOpen] = useState(false);
+
+  const onToggle = () => setOpen(!open);
+
+  return (
+    <>
+      <Modal />
+      <SideDrawer links={links} open={open} />
+      <Header>
+        <img className="logo" src={logo} alt="" />
+        <Nav>
+          <ul className="link-group">
+            {links.map((link, index) => (
+              <NavItem key={index} linkType="nav-icon" to={link.path}>{link.content}</NavItem>
+            ))}
+          </ul>
+        </Nav>
+        <button onClick={onToggle} className="toggle"><i className="fas fa-bars"></i></button>
+      </Header>
+      <Main>{children}</Main>
+      {getCurrentUser && <Toolbar />}
+      <Footer />
+    </>
+  );
+};
 
 const Header = styled.header`
   position: fixed;
@@ -43,11 +64,9 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   padding: 0 10px;
-  /* background: ${colors.mainBlack}; */
   background-image: linear-gradient(${colors.mainBlack}, ${colors.mainBlack}, transparent);
 
   @media ${device.tablet} {
-    display: flex;
     justify-content: space-between;
     height: 65px;
   }
@@ -64,11 +83,28 @@ const Header = styled.header`
       height: 46px;
     }
   }
+
+  .toggle {
+    position: fixed;
+    z-index: 30;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    width: 26px;
+    height: 26px;
+    font-size: 1.2em;
+    color: ${colors.mainWhite};
+
+    @media ${device.tablet} {
+      display: none;
+    }
+  }
 `;
 
 const Nav = styled.nav`
   display: none;
-  width: 420px;
+  width: 350px;
 
   @media ${device.tablet} {
     display: block;

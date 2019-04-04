@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { sectionBasic, headerBasic } from '../utils/styles';
 import { withRouter } from 'react-router-dom';
-// import withAuth from '../utils/withAuth';
+import withAuth from '../utils/withAuth';
 // import { Mutation } from 'react-apollo';
 
 import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
@@ -154,5 +154,4 @@ const Form = styled.form`
   }
 `;
 
-// export default withAuth(session => session && session.getCurrentUser)(withRouter(AddMovie));
-export default withRouter(AddMovie);
+export default withAuth(session => session && session.getCurrentUser)(withRouter(AddMovie));

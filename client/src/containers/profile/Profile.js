@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { sectionBasic, title, device, fonts, colors } from '../../utils/styles';
 import { withRouter } from 'react-router-dom';
-// import withAuth from '../../utils/withAuth';
+import withAuth from '../../utils/withAuth';
 import AuthData from './AuthData';
 
 const Profile = () => (
@@ -125,5 +125,4 @@ const ProfileWrapper = styled.section`
   }
 `;
 
-// export default withAuth(session => session && session.getCurrentUser)(withRouter(Profile));
-export default withRouter(Profile);
+export default withAuth(session => session && session.getCurrentUser)(withRouter(Profile));
