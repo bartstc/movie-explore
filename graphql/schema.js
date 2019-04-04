@@ -43,6 +43,10 @@ exports.typeDefs = gql`
     token: String!
   }
 
+  type Feedback {
+    feedback: String!
+  }
+
   input MovieInput {
     title: String!
     imageUrl: String!
@@ -61,11 +65,15 @@ exports.typeDefs = gql`
     getUserMovies(username: String!): [Movie]
 
     getAllMovies: [Movie]
+    getLastAdded: [Movie]
   }
 
   type Mutation {
     signinUser(username: String!, password: String!): Token
     signupUser(username: String!, email: String!, password: String!): Token
+    sendInvitation(senderId: ID!, receiverId: ID!): Feedback
+    acceptOrRejectInvitation(receiverId: ID!, senderId: ID!, rejection: Boolean): Feedback
+    removeFriend(currentUserId: ID!, friendId: ID!): Feedback
 
     addMovie(MovieData: MovieInput): Movie
     deleteUserMovie(_id: ID!): Movie

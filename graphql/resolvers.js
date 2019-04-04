@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const keys = require('../config/keys');
+const alreadyExists = require('../utils/alreadyExists');
 
 const createToken = (user, secret, expiresIn) => {
   const { username, email } = user;
@@ -59,6 +60,14 @@ exports.resolvers = {
     //   const allMovies = await Movie.find().sort({ date: 'desc' });
     //   return allMovies;
     // }
+
+    getLastAdded: async (root, args, { Movie }) => {
+      const movies = await Movie.find()
+        .sort({ date: 'desc' })
+        .limit(6)
+
+      return movies;
+    },
   },
 
   Mutation: {
@@ -86,6 +95,69 @@ exports.resolvers = {
       }).save();
 
       return { token: createToken(newUser, keys.secret, '1hr') };
+    },
+
+    sendInvitation: async (root, { senderId, receiverId }, { User }) => {
+      const currentUser = await User.findOne({ _id: senderId });
+      const newFriend = await User.findOne({ _id: receiverId });
+
+      // Validation
+      if (alreadyExists(newFriend.invitations, senderId)) throw new Error('Invitation has already been sent');
+
+      if (alreadyExists(currentUser.invitations, receiverId)) throw new Error('Invitation exists. Check your invitations');
+
+      if (alreadyExists(newFriend.friends, senderId)) throw new Error('This user already exists in your friends list');
+
+      newFriend.invitations.push(senderId);
+      await newFriend.save();
+
+      return { feedback: "The invitation has been sent" };
+    },
+
+    acceptOrRejectInvitation: async (root, { receiverId, senderId, rejection }, { User }) => {
+      // If rejection true => reject invitation
+      if (rejection) {
+        await User.findOneAndUpdate(
+          { _id: receiverId },
+          { $pull: { invitations: senderId } },
+          { new: true }
+        );
+        return { feedback: 'Invitation rejected successfully' };
+      };
+
+      // If rejection false => add friedn to lists
+      await User.findOneAndUpdate(
+        { _id: receiverId },
+        {
+          $pull: { invitations: senderId },
+          $push: { friends: senderId }
+        },
+        { new: true }
+      );
+
+      await User.findOneAndUpdate(
+        { _id: senderId },
+        { $push: { friends: receiverId } },
+        { new: true }
+      );
+
+      return { feedback: 'Invitation accepted successfully' };
+    },
+
+    removeFriend: async (root, { currentUserId, friendId }, { User }) => {
+      await User.findOneAndUpdate(
+        { _id: currentUserId },
+        { $pull: { friends: friendId } },
+        { new: true }
+      );
+
+      await User.findOneAndUpdate(
+        { _id: friendId },
+        { $pull: { friends: currentUserId } },
+        { new: true }
+      );
+
+      return { feedback: 'Friend removed successfully' };
     },
 
     addMovie: async (root, { MovieData: { title, imageUrl, director, year, genres, shortDescription, description, username } }, { Movie }) => {
