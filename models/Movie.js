@@ -55,8 +55,8 @@ const MovieSchema = new Schema({
     default: 0
   },
   numberOfRatings: {
-    type: Number,
-    default: 0
+    type: [Schema.Types.ObjectId],
+    ref: 'User'
   },
   comments: [
     {

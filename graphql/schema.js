@@ -14,8 +14,8 @@ exports.typeDefs = gql`
     likes: Int
     watched: Int
     toWatch: Int
-    rating: Int
-    numberOfRatings: Int
+    rating: Float
+    numberOfRatings: [ID!]
     comments: [Comment!]
   }
 
@@ -83,5 +83,6 @@ exports.typeDefs = gql`
     removeWatched(_id: ID!, username: String!): Movie
     addToWatch(_id: ID!, username: String!): Movie
     removeToWatch(_id: ID!, username: String!): Movie
+    rateMovie(movieId: ID!, userId: ID!, rating: Int!): Movie
   }
 `;
