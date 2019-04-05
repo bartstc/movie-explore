@@ -12,15 +12,15 @@ import SideDrawer from '../components/navigation/SideDrawer';
 import Backdrop from '../components/navigation/Backdrop';
 
 const authLinks = [
-  { path: '/dashboard', content: "Home" },
+  { path: '/', content: "Home" },
   { path: '/explore', content: "Explore" },
   { path: '/add', content: "Add Movie" },
   { path: '/profile', content: "Profile" },
-  { path: '/', content: "Logout" }
+  { path: '/logout', content: "Logout" }
 ];
 
 const publicLinks = [
-  { path: '/dashboard', content: "Home" },
+  { path: '/', content: "Home" },
   { path: '/explore', content: "Explore" },
   { path: '/signin', content: "Sign In" },
   { path: '/signup', content: "Sign Up" }

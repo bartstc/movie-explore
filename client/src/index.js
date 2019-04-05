@@ -19,14 +19,9 @@ const client = new ApolloClient({
       }
     });
   },
-  onError: ({ networkError }) => {
-    if (networkError) {
-      console.log('Network Error', networkError);
-
-      // if (networkError.statusCode === 401) {
-      //   localStorage.removeItem('token');
-      // };
-    };
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log('graphQLErrors', graphQLErrors)
+    console.log('networkError', networkError)
   }
 });
 

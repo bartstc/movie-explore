@@ -38,7 +38,6 @@ const SignUp = ({ refetch, history }) => {
 
     signinUser()
       .then(async ({ data }) => {
-        // console.log(data);
         localStorage.setItem('token', data.signinUser.token);
         clearState();
 
@@ -62,7 +61,7 @@ const SignUp = ({ refetch, history }) => {
           <p className="main-info">You dont have an account yet? <Link className="accent" to="/">Sign Up.</Link></p>
         </header>
         <Mutation mutation={SIGNIN_USER} variables={{ username, password }}>
-          {(signinUser, { data, loading, error }) => {
+          {(signinUser, { loading }) => {
 
             return (
               <Form onSubmit={e => handleSubmit(e, signinUser)}>

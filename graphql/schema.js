@@ -4,6 +4,7 @@ exports.typeDefs = gql`
   type Movie {
     _id: ID
     title: String!
+    imageUrl: String!
     director: String!
     year: Int!
     genres: [String!]!

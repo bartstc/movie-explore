@@ -18,9 +18,9 @@ const App = ({ refetch, session }) => {
       <Router>
         <Layout session={session}>
           <Switch>
-            <Route path='/' exact render={() => <SignUp refetch={refetch} />} />
+            <Route path='/' exact component={Dashboard} />
+            <Route path='/signup' render={() => <SignUp refetch={refetch} />} />
             <Route path='/signin' render={() => <SignIn refetch={refetch} />} />
-            <Route path='/dashboard' component={Dashboard} />
             <Route path='/explore' component={Explore} />
             <Route path='/profile' render={() => <Profile session={session} />} />
             <Route path='/add' render={() => <AddMovie session={session} />} />

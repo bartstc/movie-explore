@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { device, sectionBasic, headerBasic } from '../../utils/styles';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from '../../queries';
+import { ModalContext } from '../../utils/UIstore';
 
 import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
-import Error from '../../utils/error';
 
 const initialState = {
   username: '',
@@ -18,6 +18,7 @@ const initialState = {
 };
 
 const SignUp = ({ refetch, history }) => {
+  const { handleModal } = useContext(ModalContext);
   const [state, setState] = useState({ ...initialState });
 
   const onChange = e => {
@@ -38,14 +39,16 @@ const SignUp = ({ refetch, history }) => {
     e.preventDefault();
     signupUser()
       .then(async ({ data }) => {
-        // console.log(data);
         localStorage.setItem('token', data.signupUser.token);
         clearState();
 
         await refetch(); // we pass refetch func throught withSession (in App.js)
         history.push('/dashboard');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        handleModal(err.message, true);
+      });
   };
 
   const { username, email, password, password2 } = state;
@@ -59,7 +62,7 @@ const SignUp = ({ refetch, history }) => {
           <p className="main-info">Have already account? Let's <Link className="accent" to="signin">Sign In.</Link></p>
         </header>
         <Mutation mutation={SIGNUP_USER} variables={{ username, email, password }}>
-          {(signupUser, { data, loading, error }) => {
+          {(signupUser, { loading }) => {
             return (
               <Form onSubmit={e => handleSubmit(e, signupUser)}>
                 <TextFieldGroup
@@ -102,7 +105,6 @@ const SignUp = ({ refetch, history }) => {
                   disabled={loading || validateForm()}
                   btnType={validateForm() && 'disabled'}
                 >Done</Button>
-                {error && <Error error={error} />}
               </Form>
             )
           }}

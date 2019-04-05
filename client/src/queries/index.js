@@ -8,11 +8,6 @@ export const GET_CURRENT_USER = gql`
       username
       email
       date
-      recommendations {
-        _id
-        title
-        genres
-      }
       liked {
         _id
         title
@@ -68,25 +63,26 @@ export const SIGNUP_USER = gql`
 
 // Movie Mutations
 export const ADD_MOVIE = gql`
-mutation(
-  $title: String!
-  $imageUrl: String!
-  $director: String!
-  $year: Int!
-  $genres: String!
-  $shortDescription: String!
-  $description: String!
-  $username: String!
-) {
-  addMovie(MovieData: {title: $title, imageUrl: $imageUrl, director: $director, year: $year, genres: $genres, shortDescription: $shortDescription, description: $description}) {
-    name
-    _id
-    director
-    year
-    genres
-    shortDescription
-    description
-    date
+  mutation(
+    $title: String!
+    $imageUrl: String!
+    $director: String!
+    $year: Int!
+    $genres: [String!]!
+    $shortDescription: String!
+    $description: String!
+    $username: String!) {
+    addMovie(MovieData: {title: $title, imageUrl: $imageUrl, director: $director, year: $year, genres: $genres, shortDescription: $shortDescription, description: $description, username: $username}) {
+      _id
+      title
+      imageUrl
+      director
+      year
+      genres
+      shortDescription
+      description
+      date
+      username
+    }
   }
-}
 `;

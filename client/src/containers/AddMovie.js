@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { sectionBasic, headerBasic } from '../utils/styles';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../utils/withAuth';
-// import { Mutation } from 'react-apollo';
+import { Mutation } from 'react-apollo';
+import { ADD_MOVIE } from '../queries';
+import { ModalContext } from '../utils/UIstore';
 
 import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
 import TextareaFieldGroup from '../components/UI/inputs/TextareaFieldGroup';
 import SelectListGroup from '../components/UI/inputs/SelectListGroup';
 import Button from '../components/UI/Button';
-// import Error from '../utils/error';
 import ScrollToTopOnMount from '../utils/scrollToTopOnMount';
 
-// const initialState = {
-//   title: '',
-//   imageUrl: '',
-//   director: '',
-//   shortDescription: '',
-//   description: '',
-//   // username: ''
-// };
+const initialState = {
+  title: '',
+  imageUrl: '',
+  director: '',
+  year: '',
+  shortDescription: '',
+  description: '',
+  username: ''
+};
 
 const genreOptions = [
   { label: '* Select genres', value: 0 },
@@ -37,100 +39,146 @@ const genreOptions = [
   { label: 'Others', value: 'Others' }
 ];
 
-const AddMovie = () => {
+const AddMovie = ({ session, history }) => {
+  const { handleModal } = useContext(ModalContext);
+
   const [years, setListOfYears] = useState([{ label: '* Select year', value: 0 }]);
   const [genres, setListOfGenres] = useState([]);
+  const [state, setState] = useState({ ...initialState });
 
   useEffect(() => {
     let currentYear = new Date().getFullYear();
     let listOfYears = [];
 
     let startYear = 1920;
-    while (startYear <= currentYear) {
-      listOfYears.push({ label: startYear++, value: startYear++ });
+    for (let i = startYear; i <= currentYear; i++) {
+      listOfYears.push({ label: i, value: i });
     };
 
+    setState({ ...state, username: session.getCurrentUser.username, imageUrl: 'imageUrl' });
     setListOfYears([...years, ...listOfYears]);
   }, []);
 
-  const onSelectChange = e => {
+  const onGenresSelectChange = e => {
     if (genres.filter(i => i === e.target.value).length > 0) {
-      console.log('Genre already added!');
-      // open modal!!
+      handleModal('Genre already added!', true);
       return;
     };
 
     setListOfGenres([...genres, e.target.value]);
   };
 
+
+  const onChange = e => {
+    setState({ ...state, [e.target.name]: e.target.value });
+    console.log(state.year)
+  };
+
+  const clearState = () => {
+    setState({ ...initialState });
+  };
+
+  const validateForm = () => {
+    const { title, director, year, imageUrl, shortDescription, description } = state;
+    const isInvalid = !title || !director || !year || !imageUrl || !shortDescription || !description;
+    return isInvalid;
+  };
+
+  const onSubmit = (e, addMovie) => {
+    e.preventDefault();
+
+    addMovie().then(({ data }) => {
+      console.log(data);
+      clearState();
+      history.push('/');
+    })
+      .catch(err => {
+        console.log(err);
+        handleModal(err.message, true);
+      });
+  };
+
+  // updateCache
+
+  const { title, imageUrl, director, year, shortDescription, description, username } = state;
+
   return (
     <>
       <ScrollToTopOnMount />
-      <Section>
-        <h1 className="main-title">Add new <strong className="accent">Movie.</strong></h1>
-        <p className="main-info">All fields are required. Remember to provide the right data.</p>
-        <Form>
-          <TextFieldGroup
-            label="Title"
-            placeholder="* Title ..."
-            id="title"
-            name="title"
-          // value={this.state.email}
-          // onChange={this.onChange}
-          />
-          <TextFieldGroup
-            label="Director"
-            placeholder="* Director ..."
-            id="director"
-            name="director"
-          // value={this.state.email}
-          // onChange={this.onChange}
-          />
-          <SelectListGroup
-            name="year"
-            id="year"
-            label="Select year"
-            // value={this.state.status}
-            // onChange={this.onChange}
-            options={years}
-          // error={errors.status}
-          />
-          <SelectListGroup
-            name="genres"
-            id="genres"
-            label="Select genres"
-            // value={this.state.status}
-            onChange={e => onSelectChange(e)}
-            options={genreOptions}
-          // error={errors.status}
-          />
-          {genres.length > 0 && <ul className="selected">
-            <p>Selected genres:</p>
-            {genres.map(genre => (
-              <p>{genre}</p>
-            ))}
-          </ul>}
-          <TextareaFieldGroup
-            label="Short description"
-            placeholder="* One sentence about the movie ..."
-            id="shortDescription"
-            name="shortDescription"
-            // value={this.state.description}
-            // onChange={this.onChange}
-            error=""
-          />
-          <TextareaFieldGroup
-            label="Description"
-            placeholder="* Movie description ..."
-            id="description"
-            name="description"
-            // value={this.state.description}
-            // onChange={this.onChange}
-            error=""
-          />
-          <Button type="submit">Done</Button>
-        </Form>
-      </Section>
+      <Mutation
+        mutation={ADD_MOVIE}
+        variables={{ title, imageUrl, director, year: Number(year), genres, shortDescription, description, username }}
+      >
+        {(addMovie, { loading }) => {
+
+          return (
+            <Section>
+              <h1 className="main-title">Add new <strong className="accent">Movie.</strong></h1>
+              <p className="main-info">All fields are required. Remember to provide the right data.</p>
+              <Form onSubmit={e => onSubmit(e, addMovie)}>
+                <TextFieldGroup
+                  label="Title"
+                  placeholder="* Title ..."
+                  id="title"
+                  name="title"
+                  value={title}
+                  onChange={onChange}
+                />
+                <TextFieldGroup
+                  label="Director"
+                  placeholder="* Director ..."
+                  id="director"
+                  name="director"
+                  value={director}
+                  onChange={onChange}
+                />
+                <SelectListGroup
+                  name="year"
+                  id="year"
+                  label="Select year"
+                  value={year}
+                  onChange={onChange}
+                  options={years}
+                />
+                <SelectListGroup
+                  name="genres"
+                  id="genres"
+                  label="Select genres"
+                  onChange={e => onGenresSelectChange(e)}
+                  options={genreOptions}
+                />
+                {genres.length > 0 && <ul className="selected">
+                  <p>Selected genres:</p>
+                  {genres.map((genre, i) => (
+                    <p key={i}>{genre}</p>
+                  ))}
+                </ul>}
+                <TextareaFieldGroup
+                  label="Short description"
+                  placeholder="* One sentence about the movie ..."
+                  id="shortDescription"
+                  name="shortDescription"
+                  value={shortDescription}
+                  onChange={onChange}
+                />
+                <TextareaFieldGroup
+                  label="Description"
+                  placeholder="* Movie description ..."
+                  id="description"
+                  name="description"
+                  value={description}
+                  onChange={onChange}
+                />
+                <Button
+                  type="submit"
+                  disabled={loading || validateForm()}
+                  btnType={validateForm() && 'disabled'}
+                >Done</Button>
+              </Form>
+            </Section>
+          )
+        }}
+      </Mutation>
     </>
   )
 };

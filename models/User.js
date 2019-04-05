@@ -19,10 +19,6 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  recommendations: {
-    type: [Schema.Types.ObjectId],
-    ref: 'Movie'
-  },
   liked: {
     type: [Schema.Types.ObjectId],
     ref: 'Movie'

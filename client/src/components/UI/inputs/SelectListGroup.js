@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { colors, fonts } from '../../../utils/styles';
 
 const SelectListGroup = ({ name, value, error, onChange, options, id, label }) => {
-  const selectOptions = options.map(option => (
-    <option key={option.label} value={option.value}>
+  const selectOptions = options.map((option, i) => (
+    <option key={i} value={option.value}>
       {option.label}
     </option>
   ));
@@ -66,7 +66,7 @@ const SelectWrapper = styled.p`
 
 SelectListGroup.propTypes = {
   name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,

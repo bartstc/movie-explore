@@ -5,11 +5,11 @@ import { colors, device } from '../../utils/styles';
 import NavItem from './NavItem';
 
 const links = [
-  { path: '/dashboard', classes: "fas fa-home" },
+  { path: '/', classes: "fas fa-home" },
   { path: '/explore', classes: "fas fa-search" },
   { path: '/add', classes: "fas fa-plus-circle" },
   { path: '/profile', classes: "far fa-user" },
-  { path: '/', classes: "fas fa-power-off" }
+  { path: '/logout', classes: "fas fa-power-off" }
 ];
 
 const Toolbar = () => (
