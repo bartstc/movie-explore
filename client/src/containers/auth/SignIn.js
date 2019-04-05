@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { device, sectionBasic, headerBasic } from '../../utils/styles';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNIN_USER } from '../../queries';
+import { ModalContext } from '../../utils/UIstore';
 
 import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
-import Error from '../../utils/error';
 
 const initialState = {
   username: '',
@@ -16,6 +16,7 @@ const initialState = {
 };
 
 const SignUp = ({ refetch, history }) => {
+  const { handleModal } = useContext(ModalContext);
   const [state, setState] = useState({ ...initialState });
 
   const onChange = e => {
@@ -34,6 +35,7 @@ const SignUp = ({ refetch, history }) => {
 
   const handleSubmit = (e, signinUser) => {
     e.preventDefault();
+
     signinUser()
       .then(async ({ data }) => {
         // console.log(data);
@@ -43,7 +45,10 @@ const SignUp = ({ refetch, history }) => {
         await refetch(); // we pass refetch func throught withSession (in App.js)
         history.push('/dashboard');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        handleModal(err.message, true);
+      });
   };
 
   const { username, password } = state;
@@ -58,6 +63,7 @@ const SignUp = ({ refetch, history }) => {
         </header>
         <Mutation mutation={SIGNIN_USER} variables={{ username, password }}>
           {(signinUser, { data, loading, error }) => {
+
             return (
               <Form onSubmit={e => handleSubmit(e, signinUser)}>
                 <TextFieldGroup
@@ -82,7 +88,6 @@ const SignUp = ({ refetch, history }) => {
                   disabled={loading || validateForm()}
                   btnType={validateForm() && 'disabled'}
                 >Done</Button>
-                {error && <Error error={error} />}
               </Form>
             )
           }}

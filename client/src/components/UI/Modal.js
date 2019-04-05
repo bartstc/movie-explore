@@ -1,30 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { colors, fonts } from '../../utils/styles';
+import { ModalContext } from '../../utils/UIstore';
 
-const Modal = ({ message, error }) => {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    if (message) setShow(true);
-
-    setTimeout(() => {
-      setShow(false);
-    }, 3000);
-  }, []);
+const Modal = () => {
+  const { show, message, error } = useContext(ModalContext);
 
   return (
-    <ModalWrapper
-      style={{
-        transform: show ? 'translateY(0)' : 'translateY(-20vh)',
-        opacity: show ? '1' : '0'
-      }}>
-      {}
+    <ModalWrapper show={show}>
       {error
         ? <i className="fas fa-exclamation-triangle"></i>
         : <i className="far fa-check-circle"></i>}
-      <p className="message">{message}This is place for message</p>
+      <p className="message">{message}</p>
     </ModalWrapper>
   )
 };
@@ -44,6 +32,8 @@ const ModalWrapper = styled.div`
   margin-left: -140px;
   box-sizing: border-box;
   text-align: center;
+  transform: ${props => props.show ? 'translateY(0)' : 'translateY(-20vh)'};
+  opacity: ${props => props.show ? '1' : '0'};
 
   .fas,
   .far {
@@ -54,8 +44,8 @@ const ModalWrapper = styled.div`
 
   .message {
     font-size: .9em;
-    color: ${colors.mainWhite};
-    font-weight: ${fonts.fontExtraLight};
+    color: ${colors.mainColor};
+    font-weight: ${fonts.fontBold};
   }
 `;
 

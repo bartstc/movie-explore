@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { colors, device } from '../utils/styles';
+import { SideDrawerContext } from '../utils/UIstore';
 
 import logo from '../assets/logo.png';
 import Toolbar from '../components/navigation/Toolbar';
@@ -8,6 +9,7 @@ import NavItem from '../components/navigation/NavItem';
 import Footer from '../components/UI/Footer';
 import Modal from '../components/UI/Modal';
 import SideDrawer from '../components/navigation/SideDrawer';
+import Backdrop from '../components/navigation/Backdrop';
 
 const authLinks = [
   { path: '/dashboard', content: "Home" },
@@ -29,15 +31,15 @@ let links;
 const Layout = ({ children, session: { getCurrentUser } }) => {
   (getCurrentUser) ? links = authLinks : links = publicLinks;
 
-  // convert into global context state as same as modal state
-  const [open, setOpen] = useState(false);
-
+  const [open, setOpen] = useContext(SideDrawerContext);
   const onToggle = () => setOpen(!open);
+  const hide = () => setOpen(false);
 
   return (
     <>
       <Modal />
-      <SideDrawer links={links} open={open} />
+      <SideDrawer links={links} open={open} hide={hide} />
+      <Backdrop open={open} hide={hide} />
       <Header>
         <img className="logo" src={logo} alt="" />
         <Nav>

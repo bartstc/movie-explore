@@ -25,7 +25,6 @@ const ListItem = styled.li`
 
     &:hover {
       color: #B41027;
-      font-weight: ${fonts.fontBold};
     }
 
     &.active {

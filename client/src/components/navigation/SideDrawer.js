@@ -4,14 +4,19 @@ import { colors, device } from '../../utils/styles';
 
 import NavItem from './NavItem';
 
-const SideDrawer = ({ links, open }) => (
+const SideDrawer = ({ links, open, hide }) => (
   <Nav open={open}>
     <ul className="link-group">
       {links.map((link, index) => (
-        <NavItem key={index} linkType="nav-icon" to={link.path}>{link.content}</NavItem>
+        <NavItem
+          key={index}
+          onClick={hide}
+          linkType="nav-icon"
+          to={link.path}>
+          {link.content}
+        </NavItem>
       ))}
     </ul>
-    {/* <button className="close"><i class="fas fa-times"></i></button> */}
   </Nav>
 );
 
@@ -24,10 +29,13 @@ const Nav = styled.nav`
   transition: transform .2s ease-in-out;
   background: ${colors.mainBlack};
   width: 100%;
+  height: 160px;
 
   .link-group {
+    height: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     flex-direction: column;
     padding: 1em 0;
   }
