@@ -1,53 +1,45 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { sectionBasic, title, device, fonts } from '../../utils/styles';
+import { Query } from 'react-apollo';
+import { GET_LAST_ADDED, GET_TOP_10 } from '../../queries';
 
 import MovieWrapper from '../../components/UI/MovieWrapper';
 import Aside from './Aside';
+import TopMovie from '../../components/UI/TopMovie';
 
 const Dashboard = () => (
   <DashboardWraper>
-    <div>
+    <section>
       <h2 className="title">Last added.</h2>
-      <Section>
-        <MovieWrapper title="Venom" genre="Action, Sci-Fi" year="2018" director="Ruben Fleischer">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, eos. Vitae quisquam molestiae eaque sed aperiam tempore.</p>
-        </MovieWrapper>
-        <MovieWrapper title="Venom" genre="Action, Sci-Fi" year="2018" director="Ruben Fleischer">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, eos. Vitae quisquam molestiae eaque sed aperiam tempore.</p>
-        </MovieWrapper>
-        <MovieWrapper title="Venom" genre="Action, Sci-Fi" year="2018" director="Ruben Fleischer">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, eos. Vitae quisquam molestiae eaque sed aperiam tempore.</p>
-        </MovieWrapper>
-        <MovieWrapper title="Venom" genre="Action, Sci-Fi" year="2018" director="Ruben Fleischer">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, eos. Vitae quisquam molestiae eaque sed aperiam tempore.</p>
-        </MovieWrapper>
-      </Section>
+      <Query query={GET_LAST_ADDED}>
+        {({ data, loading, error }) => {
+          if (loading) return <div>Loading ...</div>;
+          if (error) return <div>Error!</div>;
+          return (
+            <List>
+              {data.getLastAdded.map(movie => (
+                <MovieWrapper key={movie._id} {...movie} />
+              ))}
+            </List>
+          )
+        }}
+      </Query>
       <h2 className="title">Top 10.</h2>
-      <Section>
-        <li className="top-movie">
-          <p className="position">1</p>
-          <MovieWrapper title="Venom" genre="Action, Sci-Fi" />
-        </li>
-        <li className="top-movie">
-          <p className="position">2</p>
-          <MovieWrapper title="Venom" genre="Action, Sci-Fi" />
-        </li>
-        <li className="top-movie">
-          <p className="position">3</p>
-          <MovieWrapper title="Venom" genre="Action, Sci-Fi" />
-        </li>
-        <li className="top-movie">
-          <p className="position">4</p>
-          <MovieWrapper title="Venom" genre="Action, Sci-Fi" />
-        </li>
-        <li className="top-movie">
-          <p className="position">5</p>
-          <MovieWrapper title="Venom" genre="Action, Sci-Fi" />
-        </li>
-      </Section>
-    </div>
+      <Query query={GET_TOP_10}>
+        {({ data, loading, error }) => {
+          if (loading) return <div>Loading ...</div>;
+          if (error) return <div>Error!</div>;
+          return (
+            <TopList>
+              {data.getTop10.map(movie => (
+                <TopMovie key={movie._id} {...movie} />
+              ))}
+            </TopList>
+          )
+        }}
+      </Query>
+    </section>
     <Aside />
   </DashboardWraper>
 );
@@ -58,8 +50,8 @@ const DashboardWraper = styled.div`
   display: grid;
 
   @media ${device.laptop} {
-    grid-template-columns: 68.5% 27%;
-    grid-column-gap: 4.5%;
+    grid-template-columns: 84% 13%;
+    grid-column-gap: 3%;
   }
 
   .note {
@@ -69,26 +61,27 @@ const DashboardWraper = styled.div`
   }
 `;
 
-const Section = styled.section`
+const List = styled.ul`
   margin-bottom: .6em;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: .3em;
 
   @media ${device.mobileL} {
+    grid-template-columns: repeat(auto-fill, 120px); 
+    grid-column-gap: .5em;
+  }
+`;
+
+const TopList = styled.ul`
+  margin-bottom: .6em;
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.tablet} {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1em;
-  }
-
-  .top-movie {
-    display: grid;
-    grid-template-columns: 10% 88%;
-    grid-column-gap: 2%;
-
-    .position {
-      font-size: 1.7em;
-      text-align: start;
-      font-weight: ${fonts.fontBold};
-      line-height: .9em;
-    }
+    grid-column-gap: .4em;
   }
 `;
 

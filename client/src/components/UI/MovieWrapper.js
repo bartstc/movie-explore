@@ -1,27 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, fonts, device } from '../../utils/styles';
+import { colors, fonts } from '../../utils/styles';
 
 import venom from '../../assets/venom.jpg';
 
-const MovieWrapper = ({ title, genre, year, director, children }) => (
-  <Article>
+const MovieWrapper = ({ title, genres, year, imageUrl }) => (
+  <ListItem>
     <figure className="img-wrapper">
-      <img src={venom} alt="" />
+      <img src={(imageUrl) ? imageUrl : venom} alt="" />
     </figure>
     <h2 className="movie-title">{title}</h2>
-    <h3 className="movie-info"><span>{genre}</span>{year && `, ${year}, ${director}`}</h3>
-    {children}
-  </Article>
-);
+    <p className="movie-info">{genres && genres.join(", ")}</p>
+    <p className="movie-info">{year}</p>
+  </ListItem>
+)
 
-const Article = styled.article`
-  margin-bottom: 1.6em;
+const ListItem = styled.li`
+  margin-bottom: 1em;
   
   .img-wrapper {
-    width: 100%;
-    height: 40%;
+    height: 140px;
     position: relative;
 
     &::after {
@@ -38,43 +37,27 @@ const Article = styled.article`
   }
 
   .movie-title {
-    font-size: 1.3em;
+    font-size: 1.15em;
+    font-size: .8em;
     font-weight: ${fonts.fontBold};
     padding: 0 .4em;
     color: ${colors.mainWhite};
-
-    @media ${device.tablet} {
-      font-size: 1.45em;
-    }
   }
 
   .movie-info {
     display: block;
-    font-size: .9em;
-    font-weight: ${fonts.fontLight};
+    font-size: .7em;
+    font-weight: ${fonts.fontBold};
     color: ${colors.mainColor};
-    margin-bottom: .6em;
     padding: 0 .4em;
-    line-height: 1.1em;
-
-    span {
-      font-weight: ${fonts.fontBold};
-    }
-  }
-
-  p {
-    font-size: .8em;
-    font-weight: ${fonts.fontExtraLight};
-    margin-top: .83em;
-    padding: 0 .4em;
+    line-height: 1.3em;
   }
 `;
 
 MovieWrapper.propTypes = {
   title: PropTypes.string.isRequired,
-  genre: PropTypes.string,
-  year: PropTypes.string,
-  director: PropTypes.string
+  genres: PropTypes.array,
+  imageUrl: PropTypes.string
 };
 
 export default MovieWrapper;

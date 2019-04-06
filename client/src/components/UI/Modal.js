@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { colors, fonts } from '../../utils/styles';
 import { ModalContext } from '../../utils/UIstore';
 
@@ -48,14 +47,5 @@ const ModalWrapper = styled.div`
     font-weight: ${fonts.fontBold};
   }
 `;
-
-Modal.propTypes = {
-  message: PropTypes.string,
-  error: PropTypes.bool,
-};
-
-Modal.defaultProps = {
-  error: false
-};
 
 export default Modal;

@@ -1,8 +1,8 @@
 import React from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../utils/styles';
+import classnames from 'classnames';
 
 const SelectListGroup = ({ name, value, error, onChange, options, id, label }) => {
   const selectOptions = options.map((option, i) => (

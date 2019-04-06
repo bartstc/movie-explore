@@ -42,6 +42,7 @@ const InputWrapper = styled.p`
 
   .label {
     font-size: 1em;
+    text-align: center;
     margin-bottom: .4em;
     font-weight: ${fonts.fontExtraLight};
   }
@@ -65,7 +66,7 @@ const InputWrapper = styled.p`
 TextFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   label: PropTypes.string,
   error: PropTypes.bool,
   id: PropTypes.string,

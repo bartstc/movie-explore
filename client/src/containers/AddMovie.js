@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import secret from '../config/secret';
 import styled from 'styled-components';
 import { sectionBasic, headerBasic, fonts } from '../utils/styles';
+import { ModalContext } from '../utils/UIstore';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../utils/withAuth';
 import { Mutation } from 'react-apollo';
 import { ADD_MOVIE } from '../queries';
-import { ModalContext } from '../utils/UIstore';
-import secret from '../config/secret';
 
 import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
 import TextareaFieldGroup from '../components/UI/inputs/TextareaFieldGroup';
@@ -84,8 +84,6 @@ const AddMovie = ({ session, history }) => {
     data.append('upload_preset', secret.preset);
     data.append('cloud_name', secret.cloud);
     const res = await axios.post(`https://api.cloudinary.com/v1_1/${secret.cloud}/image/upload`, data);
-    // cloudinary optymalization (optional)
-    // protect cloud name and preset
 
     setState({ ...state, fileLoading: false, imageUrl: res.data.url });
   };
@@ -109,7 +107,6 @@ const AddMovie = ({ session, history }) => {
     e.preventDefault();
 
     addMovie().then(({ data }) => {
-      // console.log(data);
       clearState();
       history.push('/');
     })

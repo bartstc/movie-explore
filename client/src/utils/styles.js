@@ -35,7 +35,7 @@ export const device = {
 // Style packages
 export const sectionBasic = `
   width: 100%;
-  padding: 55px .7em 10px .7em;
+  padding: 55px .5em 10px .5em;
 
   @media ${device.tablet} {
     padding-top: 90px;
@@ -85,7 +85,7 @@ export const semiTitle = `
     border-left: 2px solid ${colors.mainColor};
     padding-left: .3em;
     margin-bottom: .8em;
-    font-size: 1.2em;
+    font-size: 1.05em;
     color: ${colors.mainWhite};
   }
 `;

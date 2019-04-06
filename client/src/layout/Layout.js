@@ -6,10 +6,10 @@ import { SideDrawerContext } from '../utils/UIstore';
 import logo from '../assets/logo.png';
 import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
-import Footer from '../components/UI/Footer';
 import Modal from '../components/UI/Modal';
 import SideDrawer from '../components/navigation/SideDrawer';
 import Backdrop from '../components/navigation/Backdrop';
+// import Footer from '../components/UI/Footer';
 
 const authLinks = [
   { path: '/', content: "Home" },
@@ -53,7 +53,7 @@ const Layout = ({ children, session: { getCurrentUser } }) => {
       </Header>
       <Main>{children}</Main>
       {getCurrentUser && <Toolbar />}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
@@ -121,9 +121,9 @@ const Nav = styled.nav`
 
 const Main = styled.main`
   width: 100%;
-  max-width: 800px;
+  max-width: 950px;
   margin: 0 auto;
-  padding-bottom: 60px;
+  padding-bottom: 50px;
   color: ${colors.mainWhite};
 `;
 

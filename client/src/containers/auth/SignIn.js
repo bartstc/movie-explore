@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { device, sectionBasic, headerBasic } from '../../utils/styles';
+import { ModalContext } from '../../utils/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNIN_USER } from '../../queries';
-import { ModalContext } from '../../utils/UIstore';
 
 import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
@@ -23,7 +23,7 @@ const SignUp = ({ refetch, history }) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const clearState = e => {
+  const clearState = () => {
     setState({ ...initialState });
   };
 
@@ -58,7 +58,7 @@ const SignUp = ({ refetch, history }) => {
         <header>
           <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
           <p className="main-info">Join to create a history of watched movies and be up-to-date with the world's cinema.</p>
-          <p className="main-info">You dont have an account yet? <Link className="accent" to="/">Sign Up.</Link></p>
+          <p className="main-info">You dont have an account yet? <Link className="accent" to="/signup">Sign Up.</Link></p>
         </header>
         <Mutation mutation={SIGNIN_USER} variables={{ username, password }}>
           {(signinUser, { loading }) => {
@@ -70,7 +70,7 @@ const SignUp = ({ refetch, history }) => {
                   placeholder="Username ..."
                   id="username"
                   name="username"
-                  value={username || ''}
+                  value={username}
                   onChange={onChange}
                 />
                 <TextFieldGroup
@@ -79,7 +79,7 @@ const SignUp = ({ refetch, history }) => {
                   id="password"
                   name="password"
                   type="password"
-                  value={password || ''}
+                  value={password}
                   onChange={onChange}
                 />
                 <Button

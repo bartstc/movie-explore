@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { device, sectionBasic, headerBasic } from '../../utils/styles';
+import { ModalContext } from '../../utils/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from '../../queries';
-import { ModalContext } from '../../utils/UIstore';
 
 import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
@@ -70,7 +70,7 @@ const SignUp = ({ refetch, history }) => {
                   placeholder="Username ..."
                   id="username"
                   name="username"
-                  value={username || ''}
+                  value={username}
                   onChange={onChange}
                 />
                 <TextFieldGroup
@@ -79,7 +79,7 @@ const SignUp = ({ refetch, history }) => {
                   id="email"
                   name="email"
                   type="email"
-                  value={email || ''}
+                  value={email}
                   onChange={onChange}
                 />
                 <TextFieldGroup
@@ -88,7 +88,7 @@ const SignUp = ({ refetch, history }) => {
                   id="password"
                   name="password"
                   type="password"
-                  value={password || ''}
+                  value={password}
                   onChange={onChange}
                 />
                 <TextFieldGroup
@@ -97,7 +97,7 @@ const SignUp = ({ refetch, history }) => {
                   id="password2"
                   name="password2"
                   type="password"
-                  value={password2 || ''}
+                  value={password2}
                   onChange={onChange}
                 />
                 <Button

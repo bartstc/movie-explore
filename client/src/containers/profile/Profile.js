@@ -98,7 +98,6 @@ const ProfileWrapper = styled.section`
     padding-left: .4em;
     border-radius: 7px;
     background: #171717;
-    /* box-shadow: 2px 2px 4px 0px rgba(#222,.9); */
 
     @media ${device.mobileM} {
       max-width: 200px;

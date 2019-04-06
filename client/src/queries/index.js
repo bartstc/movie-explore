@@ -43,6 +43,7 @@ export const GET_ADDED_MOVIES = gql`
   }
 `;
 
+
 // User Mutations
 export const SIGNIN_USER = gql`
   mutation($username: String!, $password: String!) {
@@ -60,6 +61,55 @@ export const SIGNUP_USER = gql`
 `;
 
 // Movie Queries
+export const GET_LAST_ADDED = gql`
+  query {
+    getLastAdded {
+      _id
+      title
+      imageUrl
+      director
+      year
+      genres
+    }
+  }
+`;
+
+export const GET_TOP_10 = gql`
+  query {
+    getTop10 {
+      _id
+      title
+      imageUrl
+      rating
+    }
+  }
+`;
+
+export const GET_MOST_POPULAR = gql`
+  query {
+    getMostPopular {
+      _id
+      title
+      imageUrl
+      director
+      year
+      genres
+    }
+  }
+`;
+
+export const SEARCH_MOVIES = gql`
+  query($keyword: String) {
+    searchMovies(keyword: $keyword) {
+      _id
+      title
+      imageUrl
+      year
+      genres
+    }
+  }
+`;
+
 
 // Movie Mutations
 export const ADD_MOVIE = gql`

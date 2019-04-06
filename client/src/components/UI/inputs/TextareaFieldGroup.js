@@ -1,8 +1,8 @@
 import React from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../../utils/styles';
+import classnames from 'classnames';
 
 const TextAreaFieldGroup = ({
   name,
@@ -61,7 +61,7 @@ const TextareaWrapper = styled.p`
 TextAreaFieldGroup.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   id: PropTypes.string,
   error: PropTypes.string,
   onChange: PropTypes.func.isRequired
