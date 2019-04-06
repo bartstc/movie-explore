@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
-import { sectionBasic, headerBasic } from '../utils/styles';
+import { sectionBasic, headerBasic, fonts } from '../utils/styles';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../utils/withAuth';
 import { Mutation } from 'react-apollo';
 import { ADD_MOVIE } from '../queries';
 import { ModalContext } from '../utils/UIstore';
+import secret from '../config/secret';
 
 import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
 import TextareaFieldGroup from '../components/UI/inputs/TextareaFieldGroup';
@@ -15,12 +17,13 @@ import ScrollToTopOnMount from '../utils/scrollToTopOnMount';
 
 const initialState = {
   title: '',
-  imageUrl: '',
+  imageUrl: null,
   director: '',
   year: '',
   shortDescription: '',
   description: '',
-  username: ''
+  username: '',
+  fileLoading: false
 };
 
 const genreOptions = [
@@ -55,7 +58,7 @@ const AddMovie = ({ session, history }) => {
       listOfYears.push({ label: i, value: i });
     };
 
-    setState({ ...state, username: session.getCurrentUser.username, imageUrl: 'imageUrl' });
+    setState({ ...state, username: session.getCurrentUser.username });
     setListOfYears([...years, ...listOfYears]);
   }, []);
 
@@ -68,10 +71,28 @@ const AddMovie = ({ session, history }) => {
     setListOfGenres([...genres, e.target.value]);
   };
 
-
   const onChange = e => {
     setState({ ...state, [e.target.name]: e.target.value });
-    console.log(state.year)
+  };
+
+  const onImageChange = async e => {
+    setState({ ...state, fileLoading: true });
+    const image = e.target.files[0];
+
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', secret.preset);
+    data.append('cloud_name', secret.cloud);
+    const res = await axios.post(`https://api.cloudinary.com/v1_1/${secret.cloud}/image/upload`, data);
+    // cloudinary optymalization (optional)
+    // protect cloud name and preset
+
+    setState({ ...state, fileLoading: false, imageUrl: res.data.url });
+  };
+
+  const handleUploadImage = () => {
+    const fileInput = document.getElementById('imageInput');
+    fileInput.click();
   };
 
   const clearState = () => {
@@ -84,11 +105,11 @@ const AddMovie = ({ session, history }) => {
     return isInvalid;
   };
 
-  const onSubmit = (e, addMovie) => {
+  const onSubmit = async (e, addMovie) => {
     e.preventDefault();
 
     addMovie().then(({ data }) => {
-      console.log(data);
+      // console.log(data);
       clearState();
       history.push('/');
     })
@@ -100,7 +121,7 @@ const AddMovie = ({ session, history }) => {
 
   // updateCache
 
-  const { title, imageUrl, director, year, shortDescription, description, username } = state;
+  const { title, imageUrl, director, year, shortDescription, description, username, fileLoading } = state;
 
   return (
     <>
@@ -169,6 +190,16 @@ const AddMovie = ({ session, history }) => {
                   value={description}
                   onChange={onChange}
                 />
+                <input
+                  type="file"
+                  id="imageInput"
+                  onChange={onImageChange}
+                  hidden="hidden"
+                />
+                <p className="file-input">
+                  <span className="label">{fileLoading ? 'Loading ...' : 'Upload Image'}</span>
+                  <Button onClick={handleUploadImage}>{imageUrl ? 'Image selected' : 'Select image'}</Button>
+                </p>
                 <Button
                   type="submit"
                   disabled={loading || validateForm()}
@@ -199,6 +230,19 @@ const Form = styled.form`
     font-size: .82em;
     text-align: center;
     margin-bottom: 1em;
+  }
+
+  .file-input {
+    text-align: center;
+    margin-bottom: 1.6em;
+    display: flex;
+    flex-direction: column;
+
+    .label {
+      font-size: 1em;
+      margin-bottom: .4em;
+      font-weight: ${fonts.fontExtraLight};
+    }
   }
 `;
 
