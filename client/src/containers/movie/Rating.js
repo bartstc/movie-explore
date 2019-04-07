@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { fonts, device } from '../../utils/styles';
+import { ModalContext } from '../../utils/UIstore';
+import { Mutation } from 'react-apollo';
+import { RATE_MOVIE } from '../../queries';
 
 import borderStar from '../../assets/star.png';
 import fillStar from '../../assets/star_fill.png';
-import { fonts, device } from '../../utils/styles';
+import withSession from '../../utils/withSession';
 
-const Rating = () => {
+const Rating = ({ ratingValue, votes, movieId, session }) => {
+  const { handleModal } = useContext(ModalContext);
   const [rating, setRating] = useState(0);
+  const [userId, setUserId] = useState('');
 
-  const onRatingChange = e => {
-    setRating(e.target.value)
-  };
+  useEffect(() => {
+    if (session.getCurrentUser) {
+      const { _id } = session.getCurrentUser;
+      setUserId(_id);
+    };
+
+    setRating(ratingValue);
+  }, []);
 
   let amount = 10;
   let stars = [];
@@ -18,23 +30,46 @@ const Rating = () => {
 
   for (let i = 1; i <= amount; i++) {
 
-    if (i <= rating) {
+    if (i <= Math.round(rating)) {
       style = "star color"
     } else {
       style = "star"
     }
 
-    stars.push(<label key={i} className={style} onChange={(e) => onRatingChange(e)} ><input type='radio' name='rating' value={i} /></label>)
+    stars.push({ value: i, style });
   };
 
   return (
-    <RatingWrapper>
-      <p className="rating-value">7.8</p>
-      <div className="rating">
-        <Stars>{stars}</Stars>
-        <p className="votes">146 votes</p>
-      </div>
-    </RatingWrapper>
+    <Mutation
+      mutation={RATE_MOVIE}
+    >
+      {rateMovie => (
+        <RatingWrapper>
+          <p className="rating-value">{ratingValue}</p>
+          <div className="rating">
+            <Stars>
+              {stars.map(({ value, style }) => (
+                <label
+                  key={value}
+                  className={style}
+                  onChange={e => {
+                    if (!session.getCurrentUser) {
+                      handleModal('You must log in to rate', true);
+                      return;
+                    };
+                    rateMovie({ variables: { movieId, userId, rating: value } })
+                      .then()
+                      .catch(err => handleModal(err.message, true));
+                  }} >
+                  <input type='radio' name='rating' value={value} />
+                </label>
+              ))}
+            </Stars>
+            <p className="votes">{votes.length} votes</p>
+          </div>
+        </RatingWrapper>
+      )}
+    </Mutation>
   );
 };
 
@@ -93,4 +128,10 @@ const Stars = styled.ul`
   }
 `;
 
-export default Rating;
+Rating.propTypes = {
+  ratingValue: PropTypes.number.isRequired,
+  votes: PropTypes.array.isRequired,
+  session: PropTypes.object
+};
+
+export default withSession(Rating);

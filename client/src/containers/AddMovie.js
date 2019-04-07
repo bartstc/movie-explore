@@ -20,7 +20,6 @@ const initialState = {
   imageUrl: null,
   director: '',
   year: '',
-  shortDescription: '',
   description: '',
   username: '',
   fileLoading: false
@@ -98,8 +97,8 @@ const AddMovie = ({ session, history }) => {
   };
 
   const validateForm = () => {
-    const { title, director, year, imageUrl, shortDescription, description } = state;
-    const isInvalid = !title || !director || !year || !imageUrl || !shortDescription || !description;
+    const { title, director, year, imageUrl, description } = state;
+    const isInvalid = !title || !director || !year || !imageUrl || !description;
     return isInvalid;
   };
 
@@ -118,14 +117,14 @@ const AddMovie = ({ session, history }) => {
 
   // updateCache
 
-  const { title, imageUrl, director, year, shortDescription, description, username, fileLoading } = state;
+  const { title, imageUrl, director, year, description, username, fileLoading } = state;
 
   return (
     <>
       <ScrollToTopOnMount />
       <Mutation
         mutation={ADD_MOVIE}
-        variables={{ title, imageUrl, director, year: Number(year), genres, shortDescription, description, username }}
+        variables={{ title, imageUrl, director, year: Number(year), genres, description, username }}
       >
         {(addMovie, { loading }) => {
 
@@ -171,14 +170,6 @@ const AddMovie = ({ session, history }) => {
                     <p key={i}>{genre}</p>
                   ))}
                 </ul>}
-                <TextareaFieldGroup
-                  label="Short description"
-                  placeholder="* One sentence about the movie ..."
-                  id="shortDescription"
-                  name="shortDescription"
-                  value={shortDescription}
-                  onChange={onChange}
-                />
                 <TextareaFieldGroup
                   label="Description"
                   placeholder="* Movie description ..."

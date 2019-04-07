@@ -10,8 +10,8 @@ const MovieWrapper = ({ title, genres, year, imageUrl }) => (
     <figure className="img-wrapper">
       <img src={(imageUrl) ? imageUrl : venom} alt="" />
     </figure>
-    <h2 className="movie-title">{title}</h2>
-    <p className="movie-info">{genres && genres.join(", ")}</p>
+    <h2 className="movie-title">{title.length < 12 ? title : `${title.substring(0, 10)}...`}</h2>
+    <h2 className="movie-info">{genres && genres.join(", ").length < 17 ? genres.join(", ") : `${genres.join(", ").substring(0, 12)}...`}</h2>
     <p className="movie-info">{year}</p>
   </ListItem>
 )
@@ -20,7 +20,7 @@ const ListItem = styled.li`
   margin-bottom: 1em;
   
   .img-wrapper {
-    height: 140px;
+    height: 170px;
     position: relative;
 
     &::after {

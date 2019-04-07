@@ -1,45 +1,101 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device, colors, fonts } from '../../utils/styles';
+import { withRouter } from 'react-router-dom'; // access to e.g. match
+import { Query } from 'react-apollo';
+import { GET_MOVIE } from '../../queries';
 
-import venom from '../../assets/venom.jpg';
 import ScrollToTopOnMount from '../../utils/scrollToTopOnMount';
 import Rating from './Rating';
-import Actions from './Actions';
 import Comments from './Comments';
 import CommentForm from './CommentForm';
+import Like from './actions/Like';
+import Watched from './actions/Watched';
+import ToWatch from './actions/ToWatch';
 
-const MovieDetails = () => (
-  <>
-    <ScrollToTopOnMount />
-    <DetailsWrapper>
-      <figure className="img-wrapper">
-        <img src={venom} alt="" />
-      </figure>
-      <header className="details-header">
-        <h1 className="details-title">Venom</h1>
-        <p className="details-subtitle"><span>Action, Sci-Fi,</span> 2018, Ruben Fleischer</p>
-      </header>
-      <Rating />
-      <Actions />
-      <p className="details">Venom is the first film in Sony's Marvel Universe and based upon the titular anti - hero of the same name which follows Eddie Brock and the Venom symbiote teaming up against Carlton Drake. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <Comments />
-      <CommentForm />
-    </DetailsWrapper>
-  </>
-);
+// TODO: if error => show modal and redirect to home page
+
+// match: include isExact(bool), params, path, url
+const MovieDetails = ({ match }) => {
+  const { _id } = match.params;
+
+  return (
+    <>
+      <ScrollToTopOnMount />
+      <Query query={GET_MOVIE} variables={{ _id }}>
+        {({ data, loading, error }) => {
+          if (loading) return <div>Loading</div>
+          if (error) return <div>Error</div>
+          const { title, imageUrl, director, year, genres, description, username, likes, watched, toWatch, rating, numberOfRatings, comments } = data.getMovie;
+
+          return (
+            <DetailsWrapper>
+              <div className="main-content">
+                <figure className="img-wrapper">
+                  <img src={imageUrl} alt="" />
+                </figure>
+                <header className="details-header">
+                  <h1 className="details-title">{title}</h1>
+                  <p className="details-subtitle"><span>{genres.join(', ')}</span></p>
+                  <p className="details-subtitle">{director}</p>
+                  <p className="details-subtitle">{year}</p>
+                </header>
+              </div>
+              <Rating ratingValue={rating} votes={numberOfRatings} movieId={_id} />
+              <Actions>
+                <Like
+                  likes={likes}
+                  _id={_id}
+                />
+                <Watched
+                  watched={watched}
+                  _id={_id}
+                />
+                <ToWatch
+                  toWatch={toWatch}
+                  _id={_id}
+                />
+              </Actions>
+              <p className="details">{description}</p>
+              <p className="creator">Added by {username}.</p>
+              <Comments comments={comments} movieId={_id} />
+              <CommentForm movieId={_id} />
+            </DetailsWrapper>
+          )
+        }}
+      </Query>
+    </>
+  )
+};
 
 const DetailsWrapper = styled.section`
   padding-top: 55px;
   padding-bottom: 50px;
+  max-width: 650px;
+  margin: 0 auto;
 
   @media ${device.tablet} {
     padding-top: 90px;
   }
 
+  .main-content {
+    padding: 0 .6em;
+    padding-bottom: 1em;
+    display: grid;
+    grid-template-columns: 120px auto;
+
+    @media ${device.tablet} {
+      grid-template-columns: 200px auto;
+    }
+  }
+
   .img-wrapper {
     position: relative;
+    height: 180px;
+
+    @media ${device.tablet} {
+      height: 300px;
+    }
 
     &::after {
       content: '';
@@ -54,26 +110,29 @@ const DetailsWrapper = styled.section`
   }
 
   .details-header {
-    padding: .6em;
+    padding-left: .6em;
     padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .details-title {
-      font-size: 1.7em;
+      font-size: 1.3em;
       color: ${colors.mainWhite};
       font-weight: ${fonts.fontBold};
       line-height: 1.1em;
 
-      @media ${device.mobileL} {
-        font-size: 2.6em;
+      @media ${device.tablet} {
+        font-size: 2.2em;
       }
     }
 
     .details-subtitle {
-      font-size: .9em;
+      font-size: .8em;
       color: ${colors.mainColor};
       font-weight: ${fonts.fontLight};
 
-      @media ${device.mobileL} {
+      @media ${device.tablet} {
         font-size: 1em;
       }
 
@@ -87,14 +146,42 @@ const DetailsWrapper = styled.section`
     padding: .6em;
     font-size: .85em;
     line-height: 1.35em;
-    font-weight: ${fonts.fontLight};
+    font-weight: ${fonts.fontExtraLight};
 
     @media ${device.mobileL} {
       font-size: 1em;
     } 
   }
+
+  .creator {
+    font-size: .85em;
+    font-weight: ${fonts.fontLight};
+    color: ${colors.mainColor};
+    font-style: italic;
+    padding: 0 0 1em .6em;
+  }
 `;
 
+const Actions = styled.ul`
+  padding: 0 .2em;
+  display: flex;
+  margin-bottom: .5em;
 
+  .action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 .2em;
+    margin-right: .4em;
+  }
 
-export default MovieDetails;
+  p {
+    font-weight: ${fonts.fontLight};
+    line-height: .9em;
+    font-size: .8em;
+  }
+`;
+
+export default withRouter(MovieDetails);

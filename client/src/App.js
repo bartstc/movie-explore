@@ -6,7 +6,7 @@ import Layout from './layout/Layout';
 import withSession from './utils/withSession';
 import SignUp from './containers/auth/SignUp';
 import SignIn from './containers/auth/SignIn';
-import Dashboard from './containers/dashboard/Dashboard';
+import Home from './containers/home/Home';
 import Explore from './containers/Explore';
 import Profile from './containers/profile/Profile';
 import AddMovie from './containers/AddMovie';
@@ -18,13 +18,13 @@ const App = ({ refetch, session }) => {
       <Router>
         <Layout session={session}>
           <Switch>
-            <Route path='/' exact component={Dashboard} />
+            <Route path='/' exact component={Home} />
             <Route path='/signup' render={() => <SignUp refetch={refetch} />} />
             <Route path='/signin' render={() => <SignIn refetch={refetch} />} />
             <Route path='/explore' component={Explore} />
             <Route path='/profile' render={() => <Profile session={session} />} />
             <Route path='/add' render={() => <AddMovie session={session} />} />
-            <Route path='/movie/:title' component={MovieDetails} />
+            <Route path='/movie/:_id' component={MovieDetails} />
             <Redirect to="/" />
           </Switch>
         </Layout>

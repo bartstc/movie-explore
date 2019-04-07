@@ -67,7 +67,7 @@ exports.resolvers = {
     getMostPopular: async (root, args, { Movie }) => {
       const movies = await Movie.find()
         .sort({ likes: 'desc' })
-        .limit(3);
+        .limit(5);
 
       return movies;
     },
@@ -85,7 +85,13 @@ exports.resolvers = {
 
       return {
         ...movie._doc,
-        date: movie.date.toISOString()
+        date: movie.date.toISOString(),
+        comments: movie.comments.map(c => {
+          return {
+            ...c._doc,
+            date: c.date.toISOString()
+          }
+        })
       };
     },
 
@@ -201,11 +207,11 @@ exports.resolvers = {
       return { feedback: 'Friend removed successfully' };
     },
 
-    addMovie: async (root, { MovieData: { title, imageUrl, director, year, genres, shortDescription, description, username } }, { Movie }) => {
+    addMovie: async (root, { MovieData: { title, imageUrl, director, year, genres, description, username } }, { Movie }) => {
       const existingMovie = await Movie.findOne({ title });
       if (existingMovie) throw new Error('Movie already exists');
 
-      const newMovie = await new Movie({ title, imageUrl, director, year, genres, shortDescription, description, username }).save();
+      const newMovie = await new Movie({ title, imageUrl, director, year, genres, description, username }).save();
 
       return newMovie;
     },

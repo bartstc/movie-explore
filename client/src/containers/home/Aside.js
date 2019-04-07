@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { semiTitle, device, colors, fonts } from '../../utils/styles';
+import { semiTitle, device } from '../../utils/styles';
 import { Query } from 'react-apollo';
 import { GET_MOST_POPULAR } from '../../queries';
 
 import MovieWrapper from '../../components/UI/MovieWrapper';
-
-const allGenres = ['Action', 'Sci-Fi', 'Drama', 'Documentary', 'Fantasy', 'Historical', 'Horror', 'Comedy', 'Adventure', 'Thriller', 'War', 'Others'];
 
 const Aside = () => (
   <AsideWrapper>
@@ -24,12 +22,6 @@ const Aside = () => (
         )
       }}
     </Query>
-    <h2 className="semi-title">Genres.</h2>
-    <ul className="genres">
-      {allGenres.map(genre => (
-        <li key={genre}>{genre}</li>
-      ))}
-    </ul>
   </AsideWrapper>
 );
 
@@ -51,11 +43,6 @@ const AsideWrapper = styled.aside`
       grid-template-columns: 1fr;
       grid-column-gap: 0;
     }
-  }
-
-  .genres {
-    color: ${colors.mainWhite};
-    font-weight: ${fonts.fontExtraLight};
   }
 `;
 

@@ -8,7 +8,6 @@ exports.typeDefs = gql`
     director: String!
     year: Int!
     genres: [String!]!
-    shortDescription: String!
     description: String!
     date: String
     username: String
@@ -21,6 +20,7 @@ exports.typeDefs = gql`
   }
 
   type Comment {
+    _id: ID!
     username: String!
     text: String!
     date: String!
@@ -54,7 +54,6 @@ exports.typeDefs = gql`
     director: String!
     year: Int!
     genres: [String!]
-    shortDescription: String!
     description: String!
     username: String!
   }

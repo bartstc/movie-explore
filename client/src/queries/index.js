@@ -110,6 +110,33 @@ export const SEARCH_MOVIES = gql`
   }
 `;
 
+export const GET_MOVIE = gql`
+  query($_id: ID!) {
+    getMovie(_id: $_id) {
+      _id
+      title
+      imageUrl
+      director
+      year
+      genres
+      description
+      date
+      username
+      likes
+      watched
+      toWatch
+      rating
+      numberOfRatings
+      comments {
+        _id
+        username
+        text
+        date
+      }
+    }
+  }
+`;
+
 
 // Movie Mutations
 export const ADD_MOVIE = gql`
@@ -119,20 +146,99 @@ export const ADD_MOVIE = gql`
     $director: String!
     $year: Int!
     $genres: [String!]!
-    $shortDescription: String!
     $description: String!
     $username: String!) {
-    addMovie(MovieData: {title: $title, imageUrl: $imageUrl, director: $director, year: $year, genres: $genres, shortDescription: $shortDescription, description: $description, username: $username}) {
+    addMovie(MovieData: {title: $title, imageUrl: $imageUrl, director: $director, year: $year, genres: $genres, description: $description, username: $username}) {
       _id
       title
       imageUrl
       director
       year
       genres
-      shortDescription
       description
       date
       username
+    }
+  }
+`;
+
+export const LIKE_MOVIE = gql`
+  mutation($_id: ID!, $username: String!) {
+    likeMovie(_id: $_id, username: $username) {
+      _id
+      likes
+    }
+  }
+`;
+
+export const UNLIKE_MOVIE = gql`
+  mutation($_id: ID!, $username: String!) {
+    unlikeMovie(_id: $_id, username: $username) {
+      _id
+      likes
+    }
+  }
+`;
+
+export const ADD_WATCHED = gql`
+  mutation($_id: ID!, $username: String!) {
+    addWatched(_id: $_id, username: $username) {
+      _id
+      watched
+    }
+  }
+`;
+
+export const REMOVE_WATCHED = gql`
+  mutation($_id: ID!, $username: String!) {
+    removeWatched(_id: $_id, username: $username) {
+      _id
+      watched
+    }
+  }
+`;
+
+export const ADD_TO_WATCH = gql`
+  mutation($_id: ID!, $username: String!) {
+    addToWatch(_id: $_id, username: $username) {
+      _id
+      toWatch
+    }
+  }
+`;
+
+export const REMOVE_TO_WATCH = gql`
+  mutation($_id: ID!, $username: String!) {
+    removeToWatch(_id: $_id, username: $username) {
+      _id
+      toWatch
+    }
+  }
+`;
+
+export const RATE_MOVIE = gql`
+  mutation($movieId: ID!, $userId: ID!, $rating: Int!) {
+    rateMovie(movieId: $movieId, userId: $userId, rating: $rating) {
+      _id
+      rating
+      numberOfRatings
+    }
+  }
+`;
+
+export const ADD_COMMENT = gql`
+  mutation($text: String!, $movieId: ID!, $username: String!) {
+    addComment(text: $text, movieId: $movieId, username: $username) {
+      username
+      text
+    }
+  }
+`;
+
+export const REMOVE_COMMENT = gql`
+  mutation($commentId: ID!, $movieId: ID!) {
+    removeComment(commentId: $commentId, movieId: $movieId) {
+      feedback
     }
   }
 `;

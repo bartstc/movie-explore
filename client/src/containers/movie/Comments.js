@@ -1,35 +1,58 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { device, fonts, semiTitle } from '../../utils/styles';
+import { device, fonts, colors, semiTitle } from '../../utils/styles';
+import { Mutation } from 'react-apollo';
+import { REMOVE_COMMENT, GET_MOVIE } from '../../queries';
 
-const Comments = () => (
-  <CommentsWrapper>
-    <ul>
-      <h2 className="semi-title">Comments.</h2>
-      <li className="comment">
-        <div className="user">
-          <i className="far fa-user" />
-          <p className="username">JohnDoe</p>
-        </div>
-        <p className="date">21.03.2019 | 21.43</p>
-        <p className="text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit, consequatur eos, voluptatibus nostrum.</p>
-      </li>
-      <li className="comment">
-        <div className="user">
-          <i className="far fa-user" />
-          <p className="username">JohnDoe</p>
-        </div>
-        <p className="date">21.03.2019 | 21.43</p>
-        <p className="text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit, consequatur eos, voluptatibus nostrum.</p>
-      </li>
-    </ul>
-  </CommentsWrapper>
-);
+import withSession from '../../utils/withSession';
+
+const Comments = ({ comments, movieId, session }) => {
+  const onRemove = removeComment => {
+    removeComment().then(({ data }) => console.log(data))
+      .catch(err => console.log(err));
+  };
+
+  return (
+    <CommentsWrapper>
+      <ul>
+        <h2 className="semi-title">Comments.</h2>
+        {comments.length < 1
+          ? <p className="no-comments">No comments added yet.</p>
+          : comments.map(({ _id, username, text, date }) => (
+            <li key={_id} className="comment">
+              <div className="user">
+                <i className="far fa-user" />
+                <p className="username">{username}</p>
+              </div>
+              <p className="date">{date}</p>
+              <p className="text">{text}</p>
+              {session && session.getCurrentUser.username === username &&
+                <Mutation
+                  mutation={REMOVE_COMMENT}
+                  variables={{ commentId: _id, movieId }}
+                  refetchQueries={() => [
+                    { query: GET_MOVIE, variables: { _id: movieId } }
+                  ]}
+                >
+                  {(removeComment, attrs = {}) => {
+                    return (
+                      <button onClick={() => onRemove(removeComment)} className="delete">Delete</button>
+                    )
+                  }}
+                </Mutation>
+              }
+            </li>
+          ))
+        }
+      </ul>
+    </CommentsWrapper>
+  )
+};
 
 const CommentsWrapper = styled.section`
   ${semiTitle};
-  margin-top: .8em;
+  margin-top: 1em;
   padding: 0 .4em;
 
   .comment {
@@ -62,6 +85,25 @@ const CommentsWrapper = styled.section`
       font-size: .95em;
     }
   }
+
+  .no-comments {
+    font-weight: ${fonts.fontExtraLight};
+    margin-bottom: 1em;
+  }
+
+  .delete {
+    width: 80px;
+    height: 25px;
+    background: ${colors.mainColor};
+    color: ${colors.mainWhite};
+    border: none;
+    border-radius: 5px;
+    margin-top: .2em;
+  }
 `;
 
-export default Comments;
+Comments.propTypes = {
+  comments: PropTypes.array.isRequired
+};
+
+export default withSession(Comments);
