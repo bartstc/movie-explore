@@ -17,7 +17,6 @@ const Explore = () => {
   return (
     <ApolloConsumer>
       {client => {
-        console.log(client)
         return (
           <ExploreWrapper>
             <TextFieldGroup

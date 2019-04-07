@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { colors, device } from '../../utils/styles';
 
 import NavItem from './NavItem';
+import Signout from '../../containers/auth/Signout';
 
 const links = [
   { path: '/', classes: "fas fa-home" },
   { path: '/explore', classes: "fas fa-search" },
   { path: '/add', classes: "fas fa-plus-circle" },
-  { path: '/profile', classes: "far fa-user" },
-  { path: '/logout', classes: "fas fa-power-off" }
+  { path: '/profile', classes: "far fa-user" }
 ];
 
 const Toolbar = () => (
@@ -18,6 +18,9 @@ const Toolbar = () => (
       {links.map((link, index) => (
         <NavItem key={index} linkType="nav-icon" to={link.path}><i className={link.classes}></i></NavItem>
       ))}
+      <Signout to="/logout" linkType="nav-icon">
+        <i className="fas fa-power-off"></i>
+      </Signout>
     </ul>
   </ToolbarWrapper>
 );

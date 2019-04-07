@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { colors, device } from '../../utils/styles';
 
 import NavItem from './NavItem';
+import Signout from '../../containers/auth/Signout';
 
-const SideDrawer = ({ links, open, hide }) => (
+const SideDrawer = ({ links, open, hide, isSignIn }) => (
   <Nav open={open}>
     <ul className="link-group">
       {links.map((link, index) => (
@@ -16,6 +17,7 @@ const SideDrawer = ({ links, open, hide }) => (
           {link.content}
         </NavItem>
       ))}
+      {isSignIn && <Signout to="/logout">Logout</Signout>}
     </ul>
   </Nav>
 );

@@ -9,6 +9,7 @@ import NavItem from '../components/navigation/NavItem';
 import Modal from '../components/UI/Modal';
 import SideDrawer from '../components/navigation/SideDrawer';
 import Backdrop from '../components/navigation/Backdrop';
+import Signout from '../containers/auth/Signout';
 // import Footer from '../components/UI/Footer';
 
 const authLinks = [
@@ -16,7 +17,7 @@ const authLinks = [
   { path: '/explore', content: "Explore" },
   { path: '/add', content: "Add Movie" },
   { path: '/profile', content: "Profile" },
-  { path: '/logout', content: "Logout" }
+  // { path: '/logout', content: "Logout" }
 ];
 
 const publicLinks = [
@@ -38,15 +39,16 @@ const Layout = ({ children, session: { getCurrentUser } }) => {
   return (
     <>
       <Modal />
-      <SideDrawer links={links} open={open} hide={hide} />
+      <SideDrawer links={links} open={open} hide={hide} isSignIn={getCurrentUser} />
       <Backdrop open={open} hide={hide} />
       <Header>
         <img className="logo" src={logo} alt="" />
         <Nav>
           <ul className="link-group">
             {links.map((link, index) => (
-              <NavItem key={index} linkType="nav-icon" to={link.path}>{link.content}</NavItem>
+              <NavItem key={index} to={link.path}>{link.content}</NavItem>
             ))}
+            {getCurrentUser && <Signout to="/logout">Logout</Signout>}
           </ul>
         </Nav>
         <button onClick={onToggle} className="toggle"><i className="fas fa-bars"></i></button>
