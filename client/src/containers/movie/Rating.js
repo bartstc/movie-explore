@@ -29,7 +29,7 @@ const Rating = ({ ratingValue, votes, movieId, session }) => {
   let style;
 
   for (let i = 1; i <= amount; i++) {
-    if (i <= Math.round(rating)) {
+    if (i <= rating) {
       style = "star color"
     } else {
       style = "star"
@@ -44,7 +44,7 @@ const Rating = ({ ratingValue, votes, movieId, session }) => {
     >
       {rateMovie => (
         <RatingWrapper>
-          <p className="rating-value">{ratingValue}</p>
+          <p className="rating-value">{ratingValue.toFixed(1)}</p>
           <div className="rating">
             <Stars>
               {stars.map(({ value, style }) => (
@@ -111,6 +111,7 @@ const Stars = styled.ul`
     transition: all .1s ease-in-out;
     background: url(${borderStar}) no-repeat center;
     background-size: 80%;
+    cursor: pointer;
 
     @media ${device.mobileL} {
       width: 33px;

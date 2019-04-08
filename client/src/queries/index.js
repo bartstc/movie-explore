@@ -6,39 +6,42 @@ export const GET_CURRENT_USER = gql`
     getCurrentUser {
       _id
       username
-      email
-      date
       liked {
         _id
         title
-        genres
+        rating
       }
       watched {
         _id
         title
-        genres
+        rating
       }
       toWatch {
         _id
         title
-        genres
+        rating
       }
-      friends {
-        _id
-        username
-      }
-      invitations {
-        _id
-        username
-      }
+      friends
+      invitations
     }
   }
 `;
-export const GET_ADDED_MOVIES = gql`
+
+export const GET_USER = gql`
   query($username: String!) {
-    getUserMovies(username: $username) {
+    getUser(username: $username) {
       _id
-      title
+      username
+      watched {
+        _id
+        title
+        rating
+      }
+      liked {
+        _id
+        title
+        rating
+      }
     }
   }
 `;
@@ -59,6 +62,39 @@ export const SIGNUP_USER = gql`
     }
   }
 `;
+
+export const SEND_INVITATION = gql`
+  mutation($senderUsername: String!, $username: String!) {
+    sendInvitation(senderUsername: $senderUsername, username: $username) {
+      feedback
+    }
+  }
+`;
+
+export const ACCEPT_OR_REJECT_INVITATION = gql`
+  mutation($currentUsername: String!, $friendUsername: String!, $rejection: Boolean) {
+    acceptOrRejectInvitation(currentUsername: $currentUsername, friendUsername: $friendUsername, rejection: $rejection) {
+      feedback
+    }
+  }
+`;
+
+export const REMOVE_FRIEND = gql`
+  mutation($currentUsername: String!, $friendUsername: String!) {
+    removeFriend(currentUsername: $currentUsername, friendUsername: $friendUsername) {
+      feedback
+    }
+  }
+`;
+
+export const SEARCH_FRIENDS = gql`
+  query($keyword: String) {
+    searchFriends(keyword: $keyword) {
+      username
+    }
+  }
+`;
+
 
 // Movie Queries
 export const GET_LAST_ADDED = gql`

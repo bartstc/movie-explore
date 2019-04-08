@@ -9,7 +9,7 @@ const TopMovie = ({ imageUrl, rating, title, _id }) => (
     <figure className="img-wrapper">
       <img src={imageUrl} alt="" />
     </figure>
-    <p className="rating">{rating}</p>
+    <p className="rating">{rating.toFixed(1)}</p>
     <Link to={`/movie/${_id}`} className="movie-title">{title}</Link>
   </TopMovieWrapper>
 );

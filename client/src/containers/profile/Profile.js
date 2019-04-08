@@ -1,125 +1,124 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import { title, device, fonts, colors } from '../../utils/styles';
-import { withRouter } from 'react-router-dom';
-import withAuth from '../../utils/withAuth';
-import AuthData from './AuthData';
+import { profileBasic } from '../../utils/styles';
+import { withRouter, Redirect } from 'react-router-dom';
+import { ModalContext } from '../../utils/UIstore';
+import { Query, Mutation } from 'react-apollo';
+import { SEND_INVITATION, REMOVE_FRIEND, GET_USER } from '../../queries';
 
-const Profile = () => (
-  <ProfileWrapper>
-    <header>
-      <h1 className="title">JohnDoe</h1>
-    </header>
-    <h2 className="list-title">Added movies: 6</h2>
-    <ul className="movies-list">
-      <li className="movie-item">
-        <div>
-          <p className="movie-title">Venom</p>
-          <p className="movie-genres">Action, Sci-Fi</p>
-        </div>
-        <button className="remove">x</button>
-      </li>
-      <li className="movie-item">
-        <div>
-          <p className="movie-title">Venom</p>
-          <p className="movie-genres">Action, Sci-Fi</p>
-        </div>
-        <button className="remove">x</button>
-      </li>
-      <li className="movie-item">
-        <div>
-          <p className="movie-title">Venom</p>
-          <p className="movie-genres">Action, Sci-Fi</p>
-        </div>
-        <button className="remove">x</button>
-      </li>
-      <li className="movie-item">
-        <div>
-          <p className="movie-title">Venom</p>
-          <p className="movie-genres">Action, Sci-Fi</p>
-        </div>
-        <button className="remove">x</button>
-      </li>
-    </ul>
-    <h2 className="list-title">Watched movies: 6</h2>
-    <ul className="movies-list">
-      <li className="movie-item">
-        <div>
-          <p className="movie-title">Venom</p>
-          <p className="movie-genres">Action, Sci-Fi</p>
-        </div>
-        <button className="remove">x</button>
-      </li>
-      <li className="movie-item">
-        <div>
-          <p className="movie-title">Venom</p>
-          <p className="movie-genres">Action, Sci-Fi</p>
-        </div>
-        <button className="remove">x</button>
-      </li>
-    </ul>
-    <AuthData />
-  </ProfileWrapper>
-);
+import MovieItem from './MovieItem';
+import Button from '../../components/UI/Button';
+import Spinner from '../../components/UI/Spinner';
+
+const Profile = ({ session, match, refetch }) => {
+  const { username } = match.params;
+
+  const { handleModal } = useContext(ModalContext);
+  const [isFriend, setFriend] = useState(false);
+  const [currentUsername, setCurrentUsername] = useState('');
+
+  useEffect(() => {
+    console.log('Profile component mounted');
+    if (session.getCurrentUser) {
+      const { friends } = session.getCurrentUser;
+      console.log(username);
+
+      setCurrentUsername(session.getCurrentUser.username);
+      let isOnFriendList = friends.filter(f => f === username).length > 0;
+      console.log(friends.filter(f => f === username));
+      setFriend(isOnFriendList);
+    };
+  }, []);
+
+  const onClick = (sendInvitation, removeFriend) => {
+    handleMutation(sendInvitation, removeFriend);
+  };
+
+  const handleMutation = (sendInvitation, removeFriend) => {
+    if (!isFriend) {
+      sendInvitation().then(async () => {
+        handleModal('Invitation sent!');
+        await refetch(); // refetch getCurrentUser query
+      })
+        .catch(err => handleModal(err.message.substring(15), true));
+    } else {
+      const confirmRemove = window.confirm('Are you sure?');
+      if (confirmRemove) removeFriend().then(async () => {
+        setFriend(false);
+        await refetch();
+      });
+    };
+  };
+
+  return (
+    <Query query={GET_USER} variables={{ username }}>
+      {({ data, loading, error }) => {
+        if (loading) return <Spinner />
+        if (error) return (
+          <>
+            {handleModal('Error! Something went wrong!', true)}
+            <Redirect to="/" />
+          </>
+        );
+
+        const { watched, liked } = data.getUser;
+
+        return (
+          <ProfileWrapper>
+            <header>
+              <h1 className="title">{username}</h1>
+            </header>
+            <div className="content-wrapper">
+              <div className="list-wrapper">
+                <h2 className="list-title">Watched movies: {watched.length}</h2>
+                {(!watched.length > 0)
+                  ? <p className="alt">No viewed movies.</p>
+                  : <ul>
+                    {watched.map(movie => (
+                      <MovieItem key={movie._id} {...movie} />
+                    ))}
+                  </ul>
+                }
+              </div>
+              <div className="list-wrapper">
+                <h2 className="list-title">Liked movies: {liked.length}</h2>
+                {(!liked.length > 0)
+                  ? <p className="alt">No liked movies.</p>
+                  : <ul>
+                    {liked.map(movie => (
+                      <MovieItem key={movie._id} {...movie} />
+                    ))}
+                  </ul>
+                }
+              </div>
+            </div>
+            {session.getCurrentUser && session.getCurrentUser.username !== username &&
+              <Mutation
+                mutation={SEND_INVITATION}
+                variables={{ senderUsername: currentUsername, username }}>
+                {sendInvitation => (
+                  <Mutation
+                    mutation={REMOVE_FRIEND}
+                    variables={{ currentUsername, friendUsername: username }}>
+                    {removeFriend => (
+                      <Button
+                        onClick={() => onClick(sendInvitation, removeFriend)}>
+                        {isFriend ? 'Remove friend' : 'Add to friend'}
+                      </Button>
+                    )}
+                  </Mutation>
+                )}
+              </Mutation>
+            }
+          </ProfileWrapper>
+        )
+      }}
+    </Query>
+  )
+};
 
 const ProfileWrapper = styled.section`
-  ${title}
-  margin-bottom: 1em;
-
-  .list-title {
-    font-size: 1.1em;
-    font-weight: ${fonts.fontLight};
-    border-bottom: 1px solid ${colors.mainColor};
-  }
-
-  .movies-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-column-gap: .5em;
-    margin-bottom: 1.4em;
-
-    @media ${device.mobileM} {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media ${device.tablet} {
-      grid-template-columns: repeat(3, 1fr);
-      grid-column-gap: 1.8em;
-    }
-  }
-
-  .movie-item {
-    margin: .5em 0;
-    display: flex;
-    justify-content: space-between;
-    padding: .3em;
-    padding-left: .4em;
-    border-radius: 7px;
-    background: #171717;
-
-    @media ${device.mobileM} {
-      max-width: 200px;
-    }
-
-    .movie-title {
-      font-size: .9em;
-      line-height: 1em;
-    }
-
-    .movie-genres {
-      font-size: .75em;
-      color: ${colors.mainColor};
-    }
-
-    .remove {
-    font-weight: ${fonts.fontBold};
-    font-size: 1.1em;
-    color: ${colors.mainColor};
-    background: transparent;
-    border: none;
-    width: 30px;
-  }
-  }
+  ${profileBasic}
 `;
 
-export default withAuth(session => session && session.getCurrentUser)(withRouter(Profile));
+export default withRouter(Profile);

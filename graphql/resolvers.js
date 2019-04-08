@@ -18,8 +18,8 @@ exports.resolvers = {
         .populate({ path: 'liked', model: 'Movie' })
         .populate({ path: 'watched', model: 'Movie' })
         .populate({ path: 'toWatch', model: 'Movie' })
-        .populate({ path: 'friends', model: 'User' })
-        .populate({ path: 'invitations', model: 'User' })
+      // .populate({ path: 'friends', model: 'User' })
+      // .populate({ path: 'invitations', model: 'User' })
 
       return {
         ...user._doc,
@@ -30,7 +30,7 @@ exports.resolvers = {
     getUser: async (root, { username }, { User }) => {
       const user = await User.findOne({ username })
         .populate({ path: 'watched', model: 'Movie' })
-        .populate({ path: 'toWatch', model: 'Movie' })
+        .populate({ path: 'liked', model: 'Movie' })
       return user;
     },
 
@@ -47,12 +47,13 @@ exports.resolvers = {
 
         return searchResults;
       } else {
-        return null;
+        const testUsers = await User.find();
+        return testUsers;
       };
     },
 
-    getUserMovies: async (root, { username }, { Movie }) => {
-      const userMovies = await Movie.find({ username }).sort({ date: 'desc' });
+    getMovies: async (root, args, { Movie }) => {
+      const userMovies = await Movie.find().sort({ date: 'desc' });
       return userMovies;
     },
 
@@ -144,63 +145,63 @@ exports.resolvers = {
       return { token: createToken(newUser, keys.secret, '1hr') };
     },
 
-    sendInvitation: async (root, { senderId, receiverId }, { User }) => {
-      const currentUser = await User.findOne({ _id: senderId });
-      const newFriend = await User.findOne({ _id: receiverId });
+    sendInvitation: async (root, { senderUsername, username }, { User }) => {
+      const currentUser = await User.findOne({ username: senderUsername });
+      const newFriend = await User.findOne({ username });
 
       // Validation
-      if (alreadyExists(newFriend.invitations, senderId)) throw new Error('Invitation has already been sent');
+      if (alreadyExists(newFriend.invitations, senderUsername)) throw new Error('Invitation has already been sent');
 
-      if (alreadyExists(currentUser.invitations, receiverId)) throw new Error('Invitation exists. Check your invitations');
+      if (alreadyExists(currentUser.invitations, username)) throw new Error('Invitation exists. Check your invitations');
 
-      if (alreadyExists(newFriend.friends, senderId)) throw new Error('This user already exists in your friends list');
+      if (alreadyExists(newFriend.friends, senderUsername)) throw new Error('This user already exists in your friends list');
 
-      newFriend.invitations.push(senderId);
+      newFriend.invitations.push(senderUsername);
       await newFriend.save();
 
       return { feedback: "The invitation has been sent" };
     },
 
-    acceptOrRejectInvitation: async (root, { receiverId, senderId, rejection }, { User }) => {
+    acceptOrRejectInvitation: async (root, { currentUsername, friendUsername, rejection }, { User }) => {
       // If rejection true => reject invitation
       if (rejection) {
         await User.findOneAndUpdate(
-          { _id: receiverId },
-          { $pull: { invitations: senderId } },
+          { username: currentUsername },
+          { $pull: { invitations: friendUsername } },
           { new: true }
         );
         return { feedback: 'Invitation rejected successfully' };
       };
 
-      // If rejection false => add friedn to lists
+      // If rejection false => add friend to lists
       await User.findOneAndUpdate(
-        { _id: receiverId },
+        { username: currentUsername },
         {
-          $pull: { invitations: senderId },
-          $push: { friends: senderId }
+          $pull: { invitations: friendUsername },
+          $push: { friends: friendUsername }
         },
         { new: true }
       );
 
       await User.findOneAndUpdate(
-        { _id: senderId },
-        { $push: { friends: receiverId } },
+        { username: friendUsername },
+        { $push: { friends: currentUsername } },
         { new: true }
       );
 
       return { feedback: 'Invitation accepted successfully' };
     },
 
-    removeFriend: async (root, { currentUserId, friendId }, { User }) => {
+    removeFriend: async (root, { currentUsername, friendUsername }, { User }) => {
       await User.findOneAndUpdate(
-        { _id: currentUserId },
-        { $pull: { friends: friendId } },
+        { username: currentUsername },
+        { $pull: { friends: friendUsername } },
         { new: true }
       );
 
       await User.findOneAndUpdate(
-        { _id: friendId },
-        { $pull: { friends: currentUserId } },
+        { username: friendUsername },
+        { $pull: { friends: currentUsername } },
         { new: true }
       );
 
@@ -216,7 +217,7 @@ exports.resolvers = {
       return newMovie;
     },
 
-    deleteUserMovie: async (root, { _id }, { Movie }) => {
+    deleteMovie: async (root, { _id }, { Movie }) => {
       const movie = await Movie.findOneAndRemove({ _id });
       return movie;
     },

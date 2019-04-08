@@ -12,23 +12,26 @@ import Backdrop from '../components/navigation/Backdrop';
 import Signout from '../containers/auth/Signout';
 import Footer from '../components/UI/Footer';
 
-const authLinks = [
-  { path: '/', content: "Home" },
-  { path: '/explore', content: "Explore" },
-  { path: '/add', content: "Add Movie" },
-  { path: '/profile', content: "Profile" }
-];
-
-const publicLinks = [
-  { path: '/', content: "Home" },
-  { path: '/explore', content: "Explore" },
-  { path: '/signin', content: "Sign In" },
-  { path: '/signup', content: "Sign Up" }
-];
-
-let links;
-
 const Layout = ({ children, session: { getCurrentUser } }) => {
+  console.log('Layout rerendered')
+
+  const authLinks = [
+    { path: '/', content: "Home" },
+    { path: '/explore', content: "Explore" },
+    { path: '/add', content: "Add Movie" },
+    { path: `/user/${(getCurrentUser) ? getCurrentUser.username : 'user'}`, content: "Profile" }
+  ];
+
+
+  const publicLinks = [
+    { path: '/', content: "Home" },
+    { path: '/explore', content: "Explore" },
+    { path: '/signin', content: "Sign In" },
+    { path: '/signup', content: "Sign Up" }
+  ];
+
+  let links;
+
   (getCurrentUser) ? links = authLinks : links = publicLinks;
 
   const { open, setOpen } = useContext(SideDrawerContext);

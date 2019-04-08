@@ -31,14 +31,18 @@ const UserSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref: 'Movie'
   },
-  friends: {
-    type: [Schema.Types.ObjectId],
-    ref: 'User'
-  },
-  invitations: {
-    type: [Schema.Types.ObjectId],
-    ref: 'User'
-  }
+  friends: [
+    {
+      type: String,
+      required: true
+    }
+  ],
+  invitations: [
+    {
+      type: String,
+      required: true
+    }
+  ],
 });
 
 UserSchema.index({

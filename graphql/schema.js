@@ -32,12 +32,11 @@ exports.typeDefs = gql`
     password: String!
     email: String!
     date: String
-    recommendations: [Movie!]
     liked: [Movie!]
     watched: [Movie!]
     toWatch: [Movie!]
-    friends: [User!]
-    invitations: [User!]
+    friends: [String!]
+    invitations: [String!]
   }
 
   type Token {
@@ -62,24 +61,24 @@ exports.typeDefs = gql`
     getCurrentUser: User
     getUser(username: String!): User
     searchFriends(keyword: String): [User]
-    getUserMovies(username: String!): [Movie]
-
+    
     getLastAdded: [Movie]
     getMostPopular: [Movie]
     getTop10: [Movie]
     getMovie(_id: ID!): Movie
     searchMovies(keyword: String): [Movie]
+    getMovies: [Movie]
   }
 
   type Mutation {
     signinUser(username: String!, password: String!): Token
     signupUser(username: String!, email: String!, password: String!): Token
-    sendInvitation(senderId: ID!, receiverId: ID!): Feedback
-    acceptOrRejectInvitation(receiverId: ID!, senderId: ID!, rejection: Boolean): Feedback
-    removeFriend(currentUserId: ID!, friendId: ID!): Feedback
+    sendInvitation(senderUsername: String!, username: String!): Feedback
+    acceptOrRejectInvitation(currentUsername: String!, friendUsername: String!, rejection: Boolean): Feedback
+    removeFriend(currentUsername: String!, friendUsername: String!): Feedback
 
     addMovie(MovieData: MovieInput): Movie
-    deleteUserMovie(_id: ID!): Movie
+    deleteMovie(_id: ID!): Movie
     likeMovie(_id: ID!, username: String!): Movie
     unlikeMovie(_id: ID!, username: String!): Movie
     addWatched(_id: ID!, username: String!): Movie
