@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import secret from '../config/secret';
 import styled from 'styled-components';
-import { sectionBasic, headerBasic, fonts } from '../utils/styles';
+import { headerBasic, fonts } from '../utils/styles';
 import { ModalContext } from '../utils/UIstore';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../utils/withAuth';
@@ -203,7 +203,6 @@ const AddMovie = ({ session, history }) => {
 };
 
 const Section = styled.section`
-  ${sectionBasic}
   ${headerBasic}
 `;
 

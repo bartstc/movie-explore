@@ -4,7 +4,7 @@ import { fonts, colors } from '../../utils/styles';
 
 const Footer = () => (
   <FooterWrapper>
-    <p>Made by Bart</p>
+    <p>Copyright &copy; {new Date().getFullYear()} MovieExplore</p>
   </FooterWrapper>
 );
 

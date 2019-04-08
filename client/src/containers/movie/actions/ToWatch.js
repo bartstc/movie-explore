@@ -34,11 +34,12 @@ const ToWatch = ({ toWatch, _id, session, refetch }) => {
 
   const handleAddToWatched = (addToWatch, removeToWatch) => {
     if (!isToWatch) {
-      addToWatch().then(async ({ data }) => {
+      addToWatch().then(async () => {
+        handleModal('Added to movies to watch');
         await refetch();
       })
     } else {
-      removeToWatch().then(async ({ data }) => {
+      removeToWatch().then(async () => {
         await refetch();
       });
     };

@@ -1,14 +1,13 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
-import { device, sectionBasic, headerBasic } from '../../utils/styles';
+import AuthWrapper from '../../utils/AuthWrapper';
 import { ModalContext } from '../../utils/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNIN_USER } from '../../queries';
 
-import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
+import Spinner from '../../components/UI/Spinner';
 
 const initialState = {
   username: '',
@@ -41,19 +40,18 @@ const SignUp = ({ refetch, history }) => {
         localStorage.setItem('token', data.signinUser.token);
         clearState();
 
-        await refetch(); // we pass refetch func throught withSession (in App.js)
-        history.push('/dashboard');
+        await refetch(); // we pass refetch func throught withSession (in App.js), refetch getCurrentUser query
+        history.push('/');
       })
       .catch(err => {
-        console.log(err);
-        handleModal(err.message, true);
+        handleModal(err.message.substring(15), true);
       });
   };
 
   const { username, password } = state;
 
   return (
-    <SignUpWrapper>
+    <AuthWrapper>
       <div className="content">
         <header>
           <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
@@ -62,9 +60,10 @@ const SignUp = ({ refetch, history }) => {
         </header>
         <Mutation mutation={SIGNIN_USER} variables={{ username, password }}>
           {(signinUser, { loading }) => {
+            if (loading) return <Spinner />
 
             return (
-              <Form onSubmit={e => handleSubmit(e, signinUser)}>
+              <form className="form" onSubmit={e => handleSubmit(e, signinUser)}>
                 <TextFieldGroup
                   label="Username:"
                   placeholder="Username ..."
@@ -87,52 +86,15 @@ const SignUp = ({ refetch, history }) => {
                   disabled={loading || validateForm()}
                   btnType={validateForm() && 'disabled'}
                 >Done</Button>
-              </Form>
+              </form>
             )
           }}
 
         </Mutation>
       </div>
       <aside className="img-showcase"></aside>
-    </SignUpWrapper>
+    </AuthWrapper>
   )
 };
-
-const SignUpWrapper = styled.section`
-  ${sectionBasic}
-  ${headerBasic}
-  
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1em;
-    padding-top: calc(5em + 4.5vw);
-  }
-  
-  .img-showcase {
-    display: none;
-    background: url(${bg}) no-repeat center;
-    background-size: cover;
-    min-height: 500px;
-
-    @media ${device.tablet} {
-      display: block;
-    }
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1em;
-`;
 
 export default withRouter(SignUp);

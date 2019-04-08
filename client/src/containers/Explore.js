@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { sectionBasic, device } from '../utils/styles';
+import { device } from '../utils/styles';
 import { ApolloConsumer } from 'react-apollo';
 import { SEARCH_MOVIES } from '../queries';
 
@@ -46,7 +46,6 @@ const Explore = () => {
 };
 
 const ExploreWrapper = styled.section`
-  ${sectionBasic}
 
   .movies-list {
     display: grid;

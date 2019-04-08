@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../utils/styles';
+import { Link } from 'react-router-dom';
 
 import venom from '../../assets/venom.jpg';
 
-const MovieWrapper = ({ title, genres, year, imageUrl }) => (
+const MovieWrapper = ({ title, genres, year, imageUrl, _id }) => (
   <ListItem>
     <figure className="img-wrapper">
       <img src={(imageUrl) ? imageUrl : venom} alt="" />
     </figure>
-    <h2 className="movie-title">{title.length < 12 ? title : `${title.substring(0, 10)}...`}</h2>
+    <Link to={`/movie/${_id}`} className="movie-title">{title.length < 12 ? title : `${title.substring(0, 10)}...`}</Link>
     <h2 className="movie-info">{genres && genres.join(", ").length < 17 ? genres.join(", ") : `${genres.join(", ").substring(0, 12)}...`}</h2>
     <p className="movie-info">{year}</p>
   </ListItem>

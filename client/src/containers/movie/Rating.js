@@ -24,12 +24,11 @@ const Rating = ({ ratingValue, votes, movieId, session }) => {
     setRating(ratingValue);
   }, []);
 
-  let amount = 10;
-  let stars = [];
+  const amount = 10;
+  const stars = [];
   let style;
 
   for (let i = 1; i <= amount; i++) {
-
     if (i <= Math.round(rating)) {
       style = "star color"
     } else {
@@ -57,9 +56,11 @@ const Rating = ({ ratingValue, votes, movieId, session }) => {
                       handleModal('You must log in to rate', true);
                       return;
                     };
+
+                    handleModal('Rating added');
                     rateMovie({ variables: { movieId, userId, rating: value } })
                       .then()
-                      .catch(err => handleModal(err.message, true));
+                      .catch(err => handleModal(err.message.substring(15), true));
                   }} >
                   <input type='radio' name='rating' value={value} />
                 </label>

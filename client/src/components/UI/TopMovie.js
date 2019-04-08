@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device, fonts, colors } from '../../utils/styles';
+import { Link } from 'react-router-dom';
 
-const TopMovie = ({ imageUrl, rating, title }) => (
+const TopMovie = ({ imageUrl, rating, title, _id }) => (
   <TopMovieWrapper>
     <figure className="img-wrapper">
       <img src={imageUrl} alt="" />
     </figure>
     <p className="rating">{rating}</p>
-    <h2 className="movie-title">{title}</h2>
+    <Link to={`/movie/${_id}`} className="movie-title">{title}</Link>
   </TopMovieWrapper>
 );
 

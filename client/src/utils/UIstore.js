@@ -25,7 +25,7 @@ const UIstore = ({ children }) => {
   };
 
   return (
-    <SideDrawerContext.Provider value={[open, setOpen]}>
+    <SideDrawerContext.Provider value={{ open, setOpen }}>
       <ModalContext.Provider value={{ show, message, error, handleModal }}>
         {children}
       </ModalContext.Provider>

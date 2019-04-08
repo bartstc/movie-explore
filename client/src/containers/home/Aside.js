@@ -5,13 +5,14 @@ import { Query } from 'react-apollo';
 import { GET_MOST_POPULAR } from '../../queries';
 
 import MovieWrapper from '../../components/UI/MovieWrapper';
+import Spinner from '../../components/UI/Spinner';
 
 const Aside = () => (
   <AsideWrapper>
     <h2 className="semi-title">Most popular.</h2>
     <Query query={GET_MOST_POPULAR}>
       {({ data, loading, error }) => {
-        if (loading) return <div>Loading ...</div>;
+        if (loading) return <Spinner />;
         if (error) return <div>Error!</div>;
         return (
           <ul className="most-popular">

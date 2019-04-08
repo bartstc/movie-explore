@@ -32,16 +32,6 @@ export const device = {
   desktopL: `(min-width: ${size.desktop})`
 };
 
-// Style packages
-export const sectionBasic = `
-  width: 100%;
-  padding: 55px .5em 10px .5em;
-
-  @media ${device.tablet} {
-    padding-top: 90px;
-  }
-`;
-
 export const headerBasic = `
   .main-title {
     text-align: center;

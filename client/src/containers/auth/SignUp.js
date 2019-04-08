@@ -1,14 +1,13 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
-import { device, sectionBasic, headerBasic } from '../../utils/styles';
+import AuthWrapper from '../../utils/AuthWrapper';
 import { ModalContext } from '../../utils/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from '../../queries';
 
-import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
+import Spinner from '../../components/UI/Spinner';
 
 const initialState = {
   username: '',
@@ -47,14 +46,14 @@ const SignUp = ({ refetch, history }) => {
       })
       .catch(err => {
         console.log(err);
-        handleModal(err.message, true);
+        handleModal(err.message.substring(15), true);
       });
   };
 
   const { username, email, password, password2 } = state;
 
   return (
-    <SignUpWrapper>
+    <AuthWrapper>
       <div className="content">
         <header>
           <h1 className="main-title"><strong className="accent">Sign Up</strong> for free.</h1>
@@ -63,8 +62,10 @@ const SignUp = ({ refetch, history }) => {
         </header>
         <Mutation mutation={SIGNUP_USER} variables={{ username, email, password }}>
           {(signupUser, { loading }) => {
+            if (loading) return <Spinner />
+
             return (
-              <Form onSubmit={e => handleSubmit(e, signupUser)}>
+              <form className="form" onSubmit={e => handleSubmit(e, signupUser)}>
                 <TextFieldGroup
                   label="Username:"
                   placeholder="Username ..."
@@ -105,51 +106,14 @@ const SignUp = ({ refetch, history }) => {
                   disabled={loading || validateForm()}
                   btnType={validateForm() && 'disabled'}
                 >Done</Button>
-              </Form>
+              </form>
             )
           }}
         </Mutation>
       </div>
       <aside className="img-showcase"></aside>
-    </SignUpWrapper>
+    </AuthWrapper>
   )
 };
-
-const SignUpWrapper = styled.section`
-  ${sectionBasic}
-  ${headerBasic}
-
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1em;
-    padding-top: calc(5em + 4.5vw);
-  }
-  
-  .img-showcase {
-    display: none;
-    background: url(${bg}) no-repeat center;
-    background-size: cover;
-    min-height: 500px;
-
-    @media ${device.tablet} {
-      display: block;
-    }
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1em;
-`;
 
 export default withRouter(SignUp);

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { device, colors, fonts } from '../../utils/styles';
-import { withRouter } from 'react-router-dom'; // access to e.g. match
+import { withRouter, Redirect } from 'react-router-dom'; // access to e.g. match
+import { ModalContext } from '../../utils/UIstore';
 import { Query } from 'react-apollo';
 import { GET_MOVIE } from '../../queries';
 
@@ -12,11 +13,11 @@ import CommentForm from './CommentForm';
 import Like from './actions/Like';
 import Watched from './actions/Watched';
 import ToWatch from './actions/ToWatch';
-
-// TODO: if error => show modal and redirect to home page
+import Spinner from '../../components/UI/Spinner';
 
 // match: include isExact(bool), params, path, url
 const MovieDetails = ({ match }) => {
+  const { handleModal } = useContext(ModalContext);
   const { _id } = match.params;
 
   return (
@@ -24,8 +25,13 @@ const MovieDetails = ({ match }) => {
       <ScrollToTopOnMount />
       <Query query={GET_MOVIE} variables={{ _id }}>
         {({ data, loading, error }) => {
-          if (loading) return <div>Loading</div>
-          if (error) return <div>Error</div>
+          if (loading) return <Spinner />
+          if (error) return (
+            <>
+              {handleModal('Error! Something went wrong!', true)}
+              <Redirect to="/" />
+            </>
+          )
           const { title, imageUrl, director, year, genres, description, username, likes, watched, toWatch, rating, numberOfRatings, comments } = data.getMovie;
 
           return (
@@ -69,14 +75,8 @@ const MovieDetails = ({ match }) => {
 };
 
 const DetailsWrapper = styled.section`
-  padding-top: 55px;
-  padding-bottom: 50px;
   max-width: 650px;
   margin: 0 auto;
-
-  @media ${device.tablet} {
-    padding-top: 90px;
-  }
 
   .main-content {
     padding: 0 .6em;
@@ -115,6 +115,10 @@ const DetailsWrapper = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    @media ${device.mobileL} {
+      padding-left: 1.4em;
+    }
 
     .details-title {
       font-size: 1.3em;

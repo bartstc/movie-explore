@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device, fonts, colors, semiTitle } from '../../utils/styles';
+import Moment from 'react-moment';
 import { Mutation } from 'react-apollo';
 import { REMOVE_COMMENT, GET_MOVIE } from '../../queries';
 
@@ -25,9 +26,9 @@ const Comments = ({ comments, movieId, session }) => {
                 <i className="far fa-user" />
                 <p className="username">{username}</p>
               </div>
-              <p className="date">{date}</p>
+              <p className="date"><Moment format="YYYY.MM.DD">{date}</Moment></p>
               <p className="text">{text}</p>
-              {session && session.getCurrentUser.username === username &&
+              {session.getCurrentUser && session.getCurrentUser.username === username &&
                 <Mutation
                   mutation={REMOVE_COMMENT}
                   variables={{ commentId: _id, movieId }}
@@ -52,7 +53,7 @@ const Comments = ({ comments, movieId, session }) => {
 
 const CommentsWrapper = styled.section`
   ${semiTitle};
-  margin-top: 1em;
+  margin-top: 1.2em;
   padding: 0 .4em;
 
   .comment {
@@ -72,7 +73,7 @@ const CommentsWrapper = styled.section`
 
   .date {
     font-weight: ${fonts.fontLight};
-    font-size: .85em;
+    font-size: .8em;
     font-style: italic;
   }
 

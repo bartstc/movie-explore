@@ -34,11 +34,11 @@ const Like = ({ likes, _id, session, refetch }) => {
 
   const handleLike = (likeMovie, unlikeMovie) => {
     if (!isLiked) {
-      likeMovie().then(async ({ data }) => {
+      likeMovie().then(async () => {
         await refetch(); // refetch getCurrentUser query
       })
     } else {
-      unlikeMovie().then(async ({ data }) => {
+      unlikeMovie().then(async () => {
         await refetch();
       });
     };

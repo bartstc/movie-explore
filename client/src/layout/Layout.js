@@ -4,20 +4,19 @@ import { colors, device } from '../utils/styles';
 import { SideDrawerContext } from '../utils/UIstore';
 
 import logo from '../assets/logo.png';
-import Toolbar from '../components/navigation/Toolbar';
+// import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
 import Modal from '../components/UI/Modal';
 import SideDrawer from '../components/navigation/SideDrawer';
 import Backdrop from '../components/navigation/Backdrop';
 import Signout from '../containers/auth/Signout';
-// import Footer from '../components/UI/Footer';
+import Footer from '../components/UI/Footer';
 
 const authLinks = [
   { path: '/', content: "Home" },
   { path: '/explore', content: "Explore" },
   { path: '/add', content: "Add Movie" },
-  { path: '/profile', content: "Profile" },
-  // { path: '/logout', content: "Logout" }
+  { path: '/profile', content: "Profile" }
 ];
 
 const publicLinks = [
@@ -32,7 +31,7 @@ let links;
 const Layout = ({ children, session: { getCurrentUser } }) => {
   (getCurrentUser) ? links = authLinks : links = publicLinks;
 
-  const [open, setOpen] = useContext(SideDrawerContext);
+  const { open, setOpen } = useContext(SideDrawerContext);
   const onToggle = () => setOpen(!open);
   const hide = () => setOpen(false);
 
@@ -54,8 +53,8 @@ const Layout = ({ children, session: { getCurrentUser } }) => {
         <button onClick={onToggle} className="toggle"><i className="fas fa-bars"></i></button>
       </Header>
       <Main>{children}</Main>
-      {getCurrentUser && <Toolbar />}
-      {/* <Footer /> */}
+      {/* {getCurrentUser && <Toolbar />} */}
+      <Footer />
     </>
   );
 };
@@ -125,8 +124,12 @@ const Main = styled.main`
   width: 100%;
   max-width: 950px;
   margin: 0 auto;
-  padding-bottom: 50px;
   color: ${colors.mainWhite};
+  padding: 55px .5em 30px .5em;
+
+  @media ${device.tablet} {
+    padding-top: 90px;
+  }
 `;
 
 export default Layout;

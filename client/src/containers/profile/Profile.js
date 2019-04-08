@@ -1,7 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { sectionBasic, title, device, fonts, colors } from '../../utils/styles';
+import { title, device, fonts, colors } from '../../utils/styles';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../../utils/withAuth';
 import AuthData from './AuthData';
@@ -64,7 +63,6 @@ const Profile = () => (
 );
 
 const ProfileWrapper = styled.section`
-  ${sectionBasic}
   ${title}
   margin-bottom: 1em;
 

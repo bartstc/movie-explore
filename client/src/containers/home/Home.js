@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { sectionBasic, title, device, fonts } from '../../utils/styles';
+import { title, device, fonts } from '../../utils/styles';
 import { Query } from 'react-apollo';
 import { GET_LAST_ADDED, GET_TOP_10 } from '../../queries';
 
 import MovieWrapper from '../../components/UI/MovieWrapper';
 import Aside from './Aside';
 import TopMovie from '../../components/UI/TopMovie';
+import Spinner from '../../components/UI/Spinner';
 
 const Dashboard = () => (
   <DashboardWraper>
@@ -14,8 +15,8 @@ const Dashboard = () => (
       <h2 className="title">Last added.</h2>
       <Query query={GET_LAST_ADDED}>
         {({ data, loading, error }) => {
-          if (loading) return <div>Loading ...</div>;
-          if (error) return <div>Error!</div>;
+          if (loading) return <Spinner />;
+          if (error) return <div>Error! Something went wrong!</div>;
           return (
             <List>
               {data.getLastAdded.map(movie => (
@@ -28,8 +29,8 @@ const Dashboard = () => (
       <h2 className="title">Top 10.</h2>
       <Query query={GET_TOP_10}>
         {({ data, loading, error }) => {
-          if (loading) return <div>Loading ...</div>;
-          if (error) return <div>Error!</div>;
+          if (loading) return <Spinner />;
+          if (error) return <div>Error! Something went wrong!</div>;
           return (
             <TopList>
               {data.getTop10.map(movie => (
@@ -46,7 +47,6 @@ const Dashboard = () => (
 
 const DashboardWraper = styled.div`
   ${title}
-  ${sectionBasic}
   display: grid;
 
   @media ${device.laptop} {
