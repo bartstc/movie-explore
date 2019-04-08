@@ -4,7 +4,6 @@ import { colors, device } from '../utils/styles';
 import { SideDrawerContext } from '../utils/UIstore';
 
 import logo from '../assets/logo.png';
-// import Toolbar from '../components/navigation/Toolbar';
 import NavItem from '../components/navigation/NavItem';
 import Modal from '../components/UI/Modal';
 import SideDrawer from '../components/navigation/SideDrawer';
@@ -13,7 +12,7 @@ import Signout from '../containers/auth/Signout';
 import Footer from '../components/UI/Footer';
 
 const Layout = ({ children, session: { getCurrentUser } }) => {
-  console.log('Layout rerendered')
+  console.log('Layout rerendered');
 
   const authLinks = [
     { path: '/', content: "Home" },
@@ -56,7 +55,6 @@ const Layout = ({ children, session: { getCurrentUser } }) => {
         <button onClick={onToggle} className="toggle"><i className="fas fa-bars"></i></button>
       </Header>
       <Main>{children}</Main>
-      {/* {getCurrentUser && <Toolbar />} */}
       <Footer />
     </>
   );

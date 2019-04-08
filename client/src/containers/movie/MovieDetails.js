@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device, colors, fonts } from '../../utils/styles';
 import { withRouter, Redirect } from 'react-router-dom'; // access to e.g. match
@@ -187,5 +188,9 @@ const Actions = styled.ul`
     font-size: .8em;
   }
 `;
+
+MovieDetails.propTypes = {
+  match: PropTypes.object
+};
 
 export default withRouter(MovieDetails);

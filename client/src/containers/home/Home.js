@@ -9,8 +9,8 @@ import Aside from './Aside';
 import TopMovie from '../../components/UI/TopMovie';
 import Spinner from '../../components/UI/Spinner';
 
-const Dashboard = () => (
-  <DashboardWraper>
+const Home = () => (
+  <HomeWrapper>
     <section>
       <h2 className="title">Last added.</h2>
       <Query query={GET_LAST_ADDED}>
@@ -42,10 +42,10 @@ const Dashboard = () => (
       </Query>
     </section>
     <Aside />
-  </DashboardWraper>
+  </HomeWrapper>
 );
 
-const DashboardWraper = styled.div`
+const HomeWrapper = styled.div`
   ${title}
   display: grid;
 
@@ -85,4 +85,4 @@ const TopList = styled.ul`
   }
 `;
 
-export default Dashboard;
+export default Home;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import secret from '../config/secret';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { headerBasic, fonts } from '../utils/styles';
 import { ModalContext } from '../utils/UIstore';
@@ -232,5 +233,10 @@ const Form = styled.form`
     }
   }
 `;
+
+AddMovie.propTypes = {
+  session: PropTypes.object,
+  history: PropTypes.object
+};
 
 export default withAuth(session => session && session.getCurrentUser)(withRouter(AddMovie));

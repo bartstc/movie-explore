@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Backdrop = ({ open, hide }) => {
@@ -16,5 +17,10 @@ const BackdropWrapper = styled.div`
   top: 0;
   background: rgba(0,0,0, .7);
 `;
+
+Backdrop.propTypes = {
+  open: PropTypes.bool,
+  hide: PropTypes.func
+};
 
 export default Backdrop;

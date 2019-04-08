@@ -31,9 +31,11 @@ const ButtonWrapper = styled.button`
 `;
 
 Button.propTypes = {
-  type: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func,
-  style: PropTypes.string
+  style: PropTypes.string,
+  btnType: PropTypes.string,
+  type: PropTypes.string.isRequired,
 };
 
 Button.defaultProps = {

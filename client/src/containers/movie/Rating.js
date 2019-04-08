@@ -132,6 +132,7 @@ const Stars = styled.ul`
 
 Rating.propTypes = {
   ratingValue: PropTypes.number.isRequired,
+  movieId: PropTypes.string.isRequired,
   votes: PropTypes.array.isRequired,
   session: PropTypes.object
 };

@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
-import AuthWrapper from '../../utils/AuthWrapper';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { authStyles } from '../../utils/styles';
 import { ModalContext } from '../../utils/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
@@ -53,7 +55,7 @@ const SignUp = ({ refetch, history }) => {
   const { username, email, password, password2 } = state;
 
   return (
-    <AuthWrapper>
+    <SignUpWrapper>
       <div className="content">
         <header>
           <h1 className="main-title"><strong className="accent">Sign Up</strong> for free.</h1>
@@ -112,8 +114,17 @@ const SignUp = ({ refetch, history }) => {
         </Mutation>
       </div>
       <aside className="img-showcase"></aside>
-    </AuthWrapper>
+    </SignUpWrapper>
   )
+};
+
+const SignUpWrapper = styled.section`
+  ${authStyles};
+`;
+
+SignUp.propTypes = {
+  history: PropTypes.object,
+  refetch: PropTypes.func
 };
 
 export default withRouter(SignUp);

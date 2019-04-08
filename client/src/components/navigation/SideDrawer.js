@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, device } from '../../utils/styles';
 
@@ -46,5 +47,12 @@ const Nav = styled.nav`
     display: none;
   }
 `;
+
+SideDrawer.propTypes = {
+  links: PropTypes.array.isRequired,
+  open: PropTypes.bool,
+  isSignIn: PropTypes.bool,
+  hide: PropTypes.func
+};
 
 export default SideDrawer;

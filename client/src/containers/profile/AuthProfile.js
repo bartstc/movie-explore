@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 
@@ -80,5 +81,10 @@ const AuthData = ({ session, refetch }) => {
 const ProfileWrapper = styled.section`
   ${profileBasic};
 `;
+
+AuthData.propTypes = {
+  session: PropTypes.object,
+  refetch: PropTypes.func
+};
 
 export default AuthData;

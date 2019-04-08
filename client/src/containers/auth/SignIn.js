@@ -1,5 +1,7 @@
 import React, { useState, useContext } from 'react';
-import AuthWrapper from '../../utils/AuthWrapper';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { authStyles } from '../../utils/styles';
 import { ModalContext } from '../../utils/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
@@ -14,7 +16,7 @@ const initialState = {
   password: ''
 };
 
-const SignUp = ({ refetch, history }) => {
+const SignIn = ({ refetch, history }) => {
   const { handleModal } = useContext(ModalContext);
   const [state, setState] = useState({ ...initialState });
 
@@ -51,7 +53,7 @@ const SignUp = ({ refetch, history }) => {
   const { username, password } = state;
 
   return (
-    <AuthWrapper>
+    <SignInWrapper>
       <div className="content">
         <header>
           <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
@@ -93,8 +95,17 @@ const SignUp = ({ refetch, history }) => {
         </Mutation>
       </div>
       <aside className="img-showcase"></aside>
-    </AuthWrapper>
+    </SignInWrapper>
   )
 };
 
-export default withRouter(SignUp);
+SignIn.propTypes = {
+  history: PropTypes.object,
+  refetch: PropTypes.func
+};
+
+const SignInWrapper = styled.section`
+  ${authStyles};
+`;
+
+export default withRouter(SignIn);

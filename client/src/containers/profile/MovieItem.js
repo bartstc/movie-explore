@@ -36,6 +36,7 @@ const Movie = styled.li`
 
 MovieItem.propTypes = {
   title: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired
 };
 

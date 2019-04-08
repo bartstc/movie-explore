@@ -104,7 +104,9 @@ const CommentsWrapper = styled.section`
 `;
 
 Comments.propTypes = {
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  movieId: PropTypes.string.isRequired,
+  session: PropTypes.object
 };
 
 export default withSession(Comments);

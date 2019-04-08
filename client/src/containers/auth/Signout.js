@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { ApolloConsumer } from 'react-apollo';
 import { withRouter } from 'react-router-dom'; // access to props.history
 import { SideDrawerContext } from '../../utils/UIstore';
 
 import NavItem from '../../components/navigation/NavItem';
 
-const Signout = ({ history, children, linkType, to }) => {
+const Signout = ({ history, children, to }) => {
   const { open, setOpen } = useContext(SideDrawerContext);
 
   const handleSignout = (client, history) => {
@@ -20,7 +21,6 @@ const Signout = ({ history, children, linkType, to }) => {
       {client => {
         return (
           <NavItem
-            linkType={linkType}
             to={to}
             onClick={() => handleSignout(client, history)}
           >
@@ -30,6 +30,11 @@ const Signout = ({ history, children, linkType, to }) => {
       }}
     </ApolloConsumer>
   )
+};
+
+Signout.propTypes = {
+  history: PropTypes.object,
+  to: PropTypes.string
 };
 
 export default withRouter(Signout);

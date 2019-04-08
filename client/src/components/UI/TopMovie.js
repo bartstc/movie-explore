@@ -78,7 +78,8 @@ const TopMovieWrapper = styled.li`
 TopMovie.propTypes = {
   title: PropTypes.string.isRequired,
   rating: PropTypes.number,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  _id: PropTypes.string
 };
 
 export default TopMovie;

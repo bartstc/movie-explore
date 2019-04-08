@@ -58,7 +58,9 @@ const ListItem = styled.li`
 MovieWrapper.propTypes = {
   title: PropTypes.string.isRequired,
   genres: PropTypes.array,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  year: PropTypes.number,
+  _id: PropTypes.string
 };
 
 export default MovieWrapper;

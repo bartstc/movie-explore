@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 import { withRouter, Redirect } from 'react-router-dom';
@@ -120,5 +121,11 @@ const Profile = ({ session, match, refetch }) => {
 const ProfileWrapper = styled.section`
   ${profileBasic}
 `;
+
+Profile.propTypes = {
+  session: PropTypes.object,
+  match: PropTypes.object,
+  refetch: PropTypes.func
+};
 
 export default withRouter(Profile);

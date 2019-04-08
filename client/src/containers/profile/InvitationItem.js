@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { fonts, colors } from '../../utils/styles';
 import { Link } from 'react-router-dom';
@@ -75,5 +76,11 @@ const Invitation = styled.li`
     display: flex;
   }
 `;
+
+InvitationItem.propTypes = {
+  friendUsername: PropTypes.string.isRequired,
+  currentUsername: PropTypes.string.isRequired,
+  refetch: PropTypes.func
+};
 
 export default InvitationItem;
