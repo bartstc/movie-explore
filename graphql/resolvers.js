@@ -18,8 +18,6 @@ exports.resolvers = {
         .populate({ path: 'liked', model: 'Movie' })
         .populate({ path: 'watched', model: 'Movie' })
         .populate({ path: 'toWatch', model: 'Movie' })
-      // .populate({ path: 'friends', model: 'User' })
-      // .populate({ path: 'invitations', model: 'User' })
 
       return {
         ...user._doc,
@@ -143,6 +141,11 @@ exports.resolvers = {
       }).save();
 
       return { token: createToken(newUser, keys.secret, '1hr') };
+    },
+
+    deleteAccount: async (root, { _id }, { User }) => {
+      const user = await User.findOneAndRemove({ _id });
+      return user;
     },
 
     sendInvitation: async (root, { senderUsername, username }, { User }) => {

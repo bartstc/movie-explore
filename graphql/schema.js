@@ -73,6 +73,7 @@ exports.typeDefs = gql`
   type Mutation {
     signinUser(username: String!, password: String!): Token
     signupUser(username: String!, email: String!, password: String!): Token
+    deleteAccount(_id: ID!): User
     sendInvitation(senderUsername: String!, username: String!): Feedback
     acceptOrRejectInvitation(currentUsername: String!, friendUsername: String!, rejection: Boolean): Feedback
     removeFriend(currentUsername: String!, friendUsername: String!): Feedback
