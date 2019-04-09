@@ -23,7 +23,7 @@ const App = ({ refetch, session }) => {
             <Route path='/signup' render={() => <SignUp refetch={refetch} />} />
             <Route path='/signin' render={() => <SignIn refetch={refetch} />} />
             <Route path='/explore' component={Explore} />
-            {session.getCurrentUser && <Route path={`/user/${session.getCurrentUser.username}`} render={() => <AuthProfile session={session} refetch={refetch} />} />}
+            <Route path='/profile' render={() => <AuthProfile session={session} refetch={refetch} />} />
             <Route path='/user/:username' render={() => <Profile session={session} refetch={refetch} />} />
             <Route path='/add' render={() => <AddMovie session={session} />} />
             <Route path='/movie/:_id' component={MovieDetails} />

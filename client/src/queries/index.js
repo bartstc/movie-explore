@@ -6,6 +6,7 @@ export const GET_CURRENT_USER = gql`
     getCurrentUser {
       _id
       username
+      isAdmin
       liked {
         _id
         title
@@ -95,6 +96,14 @@ export const SEARCH_FRIENDS = gql`
   }
 `;
 
+export const DELETE_ACCOUNT = gql`
+mutation($_id: ID!) {
+  deleteAccount(_id: $_id) {
+    username
+  }
+}
+`;
+
 
 // Movie Queries
 export const GET_LAST_ADDED = gql`
@@ -157,7 +166,6 @@ export const GET_MOVIE = gql`
       genres
       description
       date
-      username
       likes
       watched
       toWatch

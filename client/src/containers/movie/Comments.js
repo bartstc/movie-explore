@@ -73,6 +73,7 @@ const CommentsWrapper = styled.section`
 
   .date {
     font-weight: ${fonts.fontLight};
+    color: ${colors.mainColor};
     font-size: .8em;
     font-style: italic;
   }
@@ -89,6 +90,8 @@ const CommentsWrapper = styled.section`
 
   .no-comments {
     font-weight: ${fonts.fontExtraLight};
+    color: ${colors.mainColor};
+    font-size: .85em;
     margin-bottom: 1em;
   }
 

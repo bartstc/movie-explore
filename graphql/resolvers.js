@@ -14,7 +14,6 @@ exports.resolvers = {
       if (!currentUser) return null;
 
       const user = await User.findOne({ username: currentUser.username })
-        .populate({ path: 'recommendations', model: 'Movie' })
         .populate({ path: 'liked', model: 'Movie' })
         .populate({ path: 'watched', model: 'Movie' })
         .populate({ path: 'toWatch', model: 'Movie' })
@@ -145,6 +144,19 @@ exports.resolvers = {
 
     deleteAccount: async (root, { _id }, { User }) => {
       const user = await User.findOneAndRemove({ _id });
+      const username = user.username;
+
+      // updateMany does not work for multiple pull?
+      await User.updateMany({}, {
+        $pull: { invitations: username }
+      });
+
+      await User.updateMany({}, {
+        $pull: { friends: username }
+      });
+
+      console.log('Works!');
+
       return user;
     },
 
@@ -211,11 +223,11 @@ exports.resolvers = {
       return { feedback: 'Friend removed successfully' };
     },
 
-    addMovie: async (root, { MovieData: { title, imageUrl, director, year, genres, description, username } }, { Movie }) => {
+    addMovie: async (root, { MovieData: { title, imageUrl, director, year, genres, description } }, { Movie }) => {
       const existingMovie = await Movie.findOne({ title });
       if (existingMovie) throw new Error('Movie already exists');
 
-      const newMovie = await new Movie({ title, imageUrl, director, year, genres, description, username }).save();
+      const newMovie = await new Movie({ title, imageUrl, director, year, genres, description }).save();
 
       return newMovie;
     },

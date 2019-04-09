@@ -27,13 +27,14 @@ const MovieDetails = ({ match }) => {
       <Query query={GET_MOVIE} variables={{ _id }}>
         {({ data, loading, error }) => {
           if (loading) return <Spinner />
+          console.log(error)
           if (error) return (
             <>
-              {handleModal('Error! Something went wrong!', true)}
+              {handleModal('Error! Movie not found!', true)}
               <Redirect to="/" />
             </>
           )
-          const { title, imageUrl, director, year, genres, description, username, likes, watched, toWatch, rating, numberOfRatings, comments } = data.getMovie;
+          const { title, imageUrl, director, year, genres, description, likes, watched, toWatch, rating, numberOfRatings, comments } = data.getMovie;
 
           return (
             <DetailsWrapper>
@@ -64,7 +65,6 @@ const MovieDetails = ({ match }) => {
                 />
               </Actions>
               <p className="details">{description}</p>
-              <p className="creator">Added by {username}.</p>
               <Comments comments={comments} movieId={_id} />
               <CommentForm movieId={_id} />
             </DetailsWrapper>

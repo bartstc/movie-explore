@@ -14,13 +14,18 @@ import Footer from '../components/UI/Footer';
 const Layout = ({ children, session: { getCurrentUser } }) => {
   console.log('Layout rerendered');
 
-  const authLinks = [
+  const adminLinks = [
     { path: '/', content: "Home" },
     { path: '/explore', content: "Explore" },
     { path: '/add', content: "Add Movie" },
-    { path: `/user/${(getCurrentUser) ? getCurrentUser.username : 'user'}`, content: "Profile" }
+    { path: '/profile', content: "Profile" }
   ];
 
+  const authLinks = [
+    { path: '/', content: "Home" },
+    { path: '/explore', content: "Explore" },
+    { path: '/profile', content: "Profile" }
+  ];
 
   const publicLinks = [
     { path: '/', content: "Home" },
@@ -30,8 +35,9 @@ const Layout = ({ children, session: { getCurrentUser } }) => {
   ];
 
   let links;
-
-  (getCurrentUser) ? links = authLinks : links = publicLinks;
+  if (getCurrentUser && getCurrentUser.isAdmin) links = adminLinks;
+  else if (getCurrentUser) links = authLinks;
+  else links = publicLinks;
 
   const { open, setOpen } = useContext(SideDrawerContext);
   const onToggle = () => setOpen(!open);

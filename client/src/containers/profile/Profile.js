@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 import { withRouter, Redirect } from 'react-router-dom';
+import withAuth from '../../utils/withAuth';
 import { ModalContext } from '../../utils/UIstore';
 import { Query, Mutation } from 'react-apollo';
 import { SEND_INVITATION, REMOVE_FRIEND, GET_USER } from '../../queries';
@@ -53,11 +54,12 @@ const Profile = ({ session, match, refetch }) => {
 
   return (
     <Query query={GET_USER} variables={{ username }}>
-      {({ data, loading, error }) => {
+      {({ data, loading }) => {
         if (loading) return <Spinner />
-        if (error) return (
+        console.log(data)
+        if (!data.getUser) return (
           <>
-            {handleModal('Error! Something went wrong!', true)}
+            {handleModal('Error! User does not exist!', true)}
             <Redirect to="/" />
           </>
         );
@@ -128,4 +130,4 @@ Profile.propTypes = {
   refetch: PropTypes.func
 };
 
-export default withRouter(Profile);
+export default withAuth(session => session && session.getCurrentUser)(withRouter(Profile));

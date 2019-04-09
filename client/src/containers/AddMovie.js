@@ -106,7 +106,7 @@ const AddMovie = ({ session, history }) => {
   const onSubmit = async (e, addMovie) => {
     e.preventDefault();
 
-    addMovie().then(({ data }) => {
+    addMovie().then(() => {
       clearState();
       history.push('/');
     })
@@ -118,14 +118,14 @@ const AddMovie = ({ session, history }) => {
 
   // updateCache
 
-  const { title, imageUrl, director, year, description, username, fileLoading } = state;
+  const { title, imageUrl, director, year, description, fileLoading } = state;
 
   return (
     <>
       <ScrollToTopOnMount />
       <Mutation
         mutation={ADD_MOVIE}
-        variables={{ title, imageUrl, director, year: Number(year), genres, description, username }}
+        variables={{ title, imageUrl, director, year: Number(year), genres, description }}
       >
         {(addMovie, { loading }) => {
 
@@ -239,4 +239,4 @@ AddMovie.propTypes = {
   history: PropTypes.object
 };
 
-export default withAuth(session => session && session.getCurrentUser)(withRouter(AddMovie));
+export default withAuth(session => session && session.getCurrentUser && session.getCurrentUser.isAdmin)(withRouter(AddMovie));

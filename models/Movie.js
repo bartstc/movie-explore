@@ -30,10 +30,6 @@ const MovieSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  username: {
-    type: String,
-    required: true
-  },
   likes: {
     type: Number,
     default: 0

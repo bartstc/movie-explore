@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
+import { withRouter } from 'react-router-dom';
+import withAuth from '../../utils/withAuth';
+import { ModalContext } from '../../utils/UIstore';
+import { ApolloConsumer, Mutation } from 'react-apollo';
+import { DELETE_ACCOUNT } from '../../queries';
 
 import MovieItem from './MovieItem';
 import FriendItem from './FriendItem';
 import InvitationItem from './InvitationItem';
 import SearchFriend from './SearchFriend';
+import Button from '../../components/UI/Button';
 
-const AuthData = ({ session, refetch }) => {
-  const { username, friends, invitations, toWatch, watched, liked } = session.getCurrentUser;
+const AuthData = ({ session, refetch, history }) => {
+  const { handleModal } = useContext(ModalContext);
+  const { _id, username, friends, invitations, toWatch, watched, liked } = session.getCurrentUser;
+
+  const onDelete = (client, deleteAccount) => {
+    const confirmRemove = window.confirm('Are you sure?');
+    if (confirmRemove) deleteAccount().then(() => {
+      localStorage.setItem('token', '');
+      client.resetStore();
+      handleModal('Account deleted successfully!', false);
+      history.push('/');
+    });
+  };
 
   return (
     <ProfileWrapper>
       <header>
-        <h1 className="title">{username}</h1>
+        <h1 className="title">Hello, {username}</h1>
       </header>
       <div className="content-wrapper">
         <div className="list-wrapper">
@@ -74,6 +91,19 @@ const AuthData = ({ session, refetch }) => {
         </div>
       </div>
       <SearchFriend />
+      <ApolloConsumer>
+        {client => {
+          return (
+            <Mutation
+              mutation={DELETE_ACCOUNT}
+              variables={{ _id }}>
+              {deleteAccount => (
+                <Button onClick={() => onDelete(client, deleteAccount)}>Delete account</Button>
+              )}
+            </Mutation>
+          )
+        }}
+      </ApolloConsumer>
     </ProfileWrapper>
   );
 };
@@ -87,4 +117,4 @@ AuthData.propTypes = {
   refetch: PropTypes.func
 };
 
-export default AuthData;
+export default withAuth(session => session && session.getCurrentUser)(withRouter(AuthData));

@@ -10,7 +10,6 @@ exports.typeDefs = gql`
     genres: [String!]!
     description: String!
     date: String
-    username: String
     likes: Int
     watched: Int
     toWatch: Int
@@ -31,6 +30,7 @@ exports.typeDefs = gql`
     username: String!
     password: String!
     email: String!
+    isAdmin: Boolean!
     date: String
     liked: [Movie!]
     watched: [Movie!]

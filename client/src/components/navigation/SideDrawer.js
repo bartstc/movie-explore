@@ -51,7 +51,10 @@ const Nav = styled.nav`
 SideDrawer.propTypes = {
   links: PropTypes.array.isRequired,
   open: PropTypes.bool,
-  isSignIn: PropTypes.bool,
+  isSignIn: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ]),
   hide: PropTypes.func
 };
 
