@@ -54,7 +54,6 @@ exports.typeDefs = gql`
     year: Int!
     genres: [String!]
     description: String!
-    username: String!
   }
 
   type Query {

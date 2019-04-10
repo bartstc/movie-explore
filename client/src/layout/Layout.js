@@ -17,7 +17,7 @@ const Layout = ({ children, session: { getCurrentUser } }) => {
   const adminLinks = [
     { path: '/', content: "Home" },
     { path: '/explore', content: "Explore" },
-    { path: '/add', content: "Add Movie" },
+    { path: '/admin', content: "Admin" },
     { path: '/profile', content: "Profile" }
   ];
 

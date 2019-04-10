@@ -27,7 +27,6 @@ const MovieDetails = ({ match }) => {
       <Query query={GET_MOVIE} variables={{ _id }}>
         {({ data, loading, error }) => {
           if (loading) return <Spinner />
-          console.log(error)
           if (error) return (
             <>
               {handleModal('Error! Movie not found!', true)}

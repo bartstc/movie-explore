@@ -10,7 +10,7 @@ import Home from './containers/home/Home';
 import Explore from './containers/Explore';
 import Profile from './containers/profile/Profile';
 import AuthProfile from './containers/profile/AuthProfile';
-import AddMovie from './containers/AddMovie';
+import Admin from './containers/admin/Admin';
 import MovieDetails from './containers/movie/MovieDetails';
 
 const App = ({ refetch, session }) => {
@@ -25,7 +25,7 @@ const App = ({ refetch, session }) => {
             <Route path='/explore' component={Explore} />
             <Route path='/profile' render={() => <AuthProfile session={session} refetch={refetch} />} />
             <Route path='/user/:username' render={() => <Profile session={session} refetch={refetch} />} />
-            <Route path='/add' render={() => <AddMovie session={session} />} />
+            <Route path='/admin' component={Admin} />
             <Route path='/movie/:_id' component={MovieDetails} />
             <Redirect to="/" />
           </Switch>

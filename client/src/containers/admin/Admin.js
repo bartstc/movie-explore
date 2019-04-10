@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import secret from '../config/secret';
+import secret from '../../config/secret';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { headerBasic, fonts } from '../utils/styles';
-import { ModalContext } from '../utils/UIstore';
+import { headerBasic, fonts } from '../../utils/styles';
+import { ModalContext } from '../../utils/UIstore';
 import { withRouter } from 'react-router-dom';
-import withAuth from '../utils/withAuth';
+import withAuth from '../../utils/withAuth';
 import { Mutation } from 'react-apollo';
-import { ADD_MOVIE } from '../queries';
+import { ADD_MOVIE } from '../../queries';
 
-import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
-import TextareaFieldGroup from '../components/UI/inputs/TextareaFieldGroup';
-import SelectListGroup from '../components/UI/inputs/SelectListGroup';
-import Button from '../components/UI/Button';
-import ScrollToTopOnMount from '../utils/scrollToTopOnMount';
+import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
+import TextareaFieldGroup from '../../components/UI/inputs/TextareaFieldGroup';
+import SelectListGroup from '../../components/UI/inputs/SelectListGroup';
+import Button from '../../components/UI/Button';
+import ScrollToTopOnMount from '../../utils/scrollToTopOnMount';
+import AllMovies from './AllMovies';
+import Spinner from '../../components/UI/Spinner';
 
 const initialState = {
   title: '',
@@ -22,7 +24,6 @@ const initialState = {
   director: '',
   year: '',
   description: '',
-  username: '',
   fileLoading: false
 };
 
@@ -42,7 +43,7 @@ const genreOptions = [
   { label: 'Others', value: 'Others' }
 ];
 
-const AddMovie = ({ session, history }) => {
+const Admin = ({ history }) => {
   const { handleModal } = useContext(ModalContext);
 
   const [years, setListOfYears] = useState([{ label: '* Select year', value: 0 }]);
@@ -58,7 +59,7 @@ const AddMovie = ({ session, history }) => {
       listOfYears.push({ label: i, value: i });
     };
 
-    setState({ ...state, username: session.getCurrentUser.username });
+    setState({ ...state });
     setListOfYears([...years, ...listOfYears]);
   }, []);
 
@@ -130,72 +131,75 @@ const AddMovie = ({ session, history }) => {
         {(addMovie, { loading }) => {
 
           return (
-            <Section>
-              <h1 className="main-title">Add new <strong className="accent">Movie.</strong></h1>
-              <p className="main-info">All fields are required. Remember to provide the right data.</p>
-              <Form onSubmit={e => onSubmit(e, addMovie)}>
-                <TextFieldGroup
-                  label="Title"
-                  placeholder="* Title ..."
-                  id="title"
-                  name="title"
-                  value={title}
-                  onChange={onChange}
-                />
-                <TextFieldGroup
-                  label="Director"
-                  placeholder="* Director ..."
-                  id="director"
-                  name="director"
-                  value={director}
-                  onChange={onChange}
-                />
-                <SelectListGroup
-                  name="year"
-                  id="year"
-                  label="Select year"
-                  value={year}
-                  onChange={onChange}
-                  options={years}
-                />
-                <SelectListGroup
-                  name="genres"
-                  id="genres"
-                  label="Select genres"
-                  onChange={e => onGenresSelectChange(e)}
-                  options={genreOptions}
-                />
-                {genres.length > 0 && <ul className="selected">
-                  <p>Selected genres:</p>
-                  {genres.map((genre, i) => (
-                    <p key={i}>{genre}</p>
-                  ))}
-                </ul>}
-                <TextareaFieldGroup
-                  label="Description"
-                  placeholder="* Movie description ..."
-                  id="description"
-                  name="description"
-                  value={description}
-                  onChange={onChange}
-                />
-                <input
-                  type="file"
-                  id="imageInput"
-                  onChange={onImageChange}
-                  hidden="hidden"
-                />
-                <p className="file-input">
-                  <span className="label">{fileLoading ? 'Loading ...' : 'Upload Image'}</span>
-                  <Button onClick={handleUploadImage}>{imageUrl ? 'Image selected' : 'Select image'}</Button>
-                </p>
-                <Button
-                  type="submit"
-                  disabled={loading || validateForm()}
-                  btnType={validateForm() && 'disabled'}
-                >Done</Button>
-              </Form>
-            </Section>
+            <>
+              <Section>
+                <h1 className="main-title">Add new <strong className="accent">Movie.</strong></h1>
+                <p className="main-info">All fields are required. Remember to provide the correct data.</p>
+                <Form onSubmit={e => onSubmit(e, addMovie)}>
+                  <TextFieldGroup
+                    label="Title"
+                    placeholder="* Title ..."
+                    id="title"
+                    name="title"
+                    value={title}
+                    onChange={onChange}
+                  />
+                  <TextFieldGroup
+                    label="Director"
+                    placeholder="* Director ..."
+                    id="director"
+                    name="director"
+                    value={director}
+                    onChange={onChange}
+                  />
+                  <SelectListGroup
+                    name="year"
+                    id="year"
+                    label="Select year"
+                    value={year}
+                    onChange={onChange}
+                    options={years}
+                  />
+                  <SelectListGroup
+                    name="genres"
+                    id="genres"
+                    label="Select genres"
+                    onChange={e => onGenresSelectChange(e)}
+                    options={genreOptions}
+                  />
+                  {genres.length > 0 && <ul className="selected">
+                    <p>Selected genres:</p>
+                    {genres.map((genre, i) => (
+                      <p key={i}>{genre}</p>
+                    ))}
+                  </ul>}
+                  <TextareaFieldGroup
+                    label="Description"
+                    placeholder="* Movie description ..."
+                    id="description"
+                    name="description"
+                    value={description}
+                    onChange={onChange}
+                  />
+                  <input
+                    type="file"
+                    id="imageInput"
+                    onChange={onImageChange}
+                    hidden="hidden"
+                  />
+                  <p className="file-input">
+                    <span className="label">{fileLoading ? <Spinner /> : 'Upload Image'}</span>
+                    <Button onClick={handleUploadImage}>{imageUrl ? 'Image selected' : 'Select image'}</Button>
+                  </p>
+                  <Button
+                    type="submit"
+                    disabled={loading || validateForm()}
+                    btnType={validateForm() && 'disabled'}
+                  >Done</Button>
+                </Form>
+              </Section>
+              <AllMovies />
+            </>
           )
         }}
       </Mutation>
@@ -234,9 +238,9 @@ const Form = styled.form`
   }
 `;
 
-AddMovie.propTypes = {
+Admin.propTypes = {
   session: PropTypes.object,
   history: PropTypes.object
 };
 
-export default withAuth(session => session && session.getCurrentUser && session.getCurrentUser.isAdmin)(withRouter(AddMovie));
+export default withAuth(session => session && session.getCurrentUser && session.getCurrentUser.isAdmin)(withRouter(Admin));

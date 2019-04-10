@@ -155,8 +155,6 @@ exports.resolvers = {
         $pull: { friends: username }
       });
 
-      console.log('Works!');
-
       return user;
     },
 
@@ -232,8 +230,15 @@ exports.resolvers = {
       return newMovie;
     },
 
-    deleteMovie: async (root, { _id }, { Movie }) => {
+    deleteMovie: async (root, { _id }, { Movie, User }) => {
       const movie = await Movie.findOneAndRemove({ _id });
+
+      await User.updateMany({}, {
+        $pull: { liked: _id },
+        $pull: { watched: _id },
+        $pull: { toWatch: _id },
+      });
+
       return movie;
     },
 

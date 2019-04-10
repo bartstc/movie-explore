@@ -5,7 +5,8 @@ const Spinner = () => (
   <Loader></Loader>
 );
 
-const Loader = styled.div`
+const Loader = styled.span`
+  display:block;
   width: 90px;
   height: 90px;
   margin: 0 auto;

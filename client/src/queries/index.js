@@ -181,6 +181,15 @@ export const GET_MOVIE = gql`
   }
 `;
 
+export const GET_MOVIES = gql`
+  query {
+    getMovies {
+      _id
+      title
+    }
+  }
+`;
+
 
 // Movie Mutations
 export const ADD_MOVIE = gql`
@@ -190,9 +199,8 @@ export const ADD_MOVIE = gql`
     $director: String!
     $year: Int!
     $genres: [String!]!
-    $description: String!
-    $username: String!) {
-    addMovie(MovieData: {title: $title, imageUrl: $imageUrl, director: $director, year: $year, genres: $genres, description: $description, username: $username}) {
+    $description: String!) {
+    addMovie(MovieData: {title: $title, imageUrl: $imageUrl, director: $director, year: $year, genres: $genres, description: $description}) {
       _id
       title
       imageUrl
@@ -201,7 +209,14 @@ export const ADD_MOVIE = gql`
       genres
       description
       date
-      username
+    }
+  }
+`;
+
+export const DELETE_MOVIE = gql`
+  mutation($_id: ID!) {
+    deleteMovie(_id: $_id) {
+      title
     }
   }
 `;
