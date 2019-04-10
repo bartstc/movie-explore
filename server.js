@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const Movie = require('./models/Movie');
@@ -35,12 +36,12 @@ const server = new ApolloServer({
     User,
     Movie
   }),
-  playground: {
-    endpoint: '/graphql',
-    settings: {
-      'editor.theme': 'dark'
-    }
-  }
+  // playground: {
+  //   endpoint: '/graphql',
+  //   settings: {
+  //     'editor.theme': 'dark'
+  //   }
+  // }
 });
 
 // Middleware: GraphQL
@@ -49,6 +50,14 @@ server.applyMiddleware({ app, path: '/graphql' });
 mongoose.connect(keys.mongoURL, { useNewUrlParser: true })
   .then(() => console.log('DB Connected'))
   .catch(err => console.log(err));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  })
+}
 
 const PORT = process.env.PORT || 4444;
 app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
