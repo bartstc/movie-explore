@@ -38,9 +38,25 @@ const AllMovies = () => {
                   <Link to={`/movie/${_id}`} className="title">{title}</Link>
                   <Mutation
                     mutation={DELETE_MOVIE}
-                    variables={{ _id }}>
-                    {deleteMovie => (
-                      <button onClick={() => onClick(deleteMovie)} className="remove">x</button>
+                    variables={{ _id }}
+                    update={(cache, { data: { deleteMovie } }) => {
+                      // console.log(cache); // access to queries in this comp (data -> data -> ROOT_QUERY)
+                      // console.log(data); // access to current mutation (DELETE_MOVIE)
+                      const { getMovies } = cache.readQuery({
+                        query: GET_MOVIES
+                        // variables if required: variables: {var}
+                      });
+
+                      cache.writeQuery({
+                        query: GET_MOVIES,
+                        // variables if required: variables: {var}
+                        data: {
+                          getMovies: getMovies.filter(movie => movie._id !== deleteMovie._id)
+                        }
+                      })
+                    }}>
+                    {(deleteMovie, attrs = {}) => (
+                      <button onClick={() => onClick(deleteMovie)} className="remove">{attrs.loading ? 'deleting ...' : 'x'}</button>
                     )}
                   </Mutation>
                 </li>

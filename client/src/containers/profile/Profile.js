@@ -20,14 +20,11 @@ const Profile = ({ session, match, refetch }) => {
   const [currentUsername, setCurrentUsername] = useState('');
 
   useEffect(() => {
-    console.log('Profile component mounted');
     if (session.getCurrentUser) {
       const { friends } = session.getCurrentUser;
-      console.log(username);
 
       setCurrentUsername(session.getCurrentUser.username);
       let isOnFriendList = friends.filter(f => f === username).length > 0;
-      console.log(friends.filter(f => f === username));
       setFriend(isOnFriendList);
     };
   }, []);
@@ -56,7 +53,6 @@ const Profile = ({ session, match, refetch }) => {
     <Query query={GET_USER} variables={{ username }}>
       {({ data, loading }) => {
         if (loading) return <Spinner />
-        console.log(data)
         if (!data.getUser) return (
           <>
             {handleModal('Error! User does not exist!', true)}

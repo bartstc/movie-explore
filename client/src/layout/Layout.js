@@ -12,8 +12,6 @@ import Signout from '../containers/auth/Signout';
 import Footer from '../components/UI/Footer';
 
 const Layout = ({ children, session: { getCurrentUser } }) => {
-  console.log('Layout rerendered');
-
   const adminLinks = [
     { path: '/', content: "Home" },
     { path: '/explore', content: "Explore" },
