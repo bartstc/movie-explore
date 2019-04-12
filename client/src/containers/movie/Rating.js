@@ -29,11 +29,11 @@ const Rating = ({ ratingValue, votes, movieId, session }) => {
   let style;
 
   for (let i = 1; i <= amount; i++) {
-    if (i <= rating) {
+    if (i < rating || i <= rating + 0.5) {
       style = "star color"
     } else {
       style = "star"
-    }
+    };
 
     stars.push({ value: i, style });
   };

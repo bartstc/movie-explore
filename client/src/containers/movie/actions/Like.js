@@ -24,7 +24,7 @@ const Like = ({ likes, _id, session, refetch }) => {
 
   const onClick = (likeMovie, unlikeMovie) => {
     if (!session.getCurrentUser) {
-      handleModal('You must log in to add like', true);
+      handleModal('You must log in', true);
       return;
     };
 

@@ -7,6 +7,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from '../../queries';
 
+import bg from '../../assets/bg.png';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
 import Spinner from '../../components/UI/Spinner';
@@ -113,7 +114,7 @@ const SignUp = ({ refetch, history }) => {
           }}
         </Mutation>
       </div>
-      <aside className="img-showcase"></aside>
+      <aside className="img-showcase"><img src={bg} alt="" /></aside>
     </SignUpWrapper>
   )
 };

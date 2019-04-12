@@ -24,7 +24,7 @@ const ToWatch = ({ toWatch, _id, session, refetch }) => {
 
   const onClick = (addToWatch, removeToWatch) => {
     if (!session.getCurrentUser) {
-      handleModal('You must log in to add to viewed', true);
+      handleModal('You must log in', true);
       return;
     };
 

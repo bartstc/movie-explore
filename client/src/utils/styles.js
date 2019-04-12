@@ -1,5 +1,3 @@
-import bg from '../assets/bg.png';
-
 export const colors = {
   mainColor: `#B41027`,
   mainBlack: `#060606`,
@@ -126,8 +124,6 @@ export const authStyles = `
 
   .img-showcase {
     display: none;
-    background: url(${bg}) no-repeat center;
-    background-size: cover;
     min-height: 500px;
 
     @media ${device.tablet} {
