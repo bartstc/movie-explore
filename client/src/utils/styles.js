@@ -124,7 +124,7 @@ export const authStyles = `
 
   .img-showcase {
     display: none;
-    min-height: 500px;
+    height: 540px;
 
     @media ${device.tablet} {
       display: block;

@@ -8,9 +8,11 @@ import { Mutation } from 'react-apollo';
 import { SIGNIN_USER } from '../../queries';
 
 import bg from '../../assets/bg.png';
+import { base64 } from '../../utils/base64';
 import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
 import Button from '../../components/UI/Button';
 import Spinner from '../../components/UI/Spinner';
+import BlurImage from '../../components/UI/BlurImage';
 
 const initialState = {
   username: '',
@@ -96,7 +98,7 @@ const SignIn = ({ refetch, history }) => {
         </Mutation>
       </div>
       <aside className="img-showcase">
-        <img src={bg} alt="" />
+        <BlurImage src={bg} base64={base64} alt="" />
       </aside>
     </SignInWrapper>
   )

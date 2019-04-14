@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import UIStore from './utils/UIstore';
 
@@ -11,7 +11,9 @@ import Explore from './containers/Explore';
 import Profile from './containers/profile/Profile';
 import AuthProfile from './containers/profile/AuthProfile';
 import Admin from './containers/admin/Admin';
-import MovieDetails from './containers/movie/MovieDetails';
+import Spinner from './components/UI/Spinner';
+
+const MovieDetails = lazy(() => import('./containers/movie/MovieDetails'));
 
 const App = ({ refetch, session }) => {
   return (
@@ -26,7 +28,9 @@ const App = ({ refetch, session }) => {
             <Route path='/profile' render={() => <AuthProfile session={session} refetch={refetch} />} />
             <Route path='/user/:username' render={() => <Profile session={session} refetch={refetch} />} />
             <Route path='/admin' component={Admin} />
-            <Route path='/movie/:_id' component={MovieDetails} />
+            <Suspense fallback={<Spinner />}>
+              <Route path='/movie/:_id' component={MovieDetails} />
+            </Suspense>
             <Redirect to="/" />
           </Switch>
         </Layout>
