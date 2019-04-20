@@ -9,7 +9,7 @@ const keys = require('./config/keys');
 const { typeDefs } = require('./graphql/schema');
 const { resolvers } = require('./graphql/resolvers');
 
-// Initializes application
+// Initialize application
 const app = express();
 
 // Set up JWT authentication middleware
@@ -36,18 +36,18 @@ const server = new ApolloServer({
     User,
     Movie
   }),
-  // playground: {
-  //   endpoint: '/graphql',
-  //   settings: {
-  //     'editor.theme': 'dark'
-  //   }
-  // }
+  playground: {
+    endpoint: '/graphql',
+    settings: {
+      'editor.theme': 'dark'
+    }
+  }
 });
 
 // Middleware: GraphQL
 server.applyMiddleware({ app, path: '/graphql' });
 
-mongoose.connect(keys.mongoURL, { useNewUrlParser: true })
+mongoose.connect(keys.mongoURL, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
   .then(() => console.log('DB Connected'))
   .catch(err => console.log(err));
 
