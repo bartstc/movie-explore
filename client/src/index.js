@@ -6,7 +6,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 // Client setup
-const client = new ApolloClient({
+export const client = new ApolloClient({
   // uri: 'http://localhost:4444/graphql',
   uri: 'https://movie-explore.herokuapp.com/graphql',
   fetchOptions: {

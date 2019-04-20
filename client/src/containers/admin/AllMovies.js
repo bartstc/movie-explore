@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { colors, fonts, headerBasic } from '../../utils/styles';
 import { Redirect, Link } from 'react-router-dom';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query, Mutation } from 'react-apollo';
 import { DELETE_MOVIE, GET_MOVIES } from '../../queries';
 

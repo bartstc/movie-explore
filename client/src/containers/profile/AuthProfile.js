@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../../utils/withAuth';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { ApolloConsumer, Mutation } from 'react-apollo';
 import { DELETE_ACCOUNT } from '../../queries';
 

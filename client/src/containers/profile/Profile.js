@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 import { withRouter, Redirect } from 'react-router-dom';
 import withAuth from '../../utils/withAuth';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query, Mutation } from 'react-apollo';
 import { SEND_INVITATION, REMOVE_FRIEND, GET_USER } from '../../queries';
 

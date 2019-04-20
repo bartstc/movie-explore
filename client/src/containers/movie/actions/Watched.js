@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors } from '../../../utils/styles';
-import { ModalContext } from '../../../utils/UIstore';
+import { ModalContext } from '../../../store/UIStore/UIstore';
 import { Mutation } from 'react-apollo';
 import { ADD_WATCHED, REMOVE_WATCHED, GET_MOVIE } from '../../../queries';
 

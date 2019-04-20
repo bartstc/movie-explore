@@ -4,7 +4,7 @@ import secret from '../../config/secret';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { headerBasic, fonts } from '../../utils/styles';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../../utils/withAuth';
 import { Mutation } from 'react-apollo';

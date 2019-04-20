@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ApolloConsumer } from 'react-apollo';
 import { withRouter } from 'react-router-dom'; // access to props.history
-import { SideDrawerContext } from '../../utils/UIstore';
+import { SideDrawerContext } from '../../store/UIStore/UIstore';
 
 import NavItem from '../../components/navigation/NavItem';
 

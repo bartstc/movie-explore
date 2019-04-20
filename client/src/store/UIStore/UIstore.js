@@ -29,7 +29,7 @@ const UIstore = ({ children }) => {
       <ModalContext.Provider value={{ show, message, error, handleModal }}>
         {children}
       </ModalContext.Provider>
-    </SideDrawerContext.Provider >
+    </SideDrawerContext.Provider>
   );
 };
 

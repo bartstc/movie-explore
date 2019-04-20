@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { authStyles } from '../../utils/styles';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from '../../queries';

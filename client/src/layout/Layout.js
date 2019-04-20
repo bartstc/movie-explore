@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { colors, device } from '../utils/styles';
-import { SideDrawerContext } from '../utils/UIstore';
+import { SideDrawerContext } from '../store/UIStore/UIstore';
 
 import logo from '../assets/logo.png';
 import NavItem from '../components/navigation/NavItem';

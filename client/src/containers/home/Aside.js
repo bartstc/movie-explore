@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { semiTitle, device } from '../../utils/styles';
 import { Redirect } from 'react-router-dom';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query } from 'react-apollo';
 import { GET_MOST_POPULAR } from '../../queries';
 

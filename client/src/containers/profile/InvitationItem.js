@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { fonts, colors } from '../../utils/styles';
 import { Link } from 'react-router-dom';
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { Mutation } from 'react-apollo';
 import { ACCEPT_OR_REJECT_INVITATION } from '../../queries';
 

@@ -1,6 +1,11 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import UIStore from './utils/UIstore';
+import UIStore from './store/UIStore/UIstore';
+// import { client } from './index';
+// import { GET_CURRENT_USER } from './queries';
+
+// import Context from './store/userStore/context';
+// import reducer from './store/userStore/reducer';
 
 import Layout from './layout/Layout';
 import withSession from './utils/withSession';
@@ -16,9 +21,23 @@ import Spinner from './components/UI/Spinner';
 const MovieDetails = lazy(() => import('./containers/movie/MovieDetails'));
 
 const App = ({ refetch, session }) => {
+  // const initialState = useContext(Context);
+  // const [state, dispatch] = useReducer(reducer, initialState);
+
+  // other sollution for auth data store with useContext and useReducer
+  // useEffect(() => {
+  //   client.query({ query: GET_CURRENT_USER })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       dispatch({ type: 'SIGN_IN', payload: res.data.getCurrentUser });
+  //     });
+  // }, []);
+  // console.log(state);
+
   return (
     <UIStore>
       <Router>
+        {/* <Context.Provider value={{ state, dispatch }}> */}
         <Layout session={session}>
           <Switch>
             <Route path='/' exact component={Home} />
@@ -34,6 +53,7 @@ const App = ({ refetch, session }) => {
             <Redirect to="/" />
           </Switch>
         </Layout>
+        {/* </Context.Provider> */}
       </Router>
     </UIStore>
   );

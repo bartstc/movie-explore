@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { device, colors, fonts } from '../../utils/styles';
 import { withRouter, Redirect } from 'react-router-dom'; // access to e.g. match
-import { ModalContext } from '../../utils/UIstore';
+import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query } from 'react-apollo';
 import { GET_MOVIE } from '../../queries';
 
