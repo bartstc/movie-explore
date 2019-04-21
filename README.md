@@ -17,5 +17,3 @@ Thanks to secure admin panel users with admin status can add new movies and mana
 
 You can see this app in action.
 https://movie-explore.herokuapp.com/
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
