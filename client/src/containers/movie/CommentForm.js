@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Mutation } from 'react-apollo';
-import { ADD_COMMENT, GET_MOVIE } from '../../queries';
+import { ADD_COMMENT, GET_MOVIE } from './queries';
+import { CommentFormWrapper } from './styled';
 
-import TextareaFieldGroup from '../../components/UI/inputs/TextareaFieldGroup';
-import Button from '../../components/UI/Button';
+import TextareaFieldGroup from '../../shared/inputs/TextareaFieldGroup';
+import Button from '../../shared/Button';
 
-import withSession from '../../utils/withSession';
+import withSession from '../../hoc/withSession';
 
 const CommentForm = ({ movieId, session }) => {
   const [text, setText] = useState('');
@@ -54,7 +54,7 @@ const CommentForm = ({ movieId, session }) => {
         ]}
       >
         {(addComment, { loading }) => (
-          <Form onSubmit={e => onSubmit(e, addComment)}>
+          <CommentFormWrapper onSubmit={e => onSubmit(e, addComment)}>
             <TextareaFieldGroup
               label="Add Comment"
               placeholder="Comment text ..."
@@ -68,18 +68,12 @@ const CommentForm = ({ movieId, session }) => {
               disabled={loading || validateForm()}
               btnType={validateForm() && 'disabled'}
             >Add</Button>
-          </Form>
+          </CommentFormWrapper>
         )}
       </Mutation>
     )
   return form;
 };
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 CommentForm.propTypes = {
   movieId: PropTypes.string.isRequired,

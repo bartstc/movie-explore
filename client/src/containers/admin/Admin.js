@@ -2,21 +2,20 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import secret from '../../config/secret';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { headerBasic, fonts } from '../../utils/styles';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { withRouter } from 'react-router-dom';
-import withAuth from '../../utils/withAuth';
+import withAuth from '../../hoc/withAuth';
 import { Mutation } from 'react-apollo';
-import { ADD_MOVIE } from '../../queries';
+import { ADD_MOVIE } from './queries';
+import { AdminSection } from './styled';
 
-import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
-import TextareaFieldGroup from '../../components/UI/inputs/TextareaFieldGroup';
-import SelectListGroup from '../../components/UI/inputs/SelectListGroup';
-import Button from '../../components/UI/Button';
+import TextFieldGroup from '../../shared/inputs/TextFieldGroup';
+import TextareaFieldGroup from '../../shared/inputs/TextareaFieldGroup';
+import SelectListGroup from '../../shared/inputs/SelectListGroup';
+import Button from '../../shared/Button';
 import ScrollToTopOnMount from '../../utils/scrollToTopOnMount';
 import AllMovies from './AllMovies';
-import Spinner from '../../components/UI/Spinner';
+import Spinner from '../../shared/Spinner';
 
 const initialState = {
   title: '',
@@ -117,8 +116,6 @@ const Admin = ({ history }) => {
       });
   };
 
-  // updateCache
-
   const { title, imageUrl, director, year, description, fileLoading } = state;
 
   return (
@@ -132,10 +129,10 @@ const Admin = ({ history }) => {
 
           return (
             <>
-              <Section>
+              <AdminSection>
                 <h1 className="main-title">Add new <strong className="accent">Movie.</strong></h1>
                 <p className="main-info">All fields are required. Remember to provide the correct data.</p>
-                <Form onSubmit={e => onSubmit(e, addMovie)}>
+                <form className="form" onSubmit={e => onSubmit(e, addMovie)}>
                   <TextFieldGroup
                     label="Title"
                     placeholder="* Title ..."
@@ -196,8 +193,8 @@ const Admin = ({ history }) => {
                     disabled={loading || validateForm()}
                     btnType={validateForm() && 'disabled'}
                   >Done</Button>
-                </Form>
-              </Section>
+                </form>
+              </AdminSection>
               <AllMovies />
             </>
           )
@@ -206,37 +203,6 @@ const Admin = ({ history }) => {
     </>
   )
 };
-
-const Section = styled.section`
-  ${headerBasic}
-`;
-
-const Form = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1em;
-
-  .selected {
-    font-size: .82em;
-    text-align: center;
-    margin-bottom: 1em;
-  }
-
-  .file-input {
-    text-align: center;
-    margin-bottom: 1.6em;
-    display: flex;
-    flex-direction: column;
-
-    .label {
-      font-size: 1em;
-      margin-bottom: .4em;
-      font-weight: ${fonts.fontExtraLight};
-    }
-  }
-`;
 
 Admin.propTypes = {
   session: PropTypes.object,

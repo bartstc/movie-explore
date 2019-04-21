@@ -1,42 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { fonts } from '../../utils/styles';
-import { NavLink } from 'react-router-dom';
+import { NavItemWrapper } from './styled';
+import { NavLink, Link } from 'react-router-dom';
 
-const NavItem = ({ onClick, linkType, to, exact, children }) => (
-  <ListItem
-    className="nav-link-wrapper">
-    <NavLink
-      onClick={onClick}
-      className={["nav-link", linkType].join(' ')}
-      to={to}
-      exact={exact}>
-      {children}
-    </NavLink>
-  </ListItem>
+const NavItem = ({ onClick, linkType, to, exact, children, withoutActive = false }) => (
+  <NavItemWrapper>
+    {withoutActive
+      ? <NavLink
+        onClick={onClick}
+        className={["nav-link", linkType].join(' ')}
+        to={to}
+        exact={exact}>
+        {children}
+      </NavLink>
+      : <Link
+        onClick={onClick}
+        className={["nav-link", linkType].join(' ')}
+        to={to}
+      >
+        {children}
+      </Link>
+    }
+
+  </NavItemWrapper>
 )
-
-const ListItem = styled.li`
-
-  .nav-link {
-    color: #fff;
-    transition: color .2s ease-in-out;
-
-    &:hover {
-      color: #B41027;
-    }
-
-    &.active {
-      color: #B41027;
-      font-weight: ${fonts.fontBold};
-    }
-  }
-
-  .nav-icon {
-    font-size: 1em;
-  }
-`;
 
 NavItem.propTypes = {
   linkType: PropTypes.string,

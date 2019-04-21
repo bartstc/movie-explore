@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { fonts, colors } from '../../utils/styles';
 import { Link } from 'react-router-dom';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Mutation } from 'react-apollo';
-import { REMOVE_FRIEND } from '../../queries';
+import { REMOVE_FRIEND } from './queries';
+import { FriendWrapper } from './styled';
 
 const FriendItem = ({ currentUsername, friendUsername, refetch }) => {
   const { handleModal } = useContext(ModalContext);
@@ -19,7 +18,7 @@ const FriendItem = ({ currentUsername, friendUsername, refetch }) => {
   };
 
   return (
-    <Friend>
+    <FriendWrapper>
       <i className="far fa-user" />
       <Link to={`/user/${friendUsername}`} className="username">{friendUsername}</Link>
       <span>
@@ -31,32 +30,9 @@ const FriendItem = ({ currentUsername, friendUsername, refetch }) => {
           )}
         </Mutation>
       </span>
-    </Friend>
+    </FriendWrapper>
   )
 };
-
-const Friend = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: .65em;
-
-  .username {
-    font-size: .8em;
-    font-weight: ${fonts.fontLight};
-    padding-left: .3em;
-    color: ${colors.mainWhite};
-  }
-
-  .btn {
-    font-weight: ${fonts.fontBold};
-    font-size: 1.1em;
-    color: ${colors.mainColor};
-    background: transparent;
-    border: none;
-    width: 30px;
-  }
-`;
 
 FriendItem.propTypes = {
   friendUsername: PropTypes.string.isRequired,

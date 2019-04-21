@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { device } from '../utils/styles';
 import { ApolloConsumer } from 'react-apollo';
-import { SEARCH_MOVIES } from '../queries';
+import { SEARCH_MOVIES } from './queries';
+import { ExploreWrapper } from './styled';
 
-import TextFieldGroup from '../components/UI/inputs/TextFieldGroup';
-import MovieWrapper from '../components/UI/MovieWrapper';
+import TextFieldGroup from '../../shared/inputs/TextFieldGroup';
+import MovieWrapper from '../../components/UI/MovieWrapper';
 
 const Explore = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -44,21 +43,5 @@ const Explore = () => {
     </ApolloConsumer>
   )
 };
-
-const ExploreWrapper = styled.section`
-
-  .movies-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: .3em;
-
-    @media ${device.mobileL} {
-      max-width: 510px;
-      margin: 0 auto;
-      grid-template-columns: repeat(auto-fill, 120px); 
-      grid-column-gap: .5em;
-    }
-  }
-`;
 
 export default Explore;

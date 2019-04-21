@@ -7,8 +7,9 @@ import { ApolloProvider } from 'react-apollo';
 
 // Client setup
 export const client = new ApolloClient({
-  // uri: 'http://localhost:4444/graphql',
-  uri: 'https://movie-explore.herokuapp.com/graphql',
+  uri: process.env.NODE_ENV === 'production'
+    ? 'https://movie-explore.herokuapp.com/graphql'
+    : 'http://localhost:4444/graphql',
   fetchOptions: {
     credentials: 'include'
   },

@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { colors, fonts, headerBasic } from '../../utils/styles';
 import { Redirect, Link } from 'react-router-dom';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query, Mutation } from 'react-apollo';
-import { DELETE_MOVIE, GET_MOVIES } from '../../queries';
+import { DELETE_MOVIE, GET_MOVIES } from './queries';
+import { AllMoviesWrapper } from './styled';
 
-import Spinner from '../../components/UI/Spinner';
+import Spinner from '../../shared/Spinner';
 
 const AllMovies = () => {
   const { handleModal } = useContext(ModalContext);
@@ -19,7 +18,7 @@ const AllMovies = () => {
   };
 
   return (
-    <All>
+    <AllMoviesWrapper>
       <h1 className="main-title">All movies.</h1>
       <Query query={GET_MOVIES}>
         {({ data, loading, error }) => {
@@ -65,34 +64,8 @@ const AllMovies = () => {
           )
         }}
       </Query>
-    </All>
+    </AllMoviesWrapper>
   );
 };
-
-const All = styled.section`
-  ${headerBasic};
-  margin-top: 2em;
-
-  .movie {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: .65em;
-  }
-
-  .title {
-    color: ${colors.mainWhite};
-    font-weight: ${fonts.fontExtraLight};
-  }
-
-  .remove {
-    font-weight: ${fonts.fontBold};
-    font-size: 1.1em;
-    color: ${colors.mainColor};
-    background: transparent;
-    border: none;
-    width: 30px;
-  }
-`;
 
 export default AllMovies;

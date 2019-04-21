@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { title, device, fonts } from '../../utils/styles';
 import { Redirect } from 'react-router-dom';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query } from 'react-apollo';
-import { GET_LAST_ADDED, GET_TOP_10 } from '../../queries';
+import { GET_LAST_ADDED, GET_TOP_10 } from './queries';
+import { HomeWrapper, List, TopList } from './styled';
 
 import MovieWrapper from '../../components/UI/MovieWrapper';
 import Aside from './Aside';
 import TopMovie from '../../components/UI/TopMovie';
-import Spinner from '../../components/UI/Spinner';
+import Spinner from '../../shared/Spinner';
 
 const Home = () => {
   const { handleModal } = useContext(ModalContext);
@@ -62,45 +61,5 @@ const Home = () => {
     </HomeWrapper>
   )
 };
-
-const HomeWrapper = styled.div`
-  ${title}
-  display: grid;
-
-  @media ${device.laptop} {
-    grid-template-columns: 84% 13%;
-    grid-column-gap: 3%;
-  }
-
-  .note {
-    font-weight: ${fonts.fontLight};
-    font-size: .9em;
-    max-width: 400px;
-  }
-`;
-
-const List = styled.ul`
-  margin-bottom: .6em;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: .3em;
-
-  @media ${device.mobileL} {
-    grid-template-columns: repeat(auto-fill, 120px); 
-    grid-column-gap: .5em;
-  }
-`;
-
-const TopList = styled.ul`
-  margin-bottom: .6em;
-  display: flex;
-  flex-direction: column;
-
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: .4em;
-  }
-`;
 
 export default Home;

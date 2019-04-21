@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { device, fonts, colors, semiTitle } from '../../utils/styles';
 import Moment from 'react-moment';
 import { Mutation } from 'react-apollo';
-import { REMOVE_COMMENT, GET_MOVIE } from '../../queries';
+import { REMOVE_COMMENT, GET_MOVIE } from './queries';
+import { CommentsWrapper } from './styled';
 
-import withSession from '../../utils/withSession';
+import withSession from '../../hoc/withSession';
 
 const Comments = ({ comments, movieId, session }) => {
   const onRemove = removeComment => {
@@ -50,61 +49,6 @@ const Comments = ({ comments, movieId, session }) => {
     </CommentsWrapper>
   )
 };
-
-const CommentsWrapper = styled.section`
-  ${semiTitle};
-  margin-top: 1.2em;
-  padding: 0 .4em;
-
-  .comment {
-    padding: 0 .3em;
-    margin-bottom: 1em;
-  }
-
-  .user {
-    display: flex;
-    align-items: center;
-
-    .username {
-      font-weight: ${fonts.fontBold};
-      padding-left: .4em;
-    }
-  }
-
-  .date {
-    font-weight: ${fonts.fontLight};
-    color: ${colors.mainColor};
-    font-size: .8em;
-    font-style: italic;
-  }
-
-  .text {
-    margin-top: .2em;
-    font-size: .85em;
-    font-weight: ${fonts.fontLight};
-
-    @media ${device.mobileL} {
-      font-size: .95em;
-    }
-  }
-
-  .no-comments {
-    font-weight: ${fonts.fontExtraLight};
-    color: ${colors.mainColor};
-    font-size: .85em;
-    margin-bottom: 1em;
-  }
-
-  .delete {
-    width: 80px;
-    height: 25px;
-    background: ${colors.mainColor};
-    color: ${colors.mainWhite};
-    border: none;
-    border-radius: 5px;
-    margin-top: .2em;
-  }
-`;
 
 Comments.propTypes = {
   comments: PropTypes.array.isRequired,

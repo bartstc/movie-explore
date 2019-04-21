@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { fonts, colors } from '../../utils/styles';
 import { Link } from 'react-router-dom';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Mutation } from 'react-apollo';
-import { ACCEPT_OR_REJECT_INVITATION } from '../../queries';
+import { ACCEPT_OR_REJECT_INVITATION } from './queries';
+import { InvitationWrapper } from './styled';
 
 const InvitationItem = ({ currentUsername, friendUsername, refetch }) => {
   const { handleModal } = useContext(ModalContext);
@@ -27,7 +26,7 @@ const InvitationItem = ({ currentUsername, friendUsername, refetch }) => {
   };
 
   return (
-    <Invitation>
+    <InvitationWrapper>
       <i className="far fa-user" />
       <Link to={`/user/${friendUsername}`} className="username">{friendUsername}</Link>
       <span>
@@ -46,36 +45,9 @@ const InvitationItem = ({ currentUsername, friendUsername, refetch }) => {
           )}
         </Mutation>
       </span>
-    </Invitation>
+    </InvitationWrapper>
   )
 };
-
-const Invitation = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: .65em;
-
-  .username {
-    font-size: .8em;
-    font-weight: ${fonts.fontLight};
-    padding-left: .5em;
-    color: ${colors.mainWhite};
-  }
-
-  .btn {
-    font-weight: ${fonts.fontBold};
-    font-size: 1.1em;
-    color: ${colors.mainColor};
-    background: transparent;
-    border: none;
-    width: 40px;
-  }
-
-  span {
-    display: flex;
-  }
-`;
 
 InvitationItem.propTypes = {
   friendUsername: PropTypes.string.isRequired,

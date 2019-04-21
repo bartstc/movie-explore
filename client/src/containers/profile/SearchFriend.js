@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { fonts, colors } from '../../utils/styles';
 import { Link } from 'react-router-dom';
 import { ApolloConsumer } from 'react-apollo';
-import { SEARCH_FRIENDS } from '../../queries';
+import { SEARCH_FRIENDS } from './queries';
+import { SearchWrapper } from './styled';
 
-import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
+import TextFieldGroup from '../../shared/inputs/TextFieldGroup';
 
 const SearchFriend = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -34,32 +33,19 @@ const SearchFriend = () => {
                 onChange(data);
               }}
             />
-            <FindFriends>
+            <SearchWrapper>
               {searchResults.map(({ username }) => (
                 <li key={username}>
                   <i className="far fa-user" />
                   <Link to={`/user/${username}`} className="username">{username}</Link>
                 </li>
               ))}
-            </FindFriends>
+            </SearchWrapper>
           </>
         )
       }}
     </ApolloConsumer>
   );
 };
-
-const FindFriends = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .username {
-    font-size: 1em;
-    font-weight: ${fonts.fontLight};
-    color: ${colors.mainWhite};
-    padding-left: 1em;
-  }
-`;
 
 export default SearchFriend;

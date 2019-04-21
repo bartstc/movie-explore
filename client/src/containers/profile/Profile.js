@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 import { withRouter, Redirect } from 'react-router-dom';
-import withAuth from '../../utils/withAuth';
+import withAuth from '../../hoc/withAuth';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query, Mutation } from 'react-apollo';
-import { SEND_INVITATION, REMOVE_FRIEND, GET_USER } from '../../queries';
+import { SEND_INVITATION, REMOVE_FRIEND, GET_USER } from './queries';
 
 import MovieItem from './MovieItem';
-import Button from '../../components/UI/Button';
-import Spinner from '../../components/UI/Spinner';
+import Button from '../../shared/Button';
+import Spinner from '../../shared/Spinner';
 
 const Profile = ({ session, match, refetch }) => {
   const { username } = match.params;

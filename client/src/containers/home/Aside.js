@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
-import { semiTitle, device } from '../../utils/styles';
 import { Redirect } from 'react-router-dom';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Query } from 'react-apollo';
-import { GET_MOST_POPULAR } from '../../queries';
+import { GET_MOST_POPULAR } from './queries';
+import { AsideWrapper } from './styled';
 
 import MovieWrapper from '../../components/UI/MovieWrapper';
-import Spinner from '../../components/UI/Spinner';
+import Spinner from '../../shared/Spinner';
 
 const Aside = () => {
   const { handleModal } = useContext(ModalContext);
@@ -37,26 +36,5 @@ const Aside = () => {
     </AsideWrapper>
   )
 };
-
-const AsideWrapper = styled.aside`
-  ${semiTitle}
-  
-  .most-popular {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: .3em;
-
-    @media ${device.mobileL} {
-      grid-template-columns: repeat(auto-fill, 120px); 
-      grid-column-gap: .5em;
-    }
-
-    @media ${device.laptop} {
-      padding: 0;
-      grid-template-columns: 1fr;
-      grid-column-gap: 0;
-    }
-  }
-`;
 
 export default Aside;

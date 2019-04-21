@@ -1,17 +1,16 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { authStyles } from '../../utils/styles';
+import AuthWrapper from './styled';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
-import { SIGNUP_USER } from '../../queries';
+import { SIGNUP_USER } from './queries';
 
 import bg from '../../assets/bg.png';
 import { base64 } from '../../utils/base64';
-import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
-import Button from '../../components/UI/Button';
-import Spinner from '../../components/UI/Spinner';
+import TextFieldGroup from '../../shared/inputs/TextFieldGroup';
+import Button from '../../shared/Button';
+import Spinner from '../../shared/Spinner';
 import BlurImage from '../../components/UI/BlurImage';
 
 const initialState = {
@@ -47,7 +46,7 @@ const SignUp = ({ refetch, history }) => {
         clearState();
 
         await refetch(); // we pass refetch func throught withSession (in App.js)
-        history.push('/dashboard');
+        history.push('/');
       })
       .catch(err => {
         console.log(err);
@@ -58,7 +57,7 @@ const SignUp = ({ refetch, history }) => {
   const { username, email, password, password2 } = state;
 
   return (
-    <SignUpWrapper>
+    <AuthWrapper>
       <div className="content">
         <header>
           <h1 className="main-title"><strong className="accent">Sign Up</strong> for free.</h1>
@@ -119,13 +118,9 @@ const SignUp = ({ refetch, history }) => {
       <aside className="img-showcase">
         <BlurImage src={bg} base64={base64} alt="" />
       </aside>
-    </SignUpWrapper>
+    </AuthWrapper>
   )
 };
-
-const SignUpWrapper = styled.section`
-  ${authStyles};
-`;
 
 SignUp.propTypes = {
   history: PropTypes.object,

@@ -1,17 +1,16 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { authStyles } from '../../utils/styles';
+import AuthWrapper from './styled';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
-import { SIGNIN_USER } from '../../queries';
+import { SIGNIN_USER } from './queries';
 
 import bg from '../../assets/bg.png';
 import { base64 } from '../../utils/base64';
-import TextFieldGroup from '../../components/UI/inputs/TextFieldGroup';
-import Button from '../../components/UI/Button';
-import Spinner from '../../components/UI/Spinner';
+import TextFieldGroup from '../../shared/inputs/TextFieldGroup';
+import Button from '../../shared/Button';
+import Spinner from '../../shared/Spinner';
 import BlurImage from '../../components/UI/BlurImage';
 
 const initialState = {
@@ -56,7 +55,7 @@ const SignIn = ({ refetch, history }) => {
   const { username, password } = state;
 
   return (
-    <SignInWrapper>
+    <AuthWrapper>
       <div className="content">
         <header>
           <h1 className="main-title">Let's <strong className="accent">Sign In.</strong></h1>
@@ -100,7 +99,7 @@ const SignIn = ({ refetch, history }) => {
       <aside className="img-showcase">
         <BlurImage src={bg} base64={base64} alt="" />
       </aside>
-    </SignInWrapper>
+    </AuthWrapper>
   )
 };
 
@@ -108,9 +107,5 @@ SignIn.propTypes = {
   history: PropTypes.object,
   refetch: PropTypes.func
 };
-
-const SignInWrapper = styled.section`
-  ${authStyles};
-`;
 
 export default withRouter(SignIn);

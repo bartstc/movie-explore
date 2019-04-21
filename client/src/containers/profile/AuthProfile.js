@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { profileBasic } from '../../utils/styles';
 import { withRouter } from 'react-router-dom';
-import withAuth from '../../utils/withAuth';
+import withAuth from '../../hoc/withAuth';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { ApolloConsumer, Mutation } from 'react-apollo';
-import { DELETE_ACCOUNT } from '../../queries';
+import { DELETE_ACCOUNT } from './queries';
 
 import MovieItem from './MovieItem';
 import FriendItem from './FriendItem';
 import InvitationItem from './InvitationItem';
 import SearchFriend from './SearchFriend';
-import Button from '../../components/UI/Button';
+import Button from '../../shared/Button';
 
 const AuthData = ({ session, refetch, history }) => {
   const { handleModal } = useContext(ModalContext);

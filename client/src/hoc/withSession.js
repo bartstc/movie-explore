@@ -1,6 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { GET_CURRENT_USER } from '../queries';
+import { GET_CURRENT_USER } from './queries';
 
 // HOC, responsible for getting current user data
 const withSession = Component => props => (

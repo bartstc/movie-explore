@@ -8,15 +8,15 @@ import UIStore from './store/UIStore/UIstore';
 // import reducer from './store/userStore/reducer';
 
 import Layout from './layout/Layout';
-import withSession from './utils/withSession';
+import withSession from './hoc/withSession';
 import SignUp from './containers/auth/SignUp';
 import SignIn from './containers/auth/SignIn';
 import Home from './containers/home/Home';
-import Explore from './containers/Explore';
+import Explore from './containers/explore/Explore';
 import Profile from './containers/profile/Profile';
 import AuthProfile from './containers/profile/AuthProfile';
 import Admin from './containers/admin/Admin';
-import Spinner from './components/UI/Spinner';
+import Spinner from './shared/Spinner';
 
 const MovieDetails = lazy(() => import('./containers/movie/MovieDetails'));
 

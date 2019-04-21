@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { colors } from '../../utils/styles';
+import { ButtonWrapper } from './styled';
 
 const Button = ({ disabled, onClick, btnType, type, children, style }) => (
   <ButtonWrapper
@@ -14,21 +13,6 @@ const Button = ({ disabled, onClick, btnType, type, children, style }) => (
     {children}
   </ButtonWrapper>
 );
-
-const ButtonWrapper = styled.button`
-  width: 250px;
-  height: 34px;
-  border: none;
-  border-radius: 15px;
-  background: ${colors.mainColor};
-  margin-top: .3em;
-  color: ${colors.mainWhite};
-  transition: opacity .2s ease-in-out;
-
-  &.disabled {
-    opacity: .4;
-  }
-`;
 
 Button.propTypes = {
   disabled: PropTypes.bool,

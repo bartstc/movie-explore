@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { fonts, device } from '../../utils/styles';
 import { ModalContext } from '../../store/UIStore/UIstore';
 import { Mutation } from 'react-apollo';
-import { RATE_MOVIE } from '../../queries';
+import { RATE_MOVIE } from './queries';
+import { RatingWrapper, Stars } from './styled';
 
-import borderStar from '../../assets/star.png';
-import fillStar from '../../assets/star_fill.png';
-import withSession from '../../utils/withSession';
+import withSession from '../../hoc/withSession';
 
 const Rating = ({ ratingValue, votes, movieId, session }) => {
   const { handleModal } = useContext(ModalContext);
@@ -73,62 +70,6 @@ const Rating = ({ ratingValue, votes, movieId, session }) => {
     </Mutation>
   );
 };
-
-const RatingWrapper = styled.div`
-  padding: 0 .6em;
-  display: flex;
-
-  .rating-value {
-    font-size: 2.4em;
-    font-weight: ${fonts.fontBold};
-    line-height: 1.2em;
-    padding-right: .15em;
-
-    @media ${device.mobileL} {
-      font-size: 3em;
-    }
-  }
-
-  .votes {
-    font-size: .8em;
-    font-weight: ${fonts.fontLight};
-    padding-left: .2em;
-  }
-`;
-
-const Stars = styled.ul`
-  display: flex;
-
-  input{
-    position: absolute;
-    left: -99999px;
-  }
-
-  label {
-    width: 22px;
-    height: 22px;
-    color: transparent;
-    transition: all .1s ease-in-out;
-    background: url(${borderStar}) no-repeat center;
-    background-size: 80%;
-    cursor: pointer;
-
-    @media ${device.mobileL} {
-      width: 33px;
-      height: 33px;
-    }
-  }
-
-  label:hover {
-    background: url(${fillStar}) no-repeat center;
-    background-size: 80%;
-  }
-
-  .color {
-    background: url(${fillStar}) no-repeat center;
-    background-size: 80%;
-  }
-`;
 
 Rating.propTypes = {
   ratingValue: PropTypes.number.isRequired,

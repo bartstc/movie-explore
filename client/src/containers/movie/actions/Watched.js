@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { colors } from '../../../utils/styles';
 import { ModalContext } from '../../../store/UIStore/UIstore';
 import { Mutation } from 'react-apollo';
-import { ADD_WATCHED, REMOVE_WATCHED, GET_MOVIE } from '../../../queries';
+import { ADD_WATCHED, REMOVE_WATCHED, GET_MOVIE } from './queries';
 
-import withSession from '../../../utils/withSession';
+import withSession from '../../../hoc/withSession';
 
 const Watched = ({ watched, _id, session, refetch }) => {
   const { handleModal } = useContext(ModalContext);
